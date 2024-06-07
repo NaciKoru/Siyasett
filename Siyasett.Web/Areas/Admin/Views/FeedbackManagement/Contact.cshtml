@@ -1,0 +1,90 @@
+﻿@model List<FeedBackModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "İletişim Yönetimi";
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="mb-3">
+            <label>İletişim arama</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="query" id="txtQuery" />
+                <button class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Bildirim Tarihi</th>
+                        <th>Kişi</th>
+                        <th>Konu</th>
+                        <th>Bildirim</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="width:10%"><a>@item.SendTime.ToString().Split(" ")[0]</a></td>
+                            <td style="width:10%"><a>@item.Name @item.LastName</a></td>
+                            <td style="width:15%"><a>@item.Topic</a></td>
+                            <td style="width:75%"><a>@item.Text</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <div id="modalAdd" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> @ViewData["Title"]</h5>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 row">
+                        <label class="col-md-4">Cevap</label>
+                        <div class="col-md-8">
+                            <textarea type="text" id="txtAddNameTr" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="button" onclick="addanswer()" class="btn btn-primary"><i class="fa fa-save"></i> Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function modalShow(id) {
+                $('#modalAdd').modal('show');
+            }
+
+        </script>
+    }
+
+
+

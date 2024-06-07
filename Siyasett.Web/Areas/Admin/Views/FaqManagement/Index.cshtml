@@ -1,0 +1,71 @@
+﻿@using Siyasett.Core.Faq
+@model List<FaqCreateModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "S.S.S Yönetimi";
+    List<FaqGroup> faqGroups = ViewBag.FaqGroups;
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <a class="btn btn-success" asp-action="New"><i class="fa fa-plus-circle"></i> Yeni Kayıt</a>
+
+            </div>
+            <h4 class="page-title"></h4>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card">
+
+    <div class="card-body">
+
+        <div class="mb-3">
+            <label>Soru arama</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="query" id="txtQuery" />
+                <button class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Soru TR</th>
+                        <th>Cevap TR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><a asp-action="Edit" asp-route-id="@item.Id">@faqGroups.FirstOrDefault(a=>a.Id==item.FaqGroupId).NameTr</a></td>
+                            <td><a asp-action="Edit" asp-route-id="@item.Id">@Html.Raw(item.FaqQuestionTr)</a></td>
+                            <td><a asp-action="Edit" asp-route-id="@item.Id">@Html.Raw( item.FaqAnswerTr)</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+

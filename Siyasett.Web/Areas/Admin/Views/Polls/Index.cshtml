@@ -1,0 +1,225 @@
+﻿@model List<PollModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "Anket Yönetimi";
+    PollSearchModel searchModel = ViewBag.SearchModel;
+    List<Company> companies = ViewBag.Companies;
+}
+
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                @*<ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="ChronologyManagement" asp-action="Index">Kronoloji</a></li>
+
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+        </ol>*@
+
+                <a class="btn btn-success" asp-action="New"><i class="fa fa-plus-circle"></i> Yeni Kayıt</a>
+
+            </div>
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="card">
+    <div class="card-body">
+        <form method="get" id="frmFilters">
+            <input type="hidden" name="sort" id="txtSort" />
+            <input type="hidden" name="desc" id="txtSortDesc" />
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr >
+                        <th data-sort-index="0" class="sortable @(searchModel.OrderBy==0 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==0 && searchModel.OrderByDesc==1?"desc" :"" )">Anket Şirketi</th>
+                        <th data-sort-index="1" class="sortable @(searchModel.OrderBy==1 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==1 && searchModel.OrderByDesc==1?"desc" :"" )">Yıl</th>
+                        <th data-sort-index="2" class="sortable @(searchModel.OrderBy==2 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==2 && searchModel.OrderByDesc==1?"desc" :"" )">Ay</th>
+                        <th data-sort-index="3" class="sortable @(searchModel.OrderBy==3 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==3 && searchModel.OrderByDesc==1?"desc" :"" )">Örneklem</th>
+                        <th data-sort-index="4" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">AK Parti</th>
+                        <th data-sort-index="4" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">MHP</th>
+                        <th data-sort-index="4" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">CHP</th>
+                        <th data-sort-index="4" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">İyi Parti</th>
+                        <th data-sort-index="4" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">HDP</th>
+
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <select class="form-select" name="company" id="ddlCompany">
+                                <option selected="@(searchModel.CompanyId==0)" value="0">Tümü</option>
+                                @foreach (var item in companies)
+                                {
+                                    <option selected="@(searchModel.CompanyId==item.Id)" value="@item.Id">@item.ShortName</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" name="year" id="ddlYear">
+                               <option selected="@(searchModel.Year==0)" value="0">Tümü</option>
+                                @for (int i = DateTime.Now.Year; i > 2010; i--)
+                                {
+                                    <option selected="@(searchModel.Year==i)" value="@i">@i</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" name="month" id="ddlMonth">
+                                    <option selected="@(searchModel.Year==0)" value="0">Tümü</option>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option selected="@(searchModel.Month==i)" value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                                }
+                            </select>
+
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td><a asp-action="Edit" asp-route-id="@Model[i].Id" >@Model[i].PollCompanyNameTr</a></td>
+                            <td><a asp-action="Edit" asp-route-id="@Model[i].Id" >@Model[i].Year</a></td>
+                            <td><a asp-action="Edit" asp-route-id="@Model[i].Id" >@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName( Model[i].Month)</a></td>
+                            <td><a asp-action="Edit" asp-route-id="@Model[i].Id" >@Model[i].SampleSize.ToString("#,##0")</a></td>
+                            <td>
+                                @{
+                                    var kayit1 = Model[i].Results.FirstOrDefault(a => a.PartyId == 1);
+
+                                }
+                                @{
+                                    var ratio1 = 0.0;
+                                    if (kayit1 != null)
+                                    {
+                                        ratio1 = kayit1.PartyRatio;
+                                    }
+                                }
+                                <a asp-action="Edit" asp-route-id="@Model[i].Id" >
+                                    @ratio1
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    var kayit2 = Model[i].Results.FirstOrDefault(a => a.PartyId == 8);
+
+                                }
+                                @{
+                                    var ratio2 = 0.0;
+                                    if (kayit2 != null)
+                                    {
+                                        ratio2 = kayit2.PartyRatio;
+                                    }
+                                }
+                                <a asp-action="Edit" asp-route-id="@Model[i].Id" >
+
+                                    @ratio2
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    var kayit3 = Model[i].Results.FirstOrDefault(a => a.PartyId == 4);
+
+                                }
+                                @{
+                                    var ratio3 = 0.0;
+                                    if (kayit3 != null)
+                                    {
+                                        ratio3 = kayit3.PartyRatio;
+                                    }
+                                }
+                                <a asp-action="Edit" asp-route-id="@Model[i].Id" >
+
+                                    @ratio3
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    var kayit4 = Model[i].Results.FirstOrDefault(a => a.PartyId == 3);
+
+                                }
+                                @{
+                                    var ratio4 = 0.0;
+                                    if (kayit4 != null)
+                                    {
+                                        ratio4 = kayit4.PartyRatio;
+                                    }
+                                }
+                                <a asp-action="Edit" asp-route-id="@Model[i].Id" >
+
+                                    @ratio4
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    var kayit5 = Model[i].Results.FirstOrDefault(a => a.PartyId == 7);
+
+                                }
+                                @{
+                                    var ratio5 = 0.0;
+                                    if (kayit5 != null)
+                                    {
+                                        ratio5 = kayit5.PartyRatio;
+                                    }
+                                }
+                                <a asp-action="Edit" asp-route-id="@Model[i].Id" >
+
+                                    @ratio5
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        </form>
+        @await Html.PartialAsync("_pager", pager)
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+        var $sortable = $('.sortable');
+
+        $sortable.on('click', function () {
+
+            var $this = $(this);
+            var asc = $this.hasClass('asc');
+            var desc = $this.hasClass('desc');
+            $sortable.removeClass('asc').removeClass('desc');
+            if (desc || (!asc && !desc)) {
+                $this.addClass('asc');
+                $('#txtSortDesc').val(0);
+            } else {
+                $this.addClass('desc');
+                $('#txtSortDesc').val(1);
+
+            }
+
+            $('#txtSort').val($this.attr("data-sort-index"));
+            $('#frmFilters').submit();
+        });
+
+        $('#ddlCompany,#ddlYear,#ddlMonth').on('change', function () {
+            $('#frmFilters').submit();
+        });
+
+    </script>
+}
+
+
+

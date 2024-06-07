@@ -1,0 +1,99 @@
+﻿@model List<Faq>
+@{
+
+    ViewData["Title"] = Localize("page_faq_meta_title");
+    List<FaqGroup> groups = ViewBag.Groups;
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+}
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section-two">
+    <div class="container">
+
+        <div class="row clearfix">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <!--Blog Category Widget-->
+                <div class="faq-list-sidebar">
+                    <ul class="faq-cat">
+                        @{
+                            int sira = 0;
+                        }
+                        @foreach (var item in groups)
+                        {
+                            sira++;
+                            <li class="@(sira==1?"active":"") "><a href="javascript:void(0)" onclick="faqGroup_click(this)" data-id="@item.Id">@(cultureName=="tr-TR"? item.NameTr:item.NameEn)</a></li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+            <div class="accordion-column col-lg-8 col-md-12 col-sm-12">
+                @{
+                    sira = 0;
+                }
+                @foreach (var item in groups)
+                {
+                    sira++;
+                    <ul id="group_@item.Id" class="accordion-box" style="@(sira==1?"":"display:none")">
+                        @foreach (var faq in Model.Where(i => i.FaqGroupId == item.Id).ToList())
+                        {
+                            <li class="accordion block">
+                                <div class="acc-btn">
+                                    <div class="icon-outer"><span class="icon icon_plus fas fa-plus"></span> <span class="icon icon_minus far fa-minus"></span> </div>
+
+                                    @(cultureName=="tr-TR"?  Html.Raw( faq.QuestionTr) : Html.Raw( faq.QuestionEn))
+                                </div>
+                                <div class="acc-content">
+                                    <div class="content">
+                                        <div class="text">
+                                            @(cultureName=="tr-TR" ? Html.Raw(faq.AnswerTr) : Html.Raw(faq.AnswerEn))
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        }
+                    </ul>
+
+                }
+
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+@section scripts{
+    <script>function faqGroup_click(el) {
+            $('ul.faq-cat').find("li").removeClass("active");
+            $(el).closest("li").addClass("active");
+            $('ul.accordion-box').hide();
+            $('#group_' + $(el).attr("data-id")).show();
+        }</script>
+}
+
+

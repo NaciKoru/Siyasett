@@ -1,0 +1,377 @@
+﻿@model List<Secim>
+@{
+    ViewData["Title"] = Localize("page_elections_comp_title");
+    ViewData["Description"] = Localize("page_people_meta_description");
+
+    List<PartyListModel> parties = ViewBag.Parties;
+
+    ElectionSearchModel searchModel = ViewBag.SearchModel;
+
+    Secim current = Model.FirstOrDefault(i => i.Id == searchModel.SecimId);
+    SecimDetay secimDetay = ViewBag.SecimDetay;
+    List<BaseModel> iller = ViewBag.Iller;
+
+    List<ElectionProvinceModel> secimIller = ViewBag.SecimIller;
+    List<ElectionPartyResultModel> secimSonuclar = ViewBag.SecimSonuclar;
+    String yuzde = "%";
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+
+    List<int> cumhurs = new List<int> { 1, 8 };
+    List<int> millets = new List<int> { 2, 3, 4, 5, 6 };
+    List<int> others = new List<int> { 7, 134 };
+
+
+    List<PartyListModel> parties2 = ViewBag.Parties2;
+    ElectionSearchModel searchModel2 = ViewBag.SearchModel2;
+    SecimDetay secimDetay2 = ViewBag.SecimDetay2;
+    List<ElectionProvinceModel> secimIller2 = ViewBag.SecimIller2;
+    List<ElectionPartyResultModel> secimSonuclar2 = ViewBag.SecimSonuclar2;
+    Secim current2 = Model.FirstOrDefault(i => i.Id == searchModel2.SecimId);
+
+}
+
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section">
+    <div class="container" style="max-width:85%">
+
+
+        <form id="frmMain" method="get">
+
+            <select id="ddlElection1" class="form-select" name="secim1">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    @*<div>
+                        <input @(i == 0 ? " checked " : "") type="checkbox" class="tmm-checkbox chart-election" id="chkElection-@secimler[i].Id" name="c" value="@secimler[i].Id" />
+                        <label for="chkElection-@secimler[i].Id">@secimler[i].Name</label>
+                        </div>*@
+                    <option selected="@(searchModel.SecimId==Model[i].Id)" value="@Model[i].Id">@Model[i].Adi</option>
+
+                }
+            </select>
+            <br />
+            <select id="ddlElection2" class="form-select" name="secim2">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    @*<div>
+                        <input @(i == 0 ? " checked " : "") type="checkbox" class="tmm-checkbox chart-election" id="chkElection-@secimler[i].Id" name="c" value="@secimler[i].Id" />
+                        <label for="chkElection-@secimler[i].Id">@secimler[i].Name</label>
+                        </div>*@
+                    <option selected="@(searchModel2.SecimId==Model[i].Id)" value="@Model[i].Id">@Model[i].Adi</option>
+
+                }
+            </select>
+            <br />
+            <button type="submit" class="btn btn-primary" style="text-align:center">@Localize("elections2")</button>
+        </form>
+
+        <table class="table table-striped mt-2 mb-2">
+            <tr>
+                <th style="text-align: center;">@Localize("page_elections_electiondate")</th>
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+                <td style="text-align: center;">@current.SecimTarihi.Value.ToString("dd.MM.yyyy")</td>
+                <td style="text-align: center;">@secimDetay.SecmenSayisi!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">@secimDetay.OyKullanan!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">@secimDetay.GecerliOy!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">@secimDetay.GecersizOy!.Value.ToString("#,###")</td>
+            </tr>
+        </table>
+        <br />
+        <table class="table table-striped mt-2 mb-2">
+            <tr>
+                <th style="text-align: center;">@Localize("page_elections_electiondate")</th>
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+                <td style="text-align: center;">@current2.SecimTarihi.Value.ToString("dd.MM.yyyy")</td>
+                <td style="text-align: center;">@secimDetay2.SecmenSayisi!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">@secimDetay2.OyKullanan!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">@secimDetay2.GecerliOy!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">@secimDetay2.GecersizOy!.Value.ToString("#,###")</td>
+            </tr>
+        </table>
+        @*      <div class="row">
+            <div class="col-md-12 col-lg-6">
+            <div class="sec-title centered mt-4 mb-2">
+            <h2>@Localize("page_elections_electiondetail1_distbyparty")</h2>
+            <div class="separater"></div>
+            </div>
+
+            <div id="chartparties"></div>
+            </div>
+            <div class="col-md-12 col-lg-6">
+            <div class="sec-title centered mt-4 mb-2">
+            <h2>@Localize("page_elections_electiondetail1_distbyalliance")</h2>
+            <div class="separater"></div>
+            </div>
+
+            <div id="chartunions"></div>
+            </div>
+
+            </div>*@
+
+
+
+        <div class="card">
+            <div class="card-header">
+                <div class="sec-title centered mt-4 mb-2">
+                    <h2>@Localize("page_elections_electionresults")</h2>
+                    <div class="separater"></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+
+                    <table class="table table-striped" id="shortDenemeTable">
+                        <thead style="position:sticky;top: 75px">
+                            <tr style="background-color:white">
+                                <th>@Localize("page_elections_province")</th>
+
+                                @{
+                                    var count = 0;
+                                }
+                                @foreach (var item in parties)
+                                {
+                                    if (count < 13)
+                                    {
+                                        var sira = count + 1;
+                                        if (@item.PartyNameShort.Contains("Bağımsız"))
+                                        {
+                                            <th style="text-align:center" id="partiThid+@sira" onclick="sirala(@sira,1)">@(cultureName == "tr-TR" ? item.PartyNameShort : "Independents")</th>
+
+                                        }
+                                        else
+                                        {
+                                            <th style="text-align:center" id="partiThid+@sira" onclick="sirala(@sira,1)">@item.PartyNameShort</th>
+
+                                        }
+                                        count++;
+                                    }
+
+                                }
+                            </tr>
+                        </thead>
+                        <tbody id="tblBody">
+
+                            @foreach (var item in secimIller)
+                            {
+
+                                <tr>
+                                    <td><a asp-route="secim-il-detaycomp" asp-route-cevreid1="@secimIller2.FirstOrDefault(a => a.Id == item.Id).RegionId" asp-route-secim="@current.Id" asp-route-id="@item.Id" asp-route-cevreid="@item.RegionId" asp-route-secim1="@current2.Id" asp-route-id1="@item.Id">@item.Name</a></td>
+                                    @{
+                                        count = 0;
+                                    }
+                                    @foreach (var party in parties)
+                                    {
+                                        if (count < 13)
+                                        {
+                                            <td style="text-align:center">
+                                                @{
+                                                    var sonuc = secimSonuclar.Where(i => i.PartyId == party.Id && i.IlId == item.Id && i.YskSecimCevresiId == item.RegionId).FirstOrDefault();
+                                                    var sonuc2 = new ElectionPartyResultModel();
+                                                    if (secimIller2.FirstOrDefault(a => a.Name == item.Name) != null)
+                                                    {
+                                                        sonuc2 = secimSonuclar2.Where(i => i.PartyId == party.Id && i.IlId == item.Id && i.YskSecimCevresiId == secimIller2.FirstOrDefault(a => a.Name == item.Name).RegionId).FirstOrDefault();
+                                                    }
+                                                    else
+                                                    {
+                                                        sonuc2.IlId = -1;
+                                                    }
+
+
+                                                }
+                                                @if (sonuc != null)
+                                                {
+                                                    <span>@sonuc.Vote.Value.ToString("#,##0") @Html.Raw(" ")</span>
+
+                                                    if (sonuc2 != null && sonuc2.IlId != -1)
+                                                    {
+                                                        <span>@sonuc2.Vote.Value.ToString("#,##0")</span>
+
+                                                    }
+                                                    <br />
+                                                    var oran1 = Math.Round((100 * Convert.ToDouble(sonuc.Vote.Value) / Convert.ToDouble(secimSonuclar.Where(i => i.IlId == item.Id && i.YskSecimCevresiId == item.RegionId).Select(i => i.Vote).Sum())), 2);
+                                                    <span>@yuzde@oran1 @Html.Raw(" ")</span>
+                                                    if (sonuc2 != null && sonuc2.IlId != -1)
+                                                    {
+                                                        var oran2 = @Math.Round((100 * Convert.ToDouble(sonuc2.Vote.Value) / Convert.ToDouble(secimSonuclar2.Where(i => i.IlId == item.Id && i.YskSecimCevresiId == secimIller2.FirstOrDefault(a => a.Name == item.Name).RegionId).Select(i => i.Vote).Sum())), 2);
+                                                        <span>@yuzde@oran2</span>
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    <span>-</span>
+                                                }
+                                            </td>
+                                            count++;
+                                        }
+
+
+                                    }
+                                </tr>
+
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>@Localize("page_elections_count")</th>
+                                @{
+                                    count = 0;
+                                }
+                                @foreach (var party in parties)
+                                {
+                                    if (count < 13)
+                                    {
+                                        var sonuc2 = secimSonuclar.Where(i => i.PartyId == party.Id).Sum(i => i.Vote);
+
+                                        <th style="text-align:right">
+                                            @yuzde
+                                            @Math.Round((100 * Convert.ToDouble(sonuc2.Value) /
+                                    Convert.ToDouble(secimSonuclar.Sum(i => i.Vote))), 2)
+
+                                        </th>
+                                        count++;
+                                    }
+                                }
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <div id="chart">
+        </div>
+
+        <div id="chart2" style="margin-top:50px;">
+        </div>
+    </div>
+</section>
+
+
+
+
+
+@section scripts{
+    <link href="~/lib/apexcharts/apexcharts.min.css" rel="stylesheet" />
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <script src="~/js/election-listing.js" asp-append-version="true"></script>
+
+    <script>$(function () {
+
+
+            $('#tblBody').find('tr').each((i, el) => {
+                var max = 0;
+                var maxEl;
+                $(el).find('td').each((v, vel) => {
+                    if (v > 0) {
+                        var f = parseFloat($(vel).find(">:first-child").html().replace(',', '').replace('.', ''));
+                        if (!isNaN(f) && f > max) {
+                            max = f;
+                            maxEl = vel;
+                        }
+
+                    }
+                });
+                if (maxEl) {
+                    $(maxEl).css("font-weight", "bold");
+                }
+                $(el).find('td').each((v, vel) => {
+                    if (v > 0) {
+
+                        var f1 = parseFloat($(vel).children().eq(0).text().replace(',', '').replace('.', ''));
+                        var f2 = parseFloat($(vel).children().eq(1).text().replace(',', '').replace('.', ''));
+                        if (!isNaN(f2)) {
+                            var f4 = parseFloat($(vel).children().eq(4).text().replace('%', '').replace(',', '.')).toFixed(2);
+                            var f3 = parseFloat($(vel).children().eq(3).text().replace('%', '').replace(',', '.')).toFixed(2);
+
+                            var newtext = f1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") + ' <span >' + f2.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") + '</span>';
+                            if ((f4 - f3) > 0) {
+                                newtext += '</br> % ' + f3.toString().replace('.', ',') + ' <span style="color:#8bd14a">% ' + f4.toString().replace('.', ',') + '</span><span style="display:none" id="asd' + v + 'asd">' + (f4 - f3) + '</span>';
+                            }
+                            else {
+                                newtext += '</br> % ' + f3.toString().replace('.', ',') + ' <span style="color:#d92e10">% ' + f4.toString().replace('.', ',') + '</span><span style="display:none" id="asd' + v + 'asd">' + (f4 - f3) + '</span>';
+                            }
+                            $(vel).html(newtext);
+
+                        } else {
+                            var td = '<span style="display:none" id="asd' + v + 'asd">' + 0 + '</span>'
+                            $(vel).append(td);
+                        }
+
+
+
+                    }
+                });
+            });
+        });
+
+        function sirala(el, sort) {
+            if (sort == 1) {
+                var id = 'td.' + el;
+                var rows = $('#tblBody').children('tr').get(); // creates a JS array of DOM elements
+                rows.sort(function (a, b) {
+                    // use a custom sort function
+                    var anum = parseFloat($(a).find('#asd' + el + 'asd').text(), 10);
+                    var bnum = parseFloat($(b).find('#asd' + el + 'asd').text(), 10);
+                    return anum - bnum;
+                });
+                for (var i = 0; i < rows.length; i++) {  // .append() will move them for you
+                    $('#tblBody').append(rows[i]);
+                }
+                $('th[id="partiThid+' + el + '"]').attr("onclick", 'sirala(' + el + ',' + 2 + ')');
+            } else {
+                var id = 'td.' + el;
+                var rows = $('#tblBody').children('tr').get(); // creates a JS array of DOM elements
+                rows.sort(function (a, b) {
+                    // use a custom sort function
+                    var anum = parseFloat($(a).find('#asd' + el + 'asd').text(), 10);
+                    var bnum = parseFloat($(b).find('#asd' + el + 'asd').text(), 10);
+                    return bnum - anum;
+                });
+                for (var i = 0; i < rows.length; i++) {  // .append() will move them for you
+                    $('#tblBody').append(rows[i]);
+                }
+                $('th[id="partiThid+' + el + '"]').attr("onclick", 'sirala(' + el + ',' + 1 + ')');
+            }
+
+        }</script>
+}

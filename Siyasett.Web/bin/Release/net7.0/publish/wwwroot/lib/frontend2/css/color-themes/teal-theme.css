@@ -1,0 +1,11 @@
+/* Theme Color */
+:root {
+  /* #bb54e1 in decimal RGB */
+  --sc: rgb(187,84,255);
+  /* #14c599 in decimal RGB */
+  --pc: rgb(20,197,153);
+
+
+  --pc-o:255,126,0;
+  --sc-o:20,197,153;
+}

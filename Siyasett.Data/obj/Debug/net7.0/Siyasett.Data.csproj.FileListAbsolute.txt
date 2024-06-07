@@ -1,0 +1,15 @@
+/Users/nacikoru/code/Siyasett/Siyasett.Data/bin/Debug/net7.0/Siyasett.Data.deps.json
+/Users/nacikoru/code/Siyasett/Siyasett.Data/bin/Debug/net7.0/Siyasett.Data.runtimeconfig.json
+/Users/nacikoru/code/Siyasett/Siyasett.Data/bin/Debug/net7.0/Siyasett.Data.dll
+/Users/nacikoru/code/Siyasett/Siyasett.Data/bin/Debug/net7.0/Siyasett.Data.pdb
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.csproj.AssemblyReference.cache
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.GeneratedMSBuildEditorConfig.editorconfig
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.AssemblyInfoInputs.cache
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.AssemblyInfo.cs
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.csproj.CoreCompileInputs.cache
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/EFCoreNpgsqlNetTopologySuite.cs
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.dll
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/refint/Siyasett.Data.dll
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.pdb
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/Siyasett.Data.genruntimeconfig.cache
+/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/Debug/net7.0/ref/Siyasett.Data.dll

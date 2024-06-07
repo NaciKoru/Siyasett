@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "2iN3V7CD6xwU8G016kVyy8XXMRnjJv3qj03gcrxdEvcDtPKuB4P/mfrOJNpG6M8ibc6b58QY6B+rYKuiuqFosw==",
+  "success": true,
+  "projectFilePath": "/Users/nacikoru/code/Siyasett/Siyasett.Core/Siyasett.Core.csproj",
+  "expectedPackageFiles": [
+    "/Users/nacikoru/.nuget/packages/microsoft.aspnetcore.http.features/5.0.17/microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
+    "/Users/nacikoru/.nuget/packages/microsoft.extensions.primitives/5.0.1/microsoft.extensions.primitives.5.0.1.nupkg.sha512",
+    "/Users/nacikoru/.nuget/packages/system.io.pipelines/5.0.2/system.io.pipelines.5.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

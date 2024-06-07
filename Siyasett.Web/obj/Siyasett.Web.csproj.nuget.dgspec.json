@@ -1,0 +1,260 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/nacikoru/code/Siyasett/Siyasett.Web/Siyasett.Web.csproj": {}
+  },
+  "projects": {
+    "/Users/nacikoru/code/Siyasett/Siyasett.Core/Siyasett.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/nacikoru/code/Siyasett/Siyasett.Core/Siyasett.Core.csproj",
+        "projectName": "Siyasett.Core",
+        "projectPath": "/Users/nacikoru/code/Siyasett/Siyasett.Core/Siyasett.Core.csproj",
+        "packagesPath": "/Users/nacikoru/.nuget/packages/",
+        "outputPath": "/Users/nacikoru/code/Siyasett/Siyasett.Core/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/nacikoru/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[5.0.17, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.316/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj",
+        "projectName": "Siyasett.Data",
+        "projectPath": "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj",
+        "packagesPath": "/Users/nacikoru/.nuget/packages/",
+        "outputPath": "/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/nacikoru/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.316/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/nacikoru/code/Siyasett/Siyasett.Web/Siyasett.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/nacikoru/code/Siyasett/Siyasett.Web/Siyasett.Web.csproj",
+        "projectName": "Siyasett.Web",
+        "projectPath": "/Users/nacikoru/code/Siyasett/Siyasett.Web/Siyasett.Web.csproj",
+        "packagesPath": "/Users/nacikoru/.nuget/packages/",
+        "outputPath": "/Users/nacikoru/code/Siyasett/Siyasett.Web/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/nacikoru/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/sdk/7.0.316/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/nacikoru/code/Siyasett/Siyasett.Core/Siyasett.Core.csproj": {
+                "projectPath": "/Users/nacikoru/code/Siyasett/Siyasett.Core/Siyasett.Core.csproj"
+              },
+              "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj": {
+                "projectPath": "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Community.Microsoft.Extensions.Caching.PostgreSql": {
+              "target": "Package",
+              "version": "[4.0.2, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "NetTopologySuite.IO.PostGis": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.2, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            },
+            "Npgsql.NetTopologySuite": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.316/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

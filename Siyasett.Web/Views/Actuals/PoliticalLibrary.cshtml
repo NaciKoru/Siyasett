@@ -1,0 +1,365 @@
+﻿<!-- SİYASETT KİTAPLIĞI -->
+
+@using Siyasett.Core.PoliticalLibrary;
+@model List<KitapModel>
+
+@{
+    //PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "Siyasett Kitaplığı";
+    string qq = ViewBag.Query;
+    PagerInfo pager = ViewBag.Pager;
+    List<YynKategoriler> kategori = ViewBag.Kategoriler;
+    List<YynDiller> diller = ViewBag.Diller;
+    List<Company> sirketler = ViewBag.Sirketler;
+    List<PeopleListModel> yazarlar = ViewBag.Yazarlar;
+
+    int qyayin = ViewBag.yayin;
+    int qyazar = ViewBag.yazar;
+    int qkategori = ViewBag.kategor;
+    int qdil = ViewBag.dil;
+    int qdonem = ViewBag.donem;
+    int qsiralama = ViewBag.siralama;
+    ViewData["Title"] = Localize("library_title");
+
+}
+
+<!-- BREAD-CRUMB -->
+
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>
+                        @ViewData["Title"]
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="team-section style-two" style="margin-bottom:70px">
+    <div class="container">
+
+        <form id="frmMain" method="get" class="pb-4">
+            <div class="row g-2">
+
+
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <input placeholder="@Localize("text.search")" type="text" name="query" autocomplete="off" value="@qq" class="form-control" id="sorguinput" />
+
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select" name="yayinevi" id="yayinselect" style="width:100%">
+                        <option selected="@(qyayin==0)" value="0">@Localize("library_prhouse")</option>
+                        @foreach (var item in sirketler)
+                        {
+                            <option selected="@(qyayin==item.Id)" value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select" name="yazar" id="yazarselect" style="width:100%">
+                        <option selected="@(qyazar==0)" value="0">@Localize("library_author")</option>
+                        @foreach (var item in yazarlar)
+                        {
+                            <option selected="@(qyazar==item.Id)" value="@item.Id">@item.FirstName @item.LastName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select " name="kategori" id="kategoriselect" style="width:100%">
+                        <option selected="@(qkategori==0)" value="0">@Localize("library_category")</option>
+                        @foreach (var item in kategori)
+                        {
+                            <option selected="@(qkategori==item.Id)" value="@item.Id">@item.Adi</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select " name="dil" id="dilselect" style="width:100%">
+                        <option selected="@(qdil==0)" value="0">@Localize("language")</option>
+                        @foreach (var item in diller)
+                        {
+                            <option selected="@(qdil==item.Id)" value="@item.Id">@item.Adi</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select " name="donem" id="donemselect" style="width:100%">
+                        <option selected="@(qdonem==0)" value="0">@Localize("library_period")</option>
+
+                        <option selected="@(qyayin==1)" value="1">@Localize("2021today")</option>
+                        <option selected="@(qyayin==2)" value="2">@Localize("20112020")</option>
+                        <option selected="@(qyayin==3)" value="3">@Localize("20012010")</option>
+                        <option selected="@(qyayin==4)" value="4">@Localize("before2001")</option>
+
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select " name="siralama" id="siralamaEditSelect" style="width:100%">
+                        <option selected="@(qsiralama==0)" value="0">@Localize("bythetitle")</option>
+                        <option selected="@(qsiralama==1)" value="1">@Localize("bytheautorsname")</option>
+                        <option selected="@(qsiralama==2)" value="2">@Localize("bytheprintinghouse")</option>
+                        <option selected="@(qsiralama==3)" value="3">@Localize("bytheyearprinted1")</option>
+                        <option selected="@(qsiralama==4)" value="4">@Localize("bytheyearprinted2")</option>
+
+                    </select>
+
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-6">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> @Localize("text.search")</button>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-6" style="text-align:right">
+                    <button class="btn btn-success" type="button" onclick="modalinfo()"><i class="fa fa-info"></i></button>
+                </div>
+            </div>
+        </form>
+
+
+        <div class="row d-flex align-items-stretch clearfix pt-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    <!-- Team Block -->
+                    <div class="team-block">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="image">
+                                    <a href="#" onclick="kitapinfo(@item.Id)">
+                                        <img src="@Helpers.GetBookPhoto(item.Image)" alt="@item.Adi" onclick="kitapinfo(@item.Id)">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <h3 class="name"><a href="#" onclick="kitapinfo(@item.Id)">@item.Adi</a></h3>
+                                @{
+                                    var yazaradi = "";
+                                }
+                                @for (int i = 0; i < item.Yazari.Length; i++)
+                                {
+                                    var yazarid = item.Yazari[i];
+                                    var yazar = yazarlar.FirstOrDefault(a => a.Id == yazarid);
+                                    if (yazar != null && i == 0)
+                                    {
+                                        yazaradi += yazarlar.FirstOrDefault(a => a.Id == yazarid).FirstName + " " + yazarlar.FirstOrDefault(a => a.Id == yazarid).LastName;
+                                    }
+                                    else if (yazar != null && i != 0)
+                                    {
+                                        yazaradi += " - " + yazarlar.FirstOrDefault(a => a.Id == yazarid).FirstName + " " + yazarlar.FirstOrDefault(a => a.Id == yazarid).LastName;
+
+                                    }
+                                }
+
+
+                                <span class="designation" onclick="kitapinfo(@item.Id)">@yazaradi</span>
+                                <span class="designation" onclick="kitapinfo(@item.Id)">@sirketler.FirstOrDefault(a => a.Id == item.YayinEviId).Name</span>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal " tabindex="-1" role="dialog" id="infoModalKitap_@item.Id" style="display:none;">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="width:650px">
+                            <input id="infokitapmodalid" value="" />
+                            <div class="modal-body">
+                                <div style="text-align:right">
+                                    <button type="button" class="btn btn-success" onclick="closemodalinfokitap(@item.Id)" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="image-box">
+                                            <div class="image">
+                                                <a href="#" onclick="javascript:void(0)">
+                                                    <img src="@Helpers.GetBookPhoto(item.Image)" alt="@item.Adi">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label style="color:black;font-size:medium">@Localize("library-title")</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <label style="color:black;font-size:medium">@item.Adi</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label style="color:black;font-size:medium">@Localize("library_author")</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <label style="color:black;font-size:medium">@yazaradi</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label style="color:black;font-size:medium">@Localize("library_prhouse")</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <label style="color:black;font-size:medium">@item.YayinEviAdi</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label style="color:black;font-size:medium">@Localize("language")</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p style="color:black;font-size:medium">@diller.FirstOrDefault(a => a.Id == item.DilId).Adi</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p style="color:black;font-size:medium">@Localize("library_year")</p>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p style="color:black;font-size:medium">@item.Yili</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p style="color:black;font-size:medium">@Localize("library_caterory")</p>
+                                            </div>
+                                            <div class="col-md-9">
+                                                @{
+                                                    var kategoriadi = "";
+                                                }
+                                                @for (int i = 0; i < item.KategoriId.Length; i++)
+                                                {
+                                                    var kategoriid = item.KategoriId[i];
+                                                    var kategoriitem = kategori.FirstOrDefault(a => a.Id == kategoriid);
+                                                    if (kategoriitem != null && i == 0)
+                                                    {
+                                                        kategoriadi += kategori.FirstOrDefault(a => a.Id == kategoriid).Adi;
+                                                    }
+                                                    else if (kategoriitem != null && i != 0)
+                                                    {
+                                                        kategoriadi += " - " + kategori.FirstOrDefault(a => a.Id == kategoriid).Adi;
+
+                                                    }
+                                                }
+
+                                                <p style="color:black;font-size:medium">@kategoriadi</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p style="color:black;font-size:medium">Link</p>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p style="color:black;font-size:medium"><a src="@item.EkitapUrl">@item.EkitapUrl</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div>
+                                    <p style="color:black;font-size:medium">@item.Aciklama</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+        <div>
+            @await Html.PartialAsync("_front_pager", pager)
+        </div>
+    </div>
+</section>
+
+<!-- MODÜL HAKKINDA POP-UP BİLGİLENDİRME -->
+
+<div class="modal" tabindex="-1" role="dialog" id="infoModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div style="text-align:right">
+                    <button type="button" class="btn btn-success" onclick="closemodal()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <h3 style="color:black">SİYASETT KİTAPLARI HAKKINDA...</h3>
+                <br />
+                <p style="color:black"><b>Siyasett Kitaplığı Türk siyasal hayatıyla ilgili Cumhuriyet döneminde yayınlanan Türkçe ve yabancı dildeki eserlerin pratik bir formatta listelenmesini ve kullanıcılarımızın hizmetine sunulmasını amaçlıyor.</b> </p>
+                <br />
+                <p style="color:black"><b>Başta üniversitelerde siyaset bilimi eğitimi alan gençler olmak üzere, ülkemizde ve yurt dışında Türkiye’deki siyaset dünyasına ilgi duyanlar için Siyasett Kitaplığı’nın güçlü bir referans kaynağı olmasını arzu ediyoruz.</b></p>
+                <br />
+                <p style="color:black"><b>Zaman içerisinde bu menü başlığı altındaki yayınları güncelleyerek kitaplığımızı daha da zenginleştireceğiz.</b></p>
+                <br />
+                <p style="color:black"><b>Türk siyasetine ilgi duyan Siyasett.com kullanıcılarının bu çalışmamıza katkı sunmalarından memnuniyet duyacağımızı da belirtmek isteriz.</b></p>
+                <br />
+                <p style="color:black"><b>Bu listede bulunan eserlerden böyle bir çalışmada yer almamasını düşündükleriniz veya listeye eklenmesini önereceğiniz eserler olursa bu sayfanın altında yer alan linki tıklayarak bu görüşlerinizi bizimle paylaşabilirsiniz.</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts {
+
+    <script>$("#sorguinput").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $('#frmMain').submit();
+            }
+        });
+
+        $('#yayinselect,#kategoriselect,#dilselect,#donemselect,#siralamaEditSelect,#yazarselect').on('change', function () {
+
+            $('#frmMain').submit();
+        });
+
+        function refresh() {
+            $('#sorguinput').val('');
+            $('#yayineviinput').val(0);
+            $('#kategoriinput').val(0);
+            $('#dilinput').val(0);
+            $('#doneminput').val(0);
+            $('#siralamainput').val(0);
+
+
+            $('#frmMain').submit();
+        }
+
+        function modalinfo() {
+            $('#infoModal').show();
+        }
+
+        function closemodal() {
+            $('#infoModal').hide();
+
+        }
+
+
+
+        function closemodalinfokitap(el) {
+            $('#infoModalKitap_' + el).hide();
+
+        }
+        function kitapinfo(el) {
+            $('#infoModalKitap_' + el).show();
+        }</script>
+}

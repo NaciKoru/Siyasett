@@ -1,0 +1,219 @@
+﻿@model List<PartyListModel>
+
+
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = Localize("page.parties.meta.title");
+    ViewData["Description"] = Localize("page.parties.meta.description");
+    PartySearchModel searchModel = ViewBag.SearchModel;
+
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+}
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="team-section style-two">
+    <div class="container">
+
+
+        <form method="get" id="frmFilters">
+            <div id="filterSort" class="medium-12 large-3 columns" style="display:none">
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-6 mb-3 g-2">
+                <div class="col">
+                    <input type="text" class="form-control form-control-sm" name="name" placeholder="@Localize("page_parties_text2")" value="@searchModel.PartyName" id="txtName" />
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control form-control-sm" name="shortname" placeholder="@Localize("page_parties_text3")" value="@searchModel.PartyShortName" id="txtShortName" />
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control form-control-sm" name="leadername" placeholder="@Localize("page_parties_text4")" value="@searchModel.PartyLeader" id="txtLeaderName" />
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="iselection" id="ddlIsElection">
+                        <option selected="@(searchModel.Enjoyable==0)" value="0">@Localize("page_parties_text5")</option>
+                        <option selected="@(searchModel.Enjoyable==1)" value="1">@Localize("text_yes")</option>
+                        <option selected="@(searchModel.Enjoyable==2)" value="2">@Localize("text_no")</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="isactive" id="ddlIsactive">
+                        <option selected="@(searchModel.Active==0)" value="0">@Localize("text_isactive")</option>
+                        <option selected="@(searchModel.Active==1)" value="1">@Localize("text_yes")</option>
+                        <option selected="@(searchModel.Active==2)" value="2">@Localize("text_no")</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" title="Sıralama" name="sort" onchange="$(this).closest('form').submit();">
+                        <option selected="@(pager.SortFieldIndex==1)" value="1">@Localize("page_parties_sort_partyname1")</option>
+                        <option selected="@(pager.SortFieldIndex==-1)" value="-1">@Localize("page_parties_sort_partyname2")</option>
+                        <option selected="@(pager.SortFieldIndex==2)" value="2">@Localize("page_parties_sort_leader1")</option>
+                        <option selected="@(pager.SortFieldIndex==-2)" value="-2">@Localize("page_parties_sort_leader2")</option>
+                        <option selected="@(pager.SortFieldIndex==3)" value="3">@Localize("page_parties_sort_parliamenter1")</option>
+                        <option selected="@(pager.SortFieldIndex==-3)" value="-3">@Localize("page_parties_sort_parliamenter2")</option>
+                        <option selected="@(pager.SortFieldIndex==4)" value="4">@Localize("page_parties_sort_members1")</option>
+                        <option selected="@(pager.SortFieldIndex==-4)" value="-4">@Localize("page_parties_sort_members2")</option>
+
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        @if (Model.Count == 0)
+        {
+
+            <p class="alert alert-info bg-opacity-25">
+
+                @Localize("page_parties_text1")
+
+            </p>
+        }
+        <div class="row clearfix">
+
+
+
+            @foreach (var item in Model)
+            {
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <!-- Team Block -->
+                    <div class="team-block">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="image text-center">
+                                    <a href="/siyasi-partiler/@item.Id/@Helpers.ToUrlSlug(item.PartyNameShort)">
+                                        <img style="height:180px;width:auto;display:inline" src="@Helpers.GetPartyLogo(item.Logo)" alt="">
+                                    </a>
+
+                                </div>
+                            </div>
+
+
+                            <div class="info-box">
+
+                                <div class="news-block" style="margin:0">
+                                    <div class="caption-box" style="padding:0;border:0;background-color:transparent;">
+                                        <h3 class="name"><a href="/siyasi-partiler/@item.Id/@Helpers.ToUrlSlug(item.PartyNameShort)" style="color:black">@item.PartyNameShort</a></h3>
+                                        <span class="designation">@(cultureName == "tr-TR" ? item.Name : item.NameEn)</span>
+                                        <div class="designation"><a href="/kim-kimdir/@item.LeaderPeopleId/@Helpers.ToUrlSlug(item.LeaderName)">@item.LeaderName</a></div>
+                                        <ul class="post-meta">
+
+                                            @if (item.Parliamenteries.HasValue && item.Parliamenteries.Value > 0)
+                                            {
+
+                                                <li>@Localize("text_milletvekili"): @item.Parliamenteries</li>
+                                            }
+                                            @if (item.MemberCount > 0)
+                                            {
+
+                                                <li>@Localize("text_uye"): @item.MemberCount.Value.ToString("#,###")</li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="social-links">
+                                @{
+                                    int counter = 0;
+                                }
+                                @if (item.SocialMedias.Count() == 0)
+                                {
+                                    <li style="height:36px"></li>
+
+                                }
+
+                                @foreach (var social in item.SocialMedias)
+                                {
+
+                                    counter++;
+                                    if (counter > 3)
+                                    {
+                                        break;
+                                    }
+                                    <li>
+                                        @if (social.SocialTypeId == 1)//twitter
+                                        {
+                                            <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-twitter"></i></a>
+                                        }
+                                        else if (social.SocialTypeId == 2)//face
+                                        {
+                                            <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        }
+                                        else if (social.SocialTypeId == 3)//youtube
+                                        {
+                                            <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-youtube"></i></a>
+                                        }
+                                        else if (social.SocialTypeId == 4)//insta
+                                        {
+                                            <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        }
+                                        else if (social.SocialTypeId == 6)//web
+                                        {
+                                            <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-internet-explorer"></i></a>
+                                        }
+                                        else if (social.SocialTypeId == 7)//wiki
+                                        {
+                                            <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-wikipedia-w"></i></a>
+                                        }
+
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        @await Html.PartialAsync("_front_pager", pager)
+
+
+
+    </div>
+</section>
+@section scripts{
+
+    <script>$(function () {
+
+
+            $("#txtName,#txtShortName,#txtLeaderName").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $('#frmFilters').submit();
+                }
+            });
+
+            $('#ddlIsElection,#ddlIsactive').on('change', function () {
+                $('#frmFilters').submit();
+            });
+
+
+
+        });</script>
+}

@@ -1,0 +1,237 @@
+﻿@using Siyasett.Core.Colums;
+@model List<ColumsModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    List<YynKategoriler> kategori = ViewBag.Kategoriler;
+    List<YynDiller> diller = ViewBag.Diller;
+    List<Company> sirketler = ViewBag.Sirketler;
+    List<PeopleListModel> yazarlar = ViewBag.Yazarlar;
+    ColumsSearchModel searchModel = ViewBag.SearchModel;
+    List<GeneralLanguage> lang = ViewBag.Language;
+    List<YynTurler> turler = ViewBag.Turler;
+    string queryback = ViewBag.Query;
+    int count;
+
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+
+    @*ViewData["Title"] = "Siyaset Yazıları"; // Localize("menu.header.news");*@
+
+    ViewData["Title"] = Localize("columns_title");
+
+
+}
+
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+
+                    <li>
+                        @ViewData["Title"]
+                        @* <a asp-action="Firstpages" class="text-light">@Localize("first_pages") -</a>
+                            <a asp-action="Analyses" class="text-light">@Localize("analyses")</a>*@
+                    </li>
+
+
+                    @* <li>@ViewData["Title"] </li>*@
+
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="news-section-three" style="padding: 20px 0 70px">
+
+    <div class="container">
+        <div style="text-align:center">
+            <form method="get" id="frmFilters">
+                <div id="filterSort" class="" style="display:none">
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" name="date" id="ddldate">
+                            <option selected="@(searchModel.DateId==0)" value="0">@Localize("All")</option>
+                            <option selected="@(searchModel.DateId==1)" value="1">@Localize("Todays_Columns")</option>
+                            <option selected="@(searchModel.DateId==2)" value="2">@Localize("Last3days")</option>
+                            <option selected="@(searchModel.DateId==3)" value="3">@Localize("Last1week")</option>
+                            <option selected="@(searchModel.DateId==4)" value="4">@Localize("Last1month")</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" name="contexttext" placeholder="@Localize("search_text")" value='@(string.IsNullOrEmpty(searchModel.ContextText) ? "" : searchModel.ContextText)' id="txtcontext" />
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" name="personId" id="ddlPerson">
+                            <option selected="@(searchModel.YazarId==0)" value="0">@Localize("author")</option>
+                            @foreach (var item in yazarlar)
+                            {
+                                <option selected="@(searchModel.YazarId==item.Id)" value="@item.Id"> @item.FirstName @item.LastName </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" name="companyId" id="ddlcompany" style="width:100%">
+                            <option selected="@(searchModel.SirketId==0)" value="0">@Localize("newspaper")</option>
+                            @foreach (var item in sirketler)
+                            {
+                                <option selected="@(searchModel.SirketId==item.Id)" value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" name="categoryId" id="ddlcategory" style="width:100%">
+                            <option selected="@(searchModel.Kategori==0)" value="0">@Localize("category")</option>
+                            @foreach (var item in kategori)
+                            {
+                                <option selected="@(searchModel.Kategori==item.Id)" value="@item.Id">@item.Adi</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select form-select-sm" name="dilId" id="ddldil" style="width:100%">
+                            <option selected="@(searchModel.DilId==0)" value="0">@Localize("language")</option>
+                            @foreach (var item in diller)
+                            {
+                                <option selected="@(searchModel.DilId==item.Id)" value="@item.Id">@item.Adi</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+
+
+        <!-- MODÜL HAKKINDA POP-UP BİLGİLENDİRME -->
+
+        <div class="modal" tabindex="-1" role="dialog" id="infoModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <div style="text-align:right">
+                            <button type="button" class="btn btn-success" onclick="closemodal()" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <h3 style="color:black">SİYASET YAZILARI HAKKINDA...</h3>
+                        <br />
+                        <p style="color:black"><b>"''Siyaset Yazıları'' başlığında Türkçe ve yabancı dille yayın yapan basında Türk siyaset hayatı ve dış politikası konularında yayınlanan makalelere link veriyoruz.</b> </p>
+                        <br />
+                        <p style="color:black"><b>Siyaset Yazıları''ndaki metinler kullanıcılar tarafından anlık Türkçe ve İngilizceye de çevrilebiliyor.</b></p>
+                        <br />
+                        <p style="color:black"><b>Bununla da yetinmiyor, Türk siyasetinin gündeminde olan konu başlıklarına göre üyelerimiz farklı analizler de yapabiliyor, değişik grafikler hazırlayabiliyorlar.</b></p>
+                        <br />
+                        <p style="color:black"><b>Bu listede yer verilen yazarlarımız dışında, yazılarını görmeyi önereceğiniz yazarlar varsa bunları iletişim firmu üzerinden bize iletebilirsiniz.</b></p>
+                        <p style="color:black"><b>Üyelerimizin katkılarıyla Siyaset Yazıları'nı önümüzdeki dönemde güçlü bir referans kaynağına dönüştürmeyi amaçlıyoruz.'</b></p>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="news-box row">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+
+                    <div class="news-block">
+                        <div class="inner-box">
+
+                            <div class="caption-box">
+
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src="@Helpers.GetPersonPhoto(item.AuthorPhoto)" style="max-height:84px;" class="rounded-circle">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5>@item.YazarAdSoyad</h5>
+                                        <ul class="post-meta">
+
+                                            <li class="pt-1"><i class="far fa-calendar-check"></i>@item.Date.ToShortDateString()</li>
+
+                                            <li class="pt-1"><i class="fas fa-newspaper"></i>@item.SirketAdi</li>
+                                            @* <li class="pt-1"><i class="fas fa-eye"></i>@item.ReadCount</li> *@
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="overflow-hidden" style="height:180px;">
+                                    <h3>
+                                        <a href="@Url.Action("columns-detail" , new { id=item.Id })">
+                                            @if (item.DilId == 1)
+                                            {
+                                                @item.Header
+                                            }
+                                            else if (item.DilId == 2)
+                                            {
+                                                @item.HeaderEn
+                                            }
+                                        </a>
+                                    </h3>
+                                    <a href="@Url.Action("columns-detail" , new { id=item.Id })">
+                                        <div class="text">
+                                            @if (item.DilId == 1)
+                                            {
+                                                @Html.Raw(Helpers.SubStringSentences(Helpers.StripHTML(item.Context), 320))
+                                            }
+                                            else if (item.DilId == 2)
+                                            {
+                                                @Html.Raw(Helpers.SubStringSentences(Helpers.StripHTML(item.ContextEn), 320))
+                                            }
+
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            }
+
+        </div>
+        <div>
+            @await Html.PartialAsync("_front_pager", pager)
+        </div>
+    </div>
+</section>
+
+
+@section scripts {
+    <script>$('#ddlPerson,#ddlPosition,#ddlcompany,#ddldil,#ddlcategory,#ddldate').on('change', function () {
+            $('#frmFilters').submit();
+        });
+
+        $("#contexttext").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $('#frmFilters').submit();
+            }
+        });</script>
+
+}
