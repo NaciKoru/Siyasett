@@ -179,8 +179,26 @@
                                         </ul>
                                     </div>
                                 </div>
+
+
+
                                 <div class="overflow-hidden" style="height:180px;">
                                     <h3>
+
+                                        @*
+
+        <td>@Html.Raw(cultureName == "tr-TR" ? item.Header : item.HeaderEn)</td>
+
+
+
+        <td>@Html.Raw(cultureName == "tr-TR" ? Helpers.SubStringSentences(Helpers.StripHTML(item.Context) : Helpers.SubStringSentences(Helpers.StripHTML(item.ContextEn)</td>
+
+        @Html.Raw(Helpers.SubStringSentences(Helpers.StripHTML(item.Context), 320))
+
+
+                                        *@
+
+
                                         <a href="@Url.Action("columns-detail" , new { id=item.Id })">
                                             @if (item.DilId == 1)
                                             {
@@ -223,15 +241,23 @@
 </section>
 
 
-@section scripts {
-    <script>$('#ddlPerson,#ddlPosition,#ddlcompany,#ddldil,#ddlcategory,#ddldate').on('change', function () {
-            $('#frmFilters').submit();
-        });
 
-        $("#contexttext").keydown(function (e) {
-            if (e.keyCode == 13) {
+<!--Geri bildirim formu - Çalıştım, ama olmadı-->
+
+
+
+    @section scripts {
+
+
+        <script>$('#ddlPerson,#ddlPosition,#ddlcompany,#ddldil,#ddlcategory,#ddldate').on('change', function () {
                 $('#frmFilters').submit();
-            }
-        });</script>
+            });
 
-}
+            $("#contexttext").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $('#frmFilters').submit();
+                }
+            });</script>
+
+    }
+

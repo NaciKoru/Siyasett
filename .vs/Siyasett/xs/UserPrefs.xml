@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{5CDEAAD8-C7DF-4068-AB1B-9E67FB5508FE}|Default" GitUserInfo="UsingGIT">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Siyasett.Web PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Siyasett.Web/Views/Actuals/Columns.cshtml">
+    <Files>
+      <File FileName="Siyasett.Web/Views/Actuals/Columns.cshtml" Line="175" Column="1" />
+      <File FileName="Siyasett.Web/Views/Actuals/Chronology.cshtml" Line="110" Column="19" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Siyasett">
+            <Node name="Siyasett.Core" expanded="True">
+              <Node name="Chronology" expanded="True" />
+            </Node>
+            <Node name="Siyasett.Data" expanded="True" />
+            <Node name="Siyasett.Web">
+              <Node name="Views" expanded="True">
+                <Node name="Actuals" expanded="True">
+                  <Node name="Columns.cshtml" selected="True" />
+                </Node>
+                <Node name="Home" expanded="True" />
+                <Node name="People" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>
