@@ -1,4 +1,4 @@
-Projenin iki temel bölümü var. 
+Projenin iki temel bölümü var: Admin ve kullanıcı arayüzü.
 
 Veri girişlerini Admin üzerinden yapıyoruz. 
 
