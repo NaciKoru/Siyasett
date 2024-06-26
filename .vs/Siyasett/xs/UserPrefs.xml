@@ -6,20 +6,22 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workbench ActiveDocument="Siyasett.Web/Views/Actuals/Columns.cshtml">
     <Files>
-      <File FileName="Siyasett.Web/Views/Actuals/Columns.cshtml" Line="3" Column="3" />
-      <File FileName="Siyasett.Web/Views/Actuals/Chronology.cshtml" Line="110" Column="1" />
+      <File FileName="Siyasett.Web/Views/Actuals/Columns.cshtml" Line="40" Column="1" />
+      <File FileName="Siyasett.Web/Views/Actuals/Chronology.cshtml" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Siyasett" expanded="True">
+          <Node name="Siyasett">
             <Node name="Siyasett.Core" expanded="True">
               <Node name="Chronology" expanded="True" />
             </Node>
             <Node name="Siyasett.Data" expanded="True" />
             <Node name="Siyasett.Web" expanded="True">
               <Node name="Views" expanded="True">
-                <Node name="Actuals" expanded="True" />
+                <Node name="Actuals" expanded="True">
+                  <Node name="Columns.cshtml" selected="True" />
+                </Node>
                 <Node name="Home" expanded="True" />
                 <Node name="People" expanded="True" />
               </Node>
