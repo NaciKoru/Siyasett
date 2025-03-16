@@ -1,33 +1,36 @@
-bin/
-obj/
-out/
-Siyasett.Web/obj/
-Siyasett.Web/bin/
-Siyasett.Web/out/
-Siyasett.core/obj/
-Siyasett.core/bin/
-Siyasett.core/out/
-Siyasett.Data/obj/
-Siyasett.Data/bin/
-Siyasett.Data/out/
-
-*.deps.json
-*.dll
-*.pdb
-*.runtimeconfig.json
-
-.vscode/
-.idea/
-*.vsconfig
-
-node_modules/
-packages/
-npm-debug.log
-yarn.lock
-
-logs/
+# Genel kurallar
 *.log
-!logs/.gitkeep
-
+*.env
 .DS_Store
-Thumbs.db
+*.tmp
+*.swp
+
+# Node.js bağımlılıkları (Siyasett.Web için)
+Siyasett.Web/node_modules/
+Siyasett.Web/dist/
+
+# .NET build dosyaları (tüm solution'lar için)
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+
+# Kullanıcı ayar dosyaları
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code ayarları
+.vscode/
+
+# MacOS sistem dosyaları
+.DS_Store
+
+# Siyasett.Core özel kuralları
+Siyasett.Core/bin/
+Siyasett.Core/obj/
+
+# Siyasett.Data özel kuralları
+Siyasett.Data/bin/
+Siyasett.Data/obj/
