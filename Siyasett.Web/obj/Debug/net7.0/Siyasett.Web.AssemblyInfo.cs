@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Siyasett.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3d720c07820adf1948838e67ef2be1736939921")]
 [assembly: System.Reflection.AssemblyProductAttribute("Siyasett.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Siyasett.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

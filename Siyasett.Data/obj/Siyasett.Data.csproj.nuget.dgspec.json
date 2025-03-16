@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj": {}
+    "/Users/selim/Code/Siyasett/Siyasett.Data/Siyasett.Data.csproj": {}
   },
   "projects": {
-    "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj": {
+    "/Users/selim/Code/Siyasett/Siyasett.Data/Siyasett.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj",
+        "projectUniqueName": "/Users/selim/Code/Siyasett/Siyasett.Data/Siyasett.Data.csproj",
         "projectName": "Siyasett.Data",
-        "projectPath": "/Users/nacikoru/code/Siyasett/Siyasett.Data/Siyasett.Data.csproj",
-        "packagesPath": "/Users/nacikoru/.nuget/packages/",
-        "outputPath": "/Users/nacikoru/code/Siyasett/Siyasett.Data/obj/",
+        "projectPath": "/Users/selim/Code/Siyasett/Siyasett.Data/Siyasett.Data.csproj",
+        "packagesPath": "/Users/selim/.nuget/packages/",
+        "outputPath": "/Users/selim/Code/Siyasett/Siyasett.Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/nacikoru/.nuget/NuGet/NuGet.Config"
+          "/Users/selim/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -81,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.316/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/RuntimeIdentifierGraph.json"
         }
       }
     }

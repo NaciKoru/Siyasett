@@ -1,0 +1,27 @@
+bin/
+obj/
+out/
+
+*.deps.json
+*.dll
+*.pdb
+*.runtimeconfig.json
+
+.vscode/
+.idea/
+*.vsconfig
+
+node_modules/
+packages/
+npm-debug.log
+yarn.lock
+
+# Log dosyaları
+logs/
+*.log
+!logs/.gitkeep
+
+# Geçici dosyalar
+.DS_Store
+Thumbs.db
+
