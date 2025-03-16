@@ -1,0 +1,127 @@
+﻿@using Siyasett.Core.Company
+@model List<CompanyListModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "Şirketler";
+    CompanySearchModel searchModel = ViewBag.SearchModel;
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                @*<ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="ChronologyManagement" asp-action="Index">Kronoloji</a></li>
+
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+        </ol>*@
+
+                <a class="btn btn-success" asp-action="New"><i class="fa fa-plus-circle"></i> Yeni Şirket</a>
+
+            </div>
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="col-md-12 col-lg-8 col-xl-9">
+    <div class="card">
+
+        <div class="card-body">
+            <form method="get" id="frmFilters">
+            <input type="hidden" name="sort" id="txtSort" />
+            <input type="hidden" name="desc" id="txtSortDesc" />
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th data-sort-index="0" class="sortable @(searchModel.OrderBy==0 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==0 && searchModel.OrderByDesc==1?"desc" :"" )">Adı</th>
+                            <th data-sort-index="0" class="sortable @(searchModel.OrderBy==0 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==0 && searchModel.OrderByDesc==1?"desc" :"" )">Kısa Adı</th>
+                            <th data-sort-index="0" class="sortable @(searchModel.OrderBy==0 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==0 && searchModel.OrderByDesc==1?"desc" :"" )">Kuruluş Tarihi</th>
+                            <th data-sort-index="0" class="sortable @(searchModel.OrderBy==0 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==0 && searchModel.OrderByDesc==1?"desc" :"" )">Genel Müdür</th>
+                            <th data-sort-index="0" class="sortable @(searchModel.OrderBy==0 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==0 && searchModel.OrderByDesc==1?"desc" :"" )">Web Adresi</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="form-control" name="name" value="@searchModel.CompanyName" id="txtName" /></td>
+                            <td><input type="text" class="form-control" name="shortname" value="@searchModel.CompanyShortName" id="txtShortName" /></td>
+                            <td><input type="text" class="form-control" name="date" value="@searchModel.CompanyDate" id="txtDate" /></td>
+                            <td><input type="text" class="form-control" name="manager" value="@searchModel.CompanyManager" id="txtManager" /></td>
+                            <td><input type="text" class="form-control" name="website" value="@searchModel.CompanyWebSite" id="txtWebSite" /></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><a asp-action="Edit" asp-route-id="@item.Id" style="color:black">@item.Name</a></td>
+                                <td><a asp-action="Edit" asp-route-id="@item.Id" style="color:black">@item.ShortName</a></td>
+                                <td><a asp-action="Edit" asp-route-id="@item.Id" style="color:black">@item.Dof</a></td>
+
+
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" style="color:black">
+                                        @if (item.LeaderPeopleId.HasValue)
+                                        {
+                                            <a asp-action="Edit" asp-controller="PeopleManagement" asp-route-id="@item.LeaderPeopleId" asp-area="Admin">@item.LeaderName</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="fst-italic"></span>
+                                        }
+
+                                    </a>
+                                </td>
+                                <td><a asp-action="Edit" asp-route-id="@item.Id" style="color:black">@item.WebAdress</a></td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            </form>
+            @await Html.PartialAsync("_pager", pager)
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+
+        var $sortable = $('.sortable');
+
+        $sortable.on('click', function () {
+
+            var $this = $(this);
+            var asc = $this.hasClass('asc');
+            var desc = $this.hasClass('desc');
+            $sortable.removeClass('asc').removeClass('desc');
+            if (desc || (!asc && !desc)) {
+                $this.addClass('asc');
+                $('#txtSortDesc').val(0);
+            } else {
+                $this.addClass('desc');
+                $('#txtSortDesc').val(1);
+
+            }
+
+            $('#txtSort').val($this.attr("data-sort-index"));
+            $('#frmFilters').submit();
+        });
+
+        $("#txtName,#txtShortName,#txtDate,#txtManager,#txtWebSite").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $('#frmFilters').submit();
+            }
+        });
+
+
+    </script>
+
+}

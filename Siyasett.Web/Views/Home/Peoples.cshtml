@@ -1,0 +1,140 @@
+﻿@using Siyasett.Core.Party
+@using Siyasett.Core.People
+@model List<PeopleListModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "Kişi Yönetimi";
+    List<Education> educations = ViewBag.Educations;
+    PeopleSearchModel searchModel = ViewBag.SearchModel;
+    List<InstitutionType> institutionTypes = ViewBag.InstitutionTypes;
+    List<Position> positions = ViewBag.Positions;
+    List<PartyListModel> parties = ViewBag.Parties;
+}
+
+<div>
+    <span>
+        Bu sayfalar SIYASETT.com projesinin kapsamı hakkında bilgi vermek amacıyla hazırlanmış olup gerçek veriler içermemektedir.<br />
+
+        Yıl sonuna doğru kullanıma sunulması öngörülen bu projeye ilgi duyanlar, ana sayfanın altında yer alan iletişim formu üzerinden bize yazabilirler.
+    </span>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="get" id="frmFilters">
+            <input type="hidden" name="sort" id="txtSort" />
+            <input type="hidden" name="desc" id="txtSortDesc" />
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr class="bg-secondary bg-opacity-50">
+                            <th style="width:200px;" data-sort-index="0" class="sortable @(searchModel.OrderBy==0 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==0 && searchModel.OrderByDesc==1?"desc" :"" )">Ad</th>
+                            <th style="width:200px;" data-sort-index="1" class="sortable @(searchModel.OrderBy==1 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==1 && searchModel.OrderByDesc==1?"desc" :"" )">Soyad</th>
+                            <th data-sort-index="4" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">Kurum Türü</th>
+
+                            <th data-sort-index="4" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">Parti / Kurum</th>
+                            <th style="width:200px;" data-sort-index="5" class="sortable @(searchModel.OrderBy==4 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==4 && searchModel.OrderByDesc==1?"desc" :"" )">Görevi</th>
+                            <th style="width:120px;" data-sort-index="2" class="sortable @(searchModel.OrderBy==2 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==2 && searchModel.OrderByDesc==1?"desc" :"" )">Cinsiyet</th>
+                            <th style="width:200px;" data-sort-index="3" class="sortable @(searchModel.OrderBy==3 && searchModel.OrderByDesc==0 ?"asc":searchModel.OrderBy==3 && searchModel.OrderByDesc==1?"desc" :"" )">Eğitim</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="form-control" name="firstName" value="@searchModel.FirstName" id="txtFirstName" /></td>
+                            <td><input type="text" class="form-control" name="lastName" value="@searchModel.LastName" id="txtFirstName" /></td>
+                            <td>
+                                <select class="form-select" name="education" id="ddlEducation">
+                                    <option selected="@(searchModel.InstitutionTypeId==0)" value="0">Tümü</option>
+                                    @foreach (var item in institutionTypes)
+                                    {
+                                        <option selected="@(searchModel.InstitutionTypeId==item.Id)" value="@item.Id">@item.NameTr</option>
+                                    }
+                                </select>
+
+                            </td>
+                            <td>
+                                <select class="form-select select2" name="partyId" id="ddlParty" style="width:100%">
+                                    <option selected="@(searchModel.PartyId==0)" value="0">Tümü</option>
+                                    @foreach (var item in parties)
+                                    {
+                                        <option selected="@(searchModel.PartyId==item.Id)" value="@item.Id">@item.PartyName</option>
+                                    }
+                                </select>
+
+                            </td>
+                            <td>
+
+                                <select class="form-select select2" name="positionId" id="ddlPosition" style="width:100%">
+                                    <option selected="@(searchModel.PositionId==0)" value="0">Tümü</option>
+                                    @foreach (var item in positions)
+                                    {
+                                        <option selected="@(searchModel.PositionId==item.Id)" value="@item.Id">@item.NameTr</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="gender" id="ddlGender">
+                                    <option selected="@(searchModel.GenderId==0)" value="0">Tümü</option>
+                                    <option selected="@(searchModel.GenderId==1)" value="1">Erkek</option>
+                                    <option selected="@(searchModel.GenderId==2)" value="2">Kadın</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select class="form-select" name="education" id="ddlEducation">
+                                    <option selected="@(searchModel.EducationId==0)" value="0">Tümü</option>
+                                    @foreach (var item in educations)
+                                    {
+                                        <option selected="@(searchModel.EducationId==item.Id)" value="@item.Id">@item.NameTr</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><a asp-action="PeopleBasicInfo" asp-route-id="@item.Id" style="color:black">@item.FirstName</a></td>
+                                <td><a asp-action="PeopleBasicInfo" asp-route-id="@item.Id" style="color:black">@item.LastName</a></td>
+                                <td><a asp-action="PeopleBasicInfo" asp-route-id="@item.Id" style="color:black">@item.InstitutionName</a></td>
+
+                                <td><a asp-action="PeopleBasicInfo" asp-route-id="@item.Id" style="color:black">@item.PartyName</a></td>
+                                <td><a asp-action="PeopleBasicInfo" asp-route-id="@item.Id" style="color:black">@item.PositionName</a></td>
+                                <td><a asp-action="PeopleBasicInfo" asp-route-id="@item.Id" style="color:black">@item.GenderName</a></td>
+                                <td><a asp-action="PeopleBasicInfo" asp-route-id="@item.Id" style="color:black">@item.EducationName</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        @await Html.PartialAsync("_pager", pager)
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+        var $sortable = $('.sortable');
+
+        $sortable.on('click', function () {
+
+            var $this = $(this);
+            var asc = $this.hasClass('asc');
+            var desc = $this.hasClass('desc');
+            $sortable.removeClass('asc').removeClass('desc');
+            if (desc || (!asc && !desc)) {
+                $this.addClass('asc');
+                $('#txtSortDesc').val(0);
+            } else {
+                $this.addClass('desc');
+                $('#txtSortDesc').val(1);
+
+            }
+
+            $('#txtSort').val($this.attr("data-sort-index"));
+            $('#frmFilters').submit();
+        });
+
+    </script>
+}

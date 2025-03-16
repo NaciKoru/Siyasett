@@ -1,0 +1,211 @@
+﻿@using Siyasett.Core.Faq
+@model FaqCreateModel
+@{
+    ViewData["Title"] = "Yeni Kayıt";
+    List<FaqGroup> faqGroups = ViewBag.FaqGroups;
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a></li>
+                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="FaqManagement" asp-action="Index">S.S.S</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+
+
+
+            </div>
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+    </div>
+</div>
+
+<div class="section-body">
+
+
+    <form method="post" id="frmMain">
+        <div class="card border shadow-sm">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        <div class="mb-3 row">
+                            <label class="col-md-4">Konu Başlığı</label>
+                            <div class="col-md-8 row">
+                                <div class="col-md-10">
+                                    <select class="form-select" id="ddlMetinTuru" asp-for="FaqGroupId" required>
+                                        @foreach (var item in faqGroups)
+                                        {
+                                            <option value="@item.Id">@item.NameTr</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <a class="btn btn-success" onclick="newItem()"><i class="fa fa-plus-circle"></i> Yeni Başlık</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-md-4">Soru TR</label>
+                            <div class="col-md-8"><input type="text" class="form-control"  asp-for="FaqQuestionTr" autocomplete="off" /></div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-md-4">Soru EN</label>
+                            <div class="col-md-8"><input type="text" class="form-control"  asp-for="FaqQuestionEn" autocomplete="off" /></div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-md-4">Cevap TR</label>
+                            <div class="col-md-8"><textarea type="text" class="form-control" rows="3"  asp-for="FaqAnswerTr" autocomplete="off"></textarea></div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-md-4">Cevap EN</label>
+                            <div class="col-md-8"><textarea type="text" class="form-control" asp-for="FaqAnswerEn" rows="3" autocomplete="off"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+            <div class="card-footer bg-light text-center">
+                <button onclick="kaydet(4)" type="button" class="btn btn-primary"><i class="fa fa-save"></i> KAYDET</button>
+                <button onclick="kaydet(3)" type="button" class="btn btn-primary"><i class="fa fa-save"></i> KAYDET Ve Yeni</button>
+                <button onclick="kaydet(1)" type="button" class="btn btn-primary"><i class="fa fa-save"></i> KAYDET ve Düzenle</button>
+                <button onclick="kaydet(2)" type="button" class="btn btn-outline-primary"><i class="fa fa-save"></i> KAYDET ve Listeye Dön</button>
+
+                <input type="hidden" name="durum" id="hdnDurum" value="1" />
+                <a href="#" onclick="backAlert()"><i class="fa fa-arrow-left"></i> Listeye Dön</a>
+            </div>
+        </div>
+
+
+
+
+    </form>
+</div>
+@section scripts{
+
+    <script src="~/lib/summernote/summernote-bs5.min.js"></script>
+    <link href="~/lib/summernote/summernote-bs5.min.css" rel="stylesheet" />
+    <script src="~/js/tagsinput.js"></script>
+    <link href="~/css/tagsinput.css" rel="stylesheet" />
+    <link href="~/lib/datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+    <script src="~/lib/datepicker/js/bootstrap-datepicker.min.js"></script>
+
+
+    <div id="modalAdd" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-plus-circle"></i>Yeni Başlık</h5>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 row">
+                        <label class="col-md-4">Name (TR)</label>
+                        <div class="col-md-8">
+                            <input type="text" placeholder="Name (TR)" id="txtAddNameTr" class="form-control" maxlength="250" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-md-4">Name (EN)</label>
+                        <div class="col-md-8">
+                            <input type="text" placeholder="Name (EN)" id="txtAddNameEn" class="form-control" maxlength="250" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" onclick="addItem()" class="btn btn-primary"><i class="fa fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+
+        function kaydet(d) {
+            $('#hdnDurum').val(d);
+            $('#frmMain').submit();
+        }
+
+        $(function () {
+
+            $('#DescriptionEn,#DescriptionTr').summernote({
+                placeholder: 'Açıklama',
+                tabsize: 2,
+                height: 240
+            });
+
+
+            $('#EventDateStr').datepicker({
+                format: "dd.mm.yyyy",
+                autoclose: true,
+                language: "tr",
+            });
+
+
+
+        });
+
+        function backAlert() {
+            Swal.fire({
+                title: "Eminm isiniz?",
+                text: "Girilen veriler silinecektir!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Listeye dön!",
+                closeOnConfirm: false
+            }).then((result) => {
+                if (result.isConfirmed)
+                    window.location.href = '/Admin/FaqManagement';
+            });
+        }
+
+
+        function newItem() {
+            $('#modalAdd').modal('show');
+
+        }
+
+        function addItem() {
+            var ntr = $('#txtAddNameTr').val();
+            var nen = $('#txtAddNameEn').val();
+            if ((ntr.length < 2) && (nen.length < 2)) {
+                Swal.fire('Warning', 'Please fill the field', 'warning');
+                return;
+            }
+            $.post('@Url.Action("NewTitle")', { nametr: ntr, nameen: nen })
+                .done(function (response) {
+                    if (response.success) {
+                        $('#modalAdd').modal('hide');
+                        Swal.fire('@ViewData["Title"]', 'New item has been added successfully.', 'success');
+                        window.location.href = '/Admin/FaqManagement/New';
+                    }
+                    else
+                        Swal.fire('Error', response.msg, 'warning');
+                });
+
+        }
+
+
+    </script>
+}
+
+

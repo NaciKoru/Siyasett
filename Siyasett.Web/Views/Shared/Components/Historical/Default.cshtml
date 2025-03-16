@@ -1,0 +1,56 @@
+﻿@model List<Siyasett.Data.Data.Chronology>
+@{
+
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+
+}
+
+@while (Model.Count > 0)
+{
+    var c1 = Model.FirstOrDefault();
+    if (c1 != null)
+    {
+        Model.RemoveAt(0);
+        <div class="item">
+            <div class="post" style="padding-left:5px;">
+                <ul class="post-date">
+                    <li>@c1.EventDate.ToString()</li>
+                </ul>
+
+                <h4><a href="#">@(cultureName=="tr-TR"? c1.DescriptionTr : c1.DescriptionEn)</a></h4>
+            </div>
+            @{
+                var c2 = Model.FirstOrDefault();
+
+
+            }
+            @if (c2 != null)
+            {
+                Model.RemoveAt(0);
+
+                <div class="post" style="padding-left:5px;">
+                    <ul class="post-date">
+                        <li>@c2.EventDate.ToString()</li>
+                    </ul>
+
+                    <h4><a href="#">@(cultureName=="tr-TR"? c2.DescriptionTr : c2.DescriptionEn)</a></h4>
+                </div>
+            }
+
+
+        </div>
+
+    }
+    else
+    {
+        <div class="item">
+            <div class="post" style="padding-left:5px;">
+                Herhangi bir bilgi yoktur.
+            </div>
+        </div>
+    }
+
+
+
+}

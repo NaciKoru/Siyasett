@@ -1,0 +1,458 @@
+﻿@model List<PeopleListModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = Localize("page_people_meta_title");
+    ViewData["Description"] = Localize("page_people_meta_description");
+    List<Education> educations = ViewBag.Educations;
+    PeopleSearchModel searchModel = ViewBag.SearchModel;
+    List<InstitutionType> institutionTypes = ViewBag.InstitutionTypes;
+    List<Position> positions = ViewBag.Positions;
+    List<PartyListModel> parties = ViewBag.Parties;
+    List<Sector> sectors = ViewBag.Sectors;
+    List<Province> provinces = ViewBag.Provinces;
+    List<District> districts = ViewBag.District;
+    List<Job> jobs = ViewBag.Jobs;
+
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+}
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"] - <a asp-action="Charts" class="text-light"><i class="fa fa-chart-line"></i> @Localize("text_charts")</a></li>
+
+                </ul>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+<section class="team-section style-two">
+    <div class="container">
+        <form method="get" id="frmFilters">
+            <div id="filterSort" class="" style="display:none">
+            </div>
+
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-6 mb-3 g-2">
+                <div class="col"><input type="text" class="form-control form-control-sm" name="firstName" placeholder="@Localize("text_name")" value="@searchModel.FirstName" id="txtFirstName" /></div>
+                <div class="col"><input type="text" class="form-control form-control-sm" name="lastName" placeholder="@Localize("text_lastname")" value="@searchModel.LastName" id="txtLastName" /></div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="instituiton" id="ddlInstitutionTypeId">
+                        <option selected="@(searchModel.InstitutionTypeId==0)" value="0">@Localize("text_organisation_type")</option>
+                        @foreach (var item in institutionTypes)
+                        {
+                            <option selected="@(searchModel.InstitutionTypeId==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.NameTr : item.NameEn)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="partyId" id="ddlParty">
+                        <option selected="@(searchModel.PartyId==0)" value="0">@Localize("page_people_party_organisation")</option>
+                        @foreach (var item in parties)
+                        {
+                            <option selected="@(searchModel.PartyId==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.PartyName : item.NameEn)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="positionId" id="ddlPosition" style="width:100%">
+                        <option selected="@(searchModel.PositionId==0)" value="0">@Localize("text_duty")</option>
+                        @foreach (var item in positions)
+                        {
+                            <option selected="@(searchModel.PositionId==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.NameTr : item.NameEn)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control form-control-sm" name="period" placeholder="@Localize("text_period")" value="@searchModel.Period" id="txtPeriod" />
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="gender" id="ddlGender">
+                        <option selected="@(searchModel.GenderId==0)" value="0">@Localize("text_gender")</option>
+                        <option selected="@(searchModel.GenderId==1)" value="1">@Localize("text_male")</option>
+                        <option selected="@(searchModel.GenderId==2)" value="2">@Localize("text_female")</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="education" id="ddlEducation">
+                        <option selected="@(searchModel.EducationId==0)" value="0">@Localize("text_education")</option>
+                        @foreach (var item in educations)
+                        {
+                            <option selected="@(searchModel.EducationId==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.NameTr : item.NameEn)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="sector" id="ddlSectorId">
+                        <option selected="@(searchModel.Sectors==0)" value="0">@Localize("text_areaof_interest")</option>
+                        @foreach (var item in sectors)
+                        {
+                            <option selected="@(searchModel.Sectors==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.NameTr : item.NameEn)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="province" id="ddlProvinceId">
+                        <option selected="@(searchModel.Province==0)" value="0">@Localize("text_provinceof_duty")</option>
+                        @foreach (var item in provinces)
+                        {
+                            <option selected="@(searchModel.Province==item.Id)" value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="district" id="ddlDistrictId" disabled>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="job" id="ddlJobId">
+                        <option selected="@(searchModel.Job==0)" value="0">@Localize("text_profession")</option>
+                        @foreach (var item in jobs)
+                        {
+                            <option selected="@(searchModel.Job==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.NameTr : item.NameEn)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control form-control-sm" name="birthplace" placeholder="@Localize("text_placeof_birth")" value="@searchModel.Birtplace" id="txtBirthOfPlace" />
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="agegap" id="ddlAgeGap">
+                        <option selected="@(searchModel.Agegap==0)" value="0">@Localize("text_age_range")</option>
+                        <option selected="@(searchModel.Agegap==1)" value="1">16-21</option>
+                        <option selected="@(searchModel.Agegap==2)" value="2">22-35</option>
+                        <option selected="@(searchModel.Agegap==3)" value="3">36-45</option>
+                        <option selected="@(searchModel.Agegap==4)" value="4">46-55</option>
+                        <option selected="@(searchModel.Agegap==5)" value="5">56-64</option>
+                        <option selected="@(searchModel.Agegap==6)" value="6">65+</option>
+                        <option selected="@(searchModel.Agegap==7)" value="7">@Localize("text_unknow")</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="isalive" id="ddlIsalive">
+                        <option selected="@(searchModel.IsAlive==0)" value="0">@Localize("text_isalive")</option>
+                        <option selected="@(searchModel.IsAlive==1)" value="1">@Localize("text_yes")</option>
+                        <option selected="@(searchModel.IsAlive==2)" value="2">@Localize("text_no")</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" name="isactivepolitics" id="ddlIsActivePol" title="@Localize("page_people_active_politicians")">
+                        <option selected="@(searchModel.IsActivePolitics==1)" value="1">@Localize("page_people_active_politicians")</option>
+                        <option selected="@(searchModel.IsActivePolitics==2)" value="2">@Localize("text_all")</option>
+                    </select>
+
+                </div>
+                <div class="col">
+                    <select class="form-select form-select-sm" id="ddlSort" title="@Localize("page_people_sort_placeholder")" name="sort" onchange="$(this).closest('form').submit();">
+                        <option selected="@(searchModel.OrderBy==0)" value="0">@Localize("page_people_sort_placeholder")</option>
+                        <option selected="@(searchModel.OrderBy==1)" value="1">@Localize("page_people_sort_name1")</option>
+                        <option selected="@(searchModel.OrderBy==-1)" value="-1">@Localize("page_people_sort_name2")</option>
+                        <option selected="@(searchModel.OrderBy==2)" value="2">@Localize("page_people_sort_lastname1")</option>
+                        <option selected="@(searchModel.OrderBy==-2)" value="-2">@Localize("page_people_sort_lastname2")</option>
+                        <option selected="@(searchModel.OrderBy==3)" value="3">@Localize("page_people_sort_institutiontype1")</option>
+                        <option selected="@(searchModel.OrderBy==-3)" value="-3">@Localize("page_people_sort_institutiontype2")</option>
+
+                        <option selected="@(searchModel.OrderBy==4)" value="4">@Localize("page_people_sort_partyname1")</option>
+                        <option selected="@(searchModel.OrderBy==-4)" value="-4">@Localize("page_people_sort_partyname2")</option>
+                        <option selected="@(searchModel.OrderBy==5)" value="5">@Localize("page_people_sort_duty1")</option>
+                        <option selected="@(searchModel.OrderBy==-5)" value="-5">@Localize("page_people_sort_duty2")</option>
+                        <option selected="@(searchModel.OrderBy==6)" value="6">@Localize("page_people_sort_period1")</option>
+                        <option selected="@(searchModel.OrderBy==-6)" value="-6">@Localize("page_people_sort_period2")</option>
+                        <option selected="@(searchModel.OrderBy==7)" value="7">@Localize("page_people_sort_gender1")</option>
+                        <option selected="@(searchModel.OrderBy==-7)" value="-7">@Localize("page_people_sort_gender2")</option>
+                        <option selected="@(searchModel.OrderBy==8)" value="8">@Localize("page_people_sort_education1")</option>
+                        <option selected="@(searchModel.OrderBy==-8)" value="-8">@Localize("page_people_sort_education2")</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </form>
+
+
+        <div class="row d-flex align-items-stretch clearfix">
+            @foreach (var item in Model)
+            {
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <!-- Team Block -->
+                    <div class="team-block">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="image">
+                                    <a href="/kim-kimdir/@item.Id/@Helpers.ToUrlSlug(item.FirstName+ " " + item.LastName)">
+                                        <img src="@Helpers.GetPersonPhoto(item.Photo)" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <h3 class="name"><a href="/kim-kimdir/@item.Id/@Helpers.ToUrlSlug(item.FirstName+ " " + item.LastName)">@item.FirstName @item.LastName</a></h3>
+                                <span class="designation">@(cultureName == "tr-TR" ? item.PartyName : item.PartyNameEn)</span>
+                                <span class="designation">@(cultureName == "tr-TR" ? item.PositionName : item.PositionNameEn)</span>
+                                @if (item.SectorId != 0)
+                                {
+                                    <span class="designation">@(cultureName == "tr-TR" ? @sectors.FirstOrDefault(a => a.Id == item.SectorId).NameTr : @sectors.FirstOrDefault(a => a.Id == item.SectorId).NameEn)</span>
+                                }
+                                else
+                                {
+                                    <span class="designation">@item.ProvinceName</span>
+                                }
+                                @if (item.PlaceOfBirth != null && item.DateOfBirth != null)
+                                {
+                                    <span class="designation">@item.PlaceOfBirth, @item.DateOfBirth</span>
+                                }
+                                else if (item.PlaceOfBirth == null && item.DateOfBirth != null)
+                                {
+                                    <span class="designation">@item.DateOfBirth</span>
+                                }
+                                else if (item.PlaceOfBirth != null && item.DateOfBirth == null)
+                                {
+                                    <span class="designation">@item.PlaceOfBirth</span>
+                                }
+                                @if (item.IsActive == false)
+                                {
+                                    <span style="color:plum" class="designation">Vefat etti</span>
+                                }
+
+                            </div>
+                            @*<ul class="social-links">
+                                    @{
+                                        int counter = 0;
+                                    }
+
+                                    @foreach (var social in item.SocialMedias)
+                                    {
+                                        counter++;
+                                        if (counter > 3)
+                                        {
+                                            break;
+                                        }
+                                        <li>
+                                            @if (social.SocialTypeId == 1)//twitter
+                                            {
+                                                <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-twitter"></i></a>
+                                            }
+                                            else if (social.SocialTypeId == 2)//face
+                                            {
+                                                <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                            }
+                                            else if (social.SocialTypeId == 3)//youtube
+                                            {
+                                                <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-youtube"></i></a>
+                                            }
+                                            else if (social.SocialTypeId == 4)//insta
+                                            {
+                                                <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            }
+                                            else if (social.SocialTypeId == 6)//web
+                                            {
+                                                <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-internet-explorer"></i></a>
+                                            }
+                                            else if (social.SocialTypeId == 7)//wiki
+                                            {
+                                                <a href="@(social.Url.StartsWith("http")? social.Url :"http://"+social.Url)" target="_blank"><i class="fab fa-wikipedia-w"></i></a>
+                                            }
+
+                                        </li>
+                                    }
+
+                                </ul>*@
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            @await Html.PartialAsync("_front_pager", pager)
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+@section scripts{
+
+    <script>
+
+        $(function () {
+            // var fltr = $.cookie("people-filter");
+            //var lst = $.cookie("people-list");
+
+            //if (fltr && fltr == 2)
+            //    showFilterBas();
+
+            //if (lst == 2)
+            //    showGrid();
+            //else
+            //    showTable();
+
+            //var $sortable = $('.sortable');
+
+            //$sortable.on('click', function () {
+
+            //    var $this = $(this);
+            //    var asc = $this.hasClass('asc');
+            //    var desc = $this.hasClass('desc');
+            //    var direction = 1;
+            //    $sortable.removeClass('asc').removeClass('desc');
+            //    if (desc || (!asc && !desc)) {
+            //        $this.addClass('asc');
+            //        direction = 1;
+
+            //    } else {
+            //        $this.addClass('desc');
+            //        direction = -1;
+
+            //    }
+
+            //    $('#ddlSort').val(parseInt($this.attr("data-sort-index")) * direction);
+            //    $('#frmFilters').submit();
+            //});
+
+            if ($('#ddlProvinceId').val() != 0) {
+                $.get("/People/GetDistricts/" + $('#ddlProvinceId').val()).done((response) => {
+                    let ddl = $('#ddlDistrictId').empty();
+                    if ('@cultureName' == 'tr-TR') {
+                        ddl.append('<option value="0">Görev İlçesi</option>');
+                    } else {
+                        ddl.append('<option value="0">District Of Duty</option>');
+                    }
+
+
+                    for (var i = 0; i < response.length; i++) {
+                        ddl.append('<option value="' + response[i].id + '">' + response[i].name + '</option>');
+
+                    }
+
+                    if (@searchModel.District!= 0) {
+                        ddl.val(@searchModel.District);
+                    }
+                });
+                $('#ddlDistrictId').attr('disabled', false);
+
+            } else if ($('#ddlProvinceId').val() == 0) {
+                let ddl = $('#ddlDistrictId').empty();
+                if ('@cultureName' == 'tr-TR') {
+                    ddl.append('<option value="0">Görev İlçesi</option>');
+                } else {
+                    ddl.append('<option value="0">District Of Duty</option>');
+                }
+                $('#ddlDistrictId').attr('disabled', true);
+            }
+
+            $("#txtFirstName,#txtLastName,#ddlinstitution,#ddlParty,#ddlPosition,#ddlGender,#ddlEducation,#txtgorevi,#txtBirthOfPlace").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $('#frmFilters').submit();
+                }
+            });
+
+            $('#ddlinstitution,#ddlParty,#ddlPosition,#ddlGender,#ddlEducation,#ddlSectorId,#ddlJobId,#ddlAgeGap,#ddlIsalive,#ddlIsActivePol').on('change', function () {
+                $('#frmFilters').submit();
+            });
+
+            $('#ddlProvinceId,#ddlDistrictId').on('change', function () {
+                if ($('#ddlProvinceId').val() != 0 && $('#ddlDistrictId').val() == 0) {
+                    $('#ddlDistrictId').attr('disabled', false);
+
+                    $.get("/Admin/Partials/GetDistricts/" + $('#ddlProvinceId').val()).done((response) => {
+                        let ddl = $('#ddlDistrictId').empty();
+
+                        if ('@cultureName' == 'tr-TR') {
+                            ddl.append('<option value="0">Görev İlçesi</option>');
+                        } else {
+                            ddl.append('<option value="0">District Of Duty</option>');
+                        }
+
+                        for (var i = 0; i < response.length; i++) {
+                            ddl.append('<option value="' + response[i].id + '">' + response[i].name + '</option>');
+
+                        }
+
+                        if (districtId) {
+                            ddl.val(districtId);
+                        }
+
+
+                    });
+                } else if ($('#ddlProvinceId').val() == 0) {
+                    $('#ddlDistrictId').val(0);
+                    $('#ddlDistrictId').attr('disabled', true);
+                }
+                $('#frmFilters').submit();
+            });
+
+        });
+
+
+        function showTable() {
+            $('#btnShowGrid1,#btnShowGrid2,#listTable').show();
+            $('#btnShowTable1,#btnShowTable2,#listGrid').hide();
+            $.cookie("people-list", 1);
+        }
+        function showGrid() {
+            $('#btnShowGrid1,#btnShowGrid2,#listTable').hide();
+            $('#btnShowTable1,#btnShowTable2,#listGrid').show();
+            $.cookie("people-list", 2);
+        }
+
+
+        function showFilterBas() {
+
+            $('#pnlFilter1').hide();
+            $('#filterSort').removeClass('large-3').addClass('large-6')
+            $('#pnlFilter2').show();
+            $.cookie("people-filter", 2);
+        }
+        function hideFilterBas() {
+
+            $('#pnlFilter2').hide();
+            $('#filterSort').removeClass('large-6').addClass('large-3')
+
+            $('#pnlFilter1').show();
+            $.cookie("people-filter", 1);
+
+        }
+
+        $('#ddlInstitutionTypeId,#ddlParty,#ddlPosition,#ddlGender,#ddlEducation').on('change', function () {
+            $('#frmFilters').submit();
+        });
+
+        $("#txtFirstName,#txtLastName,#txtPeriod").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $('#frmFilters').submit();
+            }
+        });
+
+
+
+    </script>
+}

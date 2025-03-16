@@ -1,0 +1,412 @@
+﻿
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>@ViewBag.Title - Siyasett Yönetim Paneli</title>
+
+    <link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/gati/style.css" rel="stylesheet" />
+    <link href="~/lib/select2/select2.min.css" rel="stylesheet" />
+
+    <link href="~/lib/gati/components.css" rel="stylesheet" />
+
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-sweetalert/sweetalert.min.css" rel="stylesheet" />
+
+    <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+
+<body class="light theme-white sidebar-mini dark-sidebar">
+    <div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar sticky">
+                <div class="form-inline me-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li>
+                            <a href="#" data-bs-toggle="sidebar" class="nav-link nav-link-lg
+									collapse-btn"> <i class="fa fa-bars text-dark"></i></a>
+                        </li>
+                        <li>
+                            <form class="form-inline me-auto">
+                                <div class="search-element d-flex">
+                                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                    <button class="btn" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="navbar-nav navbar-right">
+                    <li>
+                        <a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown dropdown-list-toggle">
+                        <a href="#" data-bs-toggle="dropdown"
+                           class="nav-link nav-link-lg message-toggle">
+                            <i class="fa fa-envelope"></i>
+                            <span class="badge headerBadge1">
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                            <div class="dropdown-header">
+                                Messages
+                                <div class="float-right">
+                                    <a href="#">Mark All As Read</a>
+                                </div>
+                            </div>
+                            <div class="dropdown-list-content dropdown-list-message">
+                                <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-avatar
+											text-white">
+                                        <img alt="image" src="~/images/person/user2.png" class="rounded-circle">
+                                    </span> <span class="dropdown-item-desc">
+                                        <span class="message-user">
+                                            John
+                                            Deo
+                                        </span>
+                                        <span class="time messege-text">Please check your mail !!</span>
+                                        <span class="time">2 Min Ago</span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-avatar text-white">
+                                        <img alt="image" src="assets/img/users/user-2.png" class="rounded-circle">
+                                    </span> <span class="dropdown-item-desc">
+                                        <span class="message-user">
+                                            Sarah
+                                            Smith
+                                        </span> <span class="time messege-text">
+                                            Request for leave
+                                            application
+                                        </span>
+                                        <span class="time">5 Min Ago</span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-avatar text-white">
+                                        <img alt="image" src="assets/img/users/user-5.png" class="rounded-circle">
+                                    </span> <span class="dropdown-item-desc">
+                                        <span class="message-user">
+                                            Jacob
+                                            Ryan
+                                        </span> <span class="time messege-text">
+                                            Your payment invoice is
+                                            generated.
+                                        </span> <span class="time">12 Min Ago</span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-avatar text-white">
+                                        <img alt="image" src="assets/img/users/user-4.png" class="rounded-circle">
+                                    </span> <span class="dropdown-item-desc">
+                                        <span class="message-user">
+                                            Lina
+                                            Smith
+                                        </span> <span class="time messege-text">
+                                            hii John, I have upload
+                                            doc
+                                            related to task.
+                                        </span> <span class="time">
+                                            30
+                                            Min Ago
+                                        </span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-avatar text-white">
+                                        <img alt="image" src="assets/img/users/user-3.png" class="rounded-circle">
+                                    </span> <span class="dropdown-item-desc">
+                                        <span class="message-user">
+                                            Jalpa
+                                            Joshi
+                                        </span> <span class="time messege-text">
+                                            Please do as specify.
+                                            Let me
+                                            know if you have any query.
+                                        </span> <span class="time">
+                                            1
+                                            Days Ago
+                                        </span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-avatar text-white">
+                                        <img alt="image" src="assets/img/users/user-2.png" class="rounded-circle">
+                                    </span> <span class="dropdown-item-desc">
+                                        <span class="message-user">
+                                            Sarah
+                                            Smith
+                                        </span> <span class="time messege-text">Client Requirements</span>
+                                        <span class="time">2 Days Ago</span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="dropdown-footer text-center">
+                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown dropdown-list-toggle">
+                        <a href="#" data-bs-toggle="dropdown"
+                           class="nav-link notification-toggle nav-link-lg">
+                            <i class="bell fa fa-bell"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
+                            <div class="dropdown-header">
+                                Notifications
+                                <div class="float-right">
+                                    <a href="#">Mark All As Read</a>
+                                </div>
+                            </div>
+                            <div class="dropdown-list-content dropdown-list-icons">
+                                <a href="#" class="dropdown-item dropdown-item-unread">
+                                    <span class="dropdown-item-icon bg-primary text-white">
+                                        <i class="fas
+												fa-code"></i>
+                                    </span> <span class="dropdown-item-desc">
+                                        Template update is
+                                        available now! <span class="time">
+                                            2 Min
+                                            Ago
+                                        </span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-icon bg-info text-white">
+                                        <i class="far
+												fa-user"></i>
+                                    </span> <span class="dropdown-item-desc">
+                                        <b>You</b> and <b>
+                                            Dedik
+                                            Sugiharto
+                                        </b> are now friends <span class="time">
+                                            10 Hours
+                                            Ago
+                                        </span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-icon bg-success text-white">
+                                        <i class="fas
+												fa-check"></i>
+                                    </span> <span class="dropdown-item-desc">
+                                        <b>Kusnaedi</b> has
+                                        moved task <b>Fix bug header</b> to <b>Done</b> <span class="time">
+                                            12
+                                            Hours
+                                            Ago
+                                        </span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-icon bg-danger text-white">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span> <span class="dropdown-item-desc">
+                                        Low disk space. Let's
+                                        clean it! <span class="time">17 Hours Ago</span>
+                                    </span>
+                                </a> <a href="#" class="dropdown-item">
+                                    <span class="dropdown-item-icon bg-info text-white">
+                                        <i class="fas
+												fa-bell"></i>
+                                    </span> <span class="dropdown-item-desc">
+                                        Welcome to Siyasett! <span class="time">Yesterday</span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="dropdown-footer text-center">
+                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-bs-toggle="dropdown"
+                           class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <img alt="image" src="~/images/person/user2.png"
+                                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right pullDown">
+                            <div class="dropdown-title">Merhaba Yönetici</div>
+                            <a href="profile.html" class="dropdown-item has-icon">
+                                <i class="far
+										fa-user"></i> Profil
+                            </a> <a href="timeline.html" class="dropdown-item has-icon">
+                                <i class="fas fa-bolt"></i>
+                                Eylemler
+                            </a> <a href="" class="dropdown-item has-icon">
+                                <i class="fas fa-cog"></i>
+                                Ayarlar
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a asp-controller="Home" asp-action="Logout" class="dropdown-item has-icon text-danger">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Oturum Kapat
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand">
+                        <a href="index.html">
+                            <img alt="Logo" src="~/images/logo_1.png" class="header-logo" /> <span class="logo-name">Siyasett</span>
+                        </a>
+                    </div>
+                    <div class="sidebar-user">
+                        <div class="sidebar-user-picture">
+                            <img alt="image" src="~/images/person/user2.png">
+                        </div>
+                        <div class="sidebar-user-details">
+                            <div class="user-name"><small>@User.Identity.Name</small></div>
+                            <div class="user-role">Yönetici</div>
+                        </div>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li class="menu-header">TEMEL</li>
+                        <li class="dropdown @Html.IsSelected("Home")">
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="nav-link"><i class="fa fa-tachometer-alt"></i><span>Yönetim Paneli</span></a>
+                        </li>
+                        <li class="menu-header">VERİ GİRİŞLERİ</li>
+
+                        <li class="dropdown @Html.IsSelected("PeopleManagement")">
+                            <a asp-action="Index" asp-controller="PeopleManagement" class="nav-link"><i class="fa fa-users"></i><span>Kişiler</span></a>
+                        </li>
+                        <li class="dropdown @Html.IsSelected("PartyManagement")">
+                            <a asp-action="Index" asp-controller="PartyManagement" class="nav-link"><i class="fa fa-flag"></i><span>Siyasal Partiler</span></a>
+                        </li>
+                        <li class="dropdown @Html.IsSelected("ChronologyManagement")">
+                            <a asp-action="Index" asp-controller="ChronologyManagement" class="nav-link"><i class="fa fa-date"></i><span>Kronoloji</span></a>
+                        </li>
+                        <li class="dropdown @Html.IsSelected("Polls")">
+                            <a asp-action="Index" asp-controller="Polls" class="nav-link"><i class="fa fa-poll"></i><span>Anketler</span></a>
+                        </li>
+                        <li class="menu-header">LİSTELER</li>
+                        <li class="dropdown @Html.IsSelected("ComboManagement")">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i class="fa fa-list"></i><span>Tablo Listeleri</span></a>
+                            <ul class="dropdown-menu">
+
+
+                                <li class="@Html.IsSelected("ComboManagement","AddresTypes")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="AddresTypes">
+                                        Adres Tipleri
+                                    </a>
+                                </li>
+
+                                
+                                <li class="@Html.IsSelected("ComboManagement","Categories")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Categories">
+                                        Kitap/Yazı Kategorileri
+                                    </a>
+                                </li>
+
+                                <li class="@Html.IsSelected("ComboManagement","Regions")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Regions">
+
+                                        Bölgeler
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","Educations")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Educations">
+                                        Eğitim Durumları
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","Positions")">
+
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Positions">
+
+                                        Görevler
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","Institutions")">
+
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Institutions">
+
+                                        Kurumlar
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","Jobs")">
+
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Jobs">
+
+                                        Meslekler
+                                    </a>
+                                </li>
+
+                                <li class="@Html.IsSelected("ComboManagement","Sectors")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Sectors">
+
+                                        Sektörler
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","Socials")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="Socials">
+
+                                        Sosyal Linkler
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","PhonesTypes")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="PhonesTypes">
+
+                                        Telefon Türleri
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","PollTypes")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="PollTypes">
+
+                                        Anket Türleri
+                                    </a>
+                                </li>
+                                <li class="@Html.IsSelected("ComboManagement","PollKinds")">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="ComboManagement" asp-action="PollKinds">
+
+                                        Anket Tipleri
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </aside>
+            </div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+
+                    @RenderBody()
+                </section>
+
+            </div>
+            <footer class="main-footer">
+                <div class="footer-left">
+                    COPYRIGHT &copy; @DateTime.Today.Year <div class="bullet"></div> DESIGN By <a href="#">tmTech</a>
+                </div>
+                <div class="footer-right">
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery.blockUI/jquery.blockUI.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="~/lib/gati/scripts.js" asp-append-version="true"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <link href="~/lib/bootstrap-sweetalert/sweetalert.min.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap-sweetalert/sweetalert.min.js"></script>
+
+    <script src="~/js/admin.scripts.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("scripts", false)
+
+</body>
+
+</html>
+
+
