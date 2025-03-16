@@ -1,0 +1,386 @@
+﻿@model PollEditModel
+@{
+    ViewData["Title"] = "Yeni Anket";
+
+    List<int> years = ViewBag.Years;
+    List<Company> companies = ViewBag.Companies;
+    List<Month> months = ViewBag.Mounths;
+
+    List<Party> parties = ViewBag.Parties;
+
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+}
+<!--Başlığın Admin'de olduğu kaydediliyor-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a></li>
+                    <li class="breadcrumb-item">
+                        <a asp-area="Admin" asp-controller="Polls" asp-action="Index">
+                            Anketler
+                        </a>
+
+                    </li>
+
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+
+
+
+            </div>
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Veri giriş alanları-->
+<div class="section-body">
+    <form method="post" id="frmMain">
+        <div class="card border shadow-sm">
+            <div class="card-body">
+                @Html.ValidationSummary("",new {@class="text-danger"} )
+                <div class="row">
+                    <div class="col-md-12 col-lg-4">
+                        <h5>Anket Bilgileri</h5>
+                        <div class="row mb-3">
+                            <label class="col-md-5">Anket Şirketi</label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <select class="form-select" asp-for="PollCompanyId">
+                                        @foreach (var item in companies)
+                                        {
+                                            <option value="@item.Id">@item.ShortName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label class="col-md-5">Anket Yılı</label>
+                            <div class="col-md-5">
+                                <select class="form-select" asp-for="Year">
+                                    @for (int i = DateTime.Now.Year; i > 2010; i--)
+                                    {
+
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-md-5">Ayı</label>
+                            <div class="col-md-5">
+                                <select class="form-select" asp-for="Month">
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+                                        <option value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-md-5">Günü</label>
+                            <div class="col-md-5">
+                                <select class="form-select" asp-for="Day">
+                                    @for (int i = 1; i <= 31; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+@*                        <div class="row mb-3">
+                            <label class="col-md-4">Tipi</label>
+                            <div class="col-md-8">
+                                <select class="form-select" asp-for="PollTypeId">
+                                    @foreach (var item in pollTypes)
+                                    {
+                                        <option value="@item.Id">@item.NameTr</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-md-4">Türü</label>
+                            <div class="col-md-8">
+                                <select class="form-select" asp-for="PollKindId">
+                                    @foreach (var item in pollKinds)
+                                    {
+                                        <option value="@item.Id">@item.NameTr</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>*@
+                        <div class="row mb-3">
+                            <label class="col-md-5">Örneklem Büyüklüğü</label>
+                            <div class="col-md-5"><input type="number" step="1" class="form-control" asp-for="SampleSize" autocomplete="off" /></div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-4 offset-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" asp-for="Active" />
+                                    <label class="form-check-label" for="Active">Aktif</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-lg-6">
+                        <h5>Anket Sonuçları</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Parti</label>
+                                <select id="ddlParty" class="form-select select2" style="width:100%">
+                                    @foreach (var item in parties)
+                                    {
+                                        <option value="@item.Id">@item.ShortName</option>
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Oran</label>
+
+                                <input id="txtRatio" class="form-control" type="number" value="" step="any" />
+
+
+                            </div>
+                        </div>
+                        <div class="text-center py-2">
+                            <button class="btn btn-secondary" onclick="addToResults()" type="button"><i class="fa fa-plus-circle"></i> Listeye Ekle</button>
+                        </div>
+                        <hr />
+                        <table class="table table-striped mb-3">
+                            <thead>
+                                <tr>
+                                    <th>Parti</th>
+                                    <th>Oran</th>
+                                    <th>...</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyResults">
+                                @for (int i = 0; i < Model.Results.Count; i++)
+                                {
+                                    <tr data-partyid="@Model.Results[i].PartyId">
+                                        <td>
+                                            <input type="hidden" asp-for="Results[i].Id" />
+                                            <input type="hidden" asp-for="Results[i].PartyId" />
+                                            <input type="hidden" asp-for="Results[i].Ratio" />
+                                            <input type="hidden" asp-for="Results[i].PartyName" />
+                                            @Model.Results[i].PartyName
+                                        </td>
+                                        <td>@Model.Results[i].Ratio</td>
+                                        <td><button onclick="removeParty(@Model.Results[i].PartyId)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Sil</button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <label id="toplamOyOranı" data-value="0"></label>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="card-footer bg-light text-center">
+
+                <button type="submit"  class="btn btn-primary me-3"><i class="fa fa-save"></i> KAYDET</button>
+
+                <a asp-controller="Polls" asp-action="Index" asp-area="Admin" ><i class="fa fa-arrow-left"></i> Listeye Dön</a>
+            </div>
+        </div>
+
+
+
+
+    </form>
+</div>
+@section scripts{
+
+
+
+    <div id="modalAdd" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-plus-circle"></i>Yeni Şirket</h5>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 row">
+                        <label class="col-md-4">Name (TR)</label>
+                        <div class="col-md-8">
+                            <input type="text" placeholder="Name (TR)" id="txtAddNameTr" class="form-control" maxlength="100" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label class="col-md-4">Name (EN)</label>
+                        <div class="col-md-8">
+                            <input type="text" placeholder="Name (EN)" id="txtAddNameEn" class="form-control" maxlength="100" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" onclick="addItem()" class="btn btn-primary"><i class="fa fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+
+        $(function () {
+            $('#txtRatio').keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    addToResults();
+                    return false;
+                }
+            });
+            $('#ddlParty').keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    $('#txtRatio').focus();
+                    return false;
+                }
+            });
+
+        });
+
+        function addToResults() {
+
+
+            let partyId = parseInt( $('#ddlParty').val());
+            let partyName = $('#ddlParty option:selected').text();
+            let ratio = parseFloat($('#txtRatio').val().replace(',', '.'));
+
+
+            $('#toplamOyOranı').text('');
+            var oncekiToplam=$('#toplamOyOranı').attr('data-value');
+            var toplam=parseFloat(oncekiToplam)+ratio;
+            $('#toplamOyOranı').attr('data-value',toplam.toFixed(2));
+            $('#toplamOyOranı').append('<strong>Toplam Yüzde: </strong>'+toplam.toFixed(2));
+
+            if (isNaN(ratio)) {
+                Swal.fire('Anket Sonuç Ekle','Anket oranı hatalı', 'warning');
+                return;
+            }
+
+            if ($('#bodyResults').find('tr[data-partyid="' + partyId + '"]').length >0) {
+                Swal.fire('Anket Sonuç Ekle', 'Seçilen parti zaten eklenmiş', 'warning');
+                return;
+            }
+            var indeks = $('#bodyResults tr').length;
+            var tr = '<tr data-partyid="' + partyId + '">';
+            tr += '<td class=""><input type="hidden" name="Results[' + indeks + '].PartyId" value="' + partyId + '"/>'
+            tr += '<input type="hidden" name="Results[' + indeks + '].PartyName" value="' + partyName + '"/>'
+            
+
+            tr+= partyName + '</td>';
+            tr += '<td class=""><input type="hidden" name="Results[' + indeks + '].Ratio" value="' + ratio + '"/>' + ratio + '</td>';
+            tr += '<td><button onclick="removeParty(' + partyId +')" type="button" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Sil</button></td></tr>';
+            $('#bodyResults').append(tr);
+            $('#txtRatio').val('');
+            $('#ddlParty').focus();
+        }
+
+        function removeParty(id) {
+
+            var silOran = 0;
+
+            $('#bodyResults').find('tr[data-partyid="' + id + '"]').find('input').each(function (i, el) {
+                if(i==2){     
+                    silOran = parseFloat($(el).val().replace(',', '.'));
+                }
+            });
+
+
+            $('#bodyResults').find('tr[data-partyid="' + id + '"]').remove();
+                   
+
+            $('#bodyResults tr').each(function (i, el) {
+
+                $(this).find('input').each(function (i2, el2) {
+                    var adi = $(this).attr('name');
+                    $(this).attr('name', adi.replace(/\d+/g, i))
+                });
+
+            })
+
+            $('#toplamOyOranı').text('');
+            var oncekiToplam = $('#toplamOyOranı').attr('data-value');
+            var toplam = parseFloat(oncekiToplam) - parseFloat(silOran);
+            $('#toplamOyOranı').attr('data-value', toplam.toFixed(2));
+            $('#toplamOyOranı').append('<strong>Toplam Yüzde: </strong>' + toplam.toFixed(2));
+
+        }
+
+        function kaydet(d) {
+            $('#hdnDurum').val(d);
+            $('#frmMain').submit();
+        }
+
+
+
+        function backAlert() {
+            Swal.fire({
+                title: "Emin misiniz?",
+                text: "Girilen veriler silinecektir!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Listeye dön!",
+                closeOnConfirm: false
+            }).then(() => {
+                if (result.isConfirmed)
+                    window.location.href = '/Admin/Polls';
+            });
+        }
+
+
+        function newItem() {
+            $('#modalAdd').modal('show');
+
+        }
+        function addItem() {
+            var ntr = $('#txtAddNameTr').val();
+            var nen = $('#txtAddNameEn').val();
+            if ((ntr.length < 2) && (nen.length < 2)) {
+                Swal.fire('Warning', 'Please fill the field', 'warning');
+                return;
+            }
+
+            $.post('@Url.Action("NewCompany")', { nametr: ntr, nameen: nen })
+                .done(function(response) {
+                    if (response.success) {
+                        $('#modalAdd').modal('hide');
+                        showToast(ntr + ' başarıyla eklendi.');
+                        $('#PollCompanyId').append($('<option>', { 'value': response.id }).text(ntr));
+                        $('#PollCompanyId').val(response.id);
+                    }
+                    else
+                        Swal.fire("Error!", response.msg, "error");
+                });
+
+        }
+
+
+    </script>
+}
+

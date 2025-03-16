@@ -1,0 +1,100 @@
+﻿@model RegisterViewModel
+@{
+
+    ViewData["Title"] = Localize("menu.header.membership");
+
+}
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section" style="margin-bottom:70px;">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+
+                <p>DEĞERLİ ZİYARETÇİMİZ,</p>
+                <p>Üyelik sayfalarımıza hoş geldiniz.</p>
+                <p>Siyasett.com’da dört tür üyelik bulunmaktadır.</p>
+                <p>Bunlar,</p>
+                <ul>
+                    <li>- Kişisel,</li>
+                    <li>- Profesyonel,</li>
+                    <li>- Kurumsal ve</li>
+                    <li>- İngilizce</li>
+                </ul>
+                <p>üyeliktir.</p>
+
+                <p>Sitemize kişisel üye olabileceğiniz gibi, verilerimize farklı erişim imkanları sunan üyelik türlerinden birini de seçebilirsiniz.</p>
+                <p>Sizleri siyasett.com’a üye olarak ülkemizin en zengin siyaset veri bankasının daha da zenginleşmesine katkı sağlamaya davet ediyoruz.</p>
+                <br />
+                    <div style="text-align:left"><a href="/Register"> <button type="button" class="btn btn-success">Üye Ol</button></a> </div>
+            </div>
+
+            <!--YAN SÜTUNDAKİ BİLGİLENDİRME PENCERESİ-->
+            <div class="col-md-4">
+                <div class="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne" style="cursor:pointer" onclick="cardopen()">
+                            <h5 class="mb-0" style="text-align:center">
+                                ÜYELERİMİZE SUNDUĞUMUZ HİZMETLER
+                            </h5>
+                        </div>
+                        <div class="card-body" style="display:none" id="card-body">
+                            <ul>
+                                <li>- Başta siyasal partiler ve siyasiler olmak üzere veri bankamızda farklı listeler ve grafikler hazırlama imkanı.</li>
+                                <li>- Ülkemizde bugüne kadar yapılan genel seçimlere ilişkin verilerin il, ilçe ve mahalle bazında karşılaştırmalı liste ve grafiklerinin hazırlanması.</li>
+                                <li>- Anket şirketlerinin raporlarının mukayeseli analizlerinin çıkarılması.</li>
+                                <li>- Seçim ve anket verileri veya kişisel tahminler temel alınarak sonraki tarihlerde yapılacak seçimler için farklı simülasyonlar yapma imkanı.</li>
+                                <li>- Siyasal parti liderleri ve yöneticilerinin sosyal medya paylaşımlarına topluca erişim imkanı; sosyal medya paylaşım analizlerinin hazırlanması.</li>
+                                <li>- Türk siyasal hayatıyla ilgili haber ve yorumlara toplu erişim imkanı.</li>
+                                <li>- Türk siyasal hayatının 100 yıllık kronolojisi.</li>
+                                <li>- Türk siyasal hayatıyla ilgili Türkçe ve İngilizce kitapların ve videoların yer aldığı zengin kütüphaneye erişim imkanı.</li>
+                                <li>- Siyasal partilerin kullanımı için özel uygulamalar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+@section scripts {
+    <script>function cardopen() {
+            if ($('#card-body').is(':visible')) {
+                $('#card-body').hide();
+            } else {
+                $('#card-body').show();
+            }
+
+        }</script>
+}
+
+
+

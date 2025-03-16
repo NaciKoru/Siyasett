@@ -1,0 +1,379 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    string returnUrl = ViewContext.HttpContext.Request.Path;
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+
+    var cultureItem = LocOptions.Value.SupportedUICultures.FirstOrDefault(i => i.Name != requestCulture.RequestCulture.Culture.Name);
+    int i = 2;
+}
+
+<!DOCTYPE html>
+<html class="not-ie no-js" lang="@requestCulture">
+
+<head>
+    <title>Siyasett &#8211; @ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+   <meta name="description" content="@ViewBag.Description" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    
+    
+
+    <script type="text/javascript">
+
+    </script>
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab%7CRoboto%7CPT+Serif%7CDroid+Serif&amp;subset=latin%2Ccyrillic&amp;ver=6.0.2" type="text/css" media="all" />
+    <link media="all" href="~/lib/frontend/plugins/tmm_content_composer/css/fontello.css" rel="stylesheet" />
+
+    <link href="~/lib/frontend/plugins/LayerSlider/css/layerslider.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,regular,700,900%7COpen+Sans:300%7CIndie+Flower:regular%7COswald:300,regular,700&amp;subset=latin%2Clatin-ext" type="text/css" media="all" />
+    <link media="all" href="~/lib/frontend/css/block-library/style.min.css" rel="stylesheet" />
+
+
+    @*<link href="~/lib/frontend/plugins/bbpress/bbpress.min.css" rel="stylesheet" media="all" />*@
+    <link href="~/lib/frontend/plugins/tmm_event_calendar/css/styles.css" rel="stylesheet" />
+    <link href="~/lib/frontend/plugins/tmm_event_calendar/css/calendar.css" rel="stylesheet" />
+    <link href="~/lib/frontend/css/styles.css" rel="stylesheet" />
+    <link href="~/lib/frontend/css/custom.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/frontend/js/modernizr.min.js"></script>
+    
+
+
+</head>
+
+<body class="home page-template-default page page-id-4 page-parent header-fixed animated">
+    <div id="wrapper">
+        <nav id="mobile-advanced" class="mobile-advanced"></nav>
+        <header id="header" class="header type-3">
+            <div class="header-top">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <ul class="social-icons">
+                            <li class="twitter">
+                                <a target="_blank" href="https://twitter.com/siyasett06">Twitter</a>
+                            </li>
+                            <li class="facebook">
+                                <a target="_blank" href="http://www.facebook.com/">Facebook</a>
+                            </li>
+                            <li class="linkedin">
+                                <a target="_blank" href="http://linkedin.com/">Linkedin</a>
+                            </li>
+                            <li class="pinterest">
+                                <a target="_blank" href="http://pinterest.com/">Pinterest</a>
+                            </li>
+                            <li class="gplus">
+                                <a target="_blank" href="http://plus.google.com/">Google Plus</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="header-middle">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="header-middle-entry">
+                            <div class="logo">
+                                <h1 class="tmm_logo">
+                                    <a title="" href="/">SİYA<b>SETT</b></a>
+                                </h1>
+                            </div>
+                            <div class="account">
+                                <ul>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li class="locked"><a href="/Logout">@Localize("menu.header.logout")</a></li>
+                                        <li class="user"><a href="#">@Localize("menu.header.profile")</a></li>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <li class=""><a href="/Admin">@Localize("menu.header.administration")</a></li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li data-login="loginDialog" class="lock"><a href="#">@Localize("menu.header.login")</a></li>
+                                        <li data-account="accountDialog" class="user"><a href="#">@Localize("menu.header.signin")</a></li>
+                                    }
+                                </ul>
+                                <form asp-action="ChangeLanguage" asp-controller="Home" method="post">
+                                    <input type="hidden" id="returnUrl" name="returnUrl" value="@returnUrl" />
+                                    <input type="hidden" id="culture" name="culture" value="@cultureItem.Name" />
+                                    <button type="submit" class="button large donate">@(requestCulture.RequestCulture.Culture.Name=="tr-TR"?"ENGLISH":"TÜRKÇE")</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/ .row-->
+            </div><!--/ .header-middle-->
+            <div class="header-bottom">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <nav id="navigation" class="navigation top-bar" data-topbar role="navigation">
+                            <div class="menu-primary-menu-container">
+                                <ul id="menu-primary-menu" class="menu">
+                                    <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47 @Html.IsSelected(controller:"Parties",cssClass:"current-menu-item")">
+                                        <a href="/siyasi-partiler">@Localize("menu.header.parties")</a>
+                                    </li>
+                                    <li id="menu-item-46" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-46 @Html.IsSelected(controller:"People",cssClass:"current-menu-item")">
+                                        <a href="/kim-kimdir">@Localize("menu.header.whoiswho")</a>
+                                    </li>
+                                    <li id="menu-item-45" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-45 @Html.IsSelected(controller:"Elections",cssClass:"current-menu-item")">
+                                        <a href="/secimler">@Localize("menu.header.elections")</a>
+
+                                    </li>
+                                    <li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44 @Html.IsSelected(controller:"Polls",cssClass:"current-menu-item")">
+                                        <a href="/anketler">@Localize("menu.header.polls")</a>
+
+                                    </li>
+                                    <li id="menu-item-368" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-368 @Html.IsSelected(controller:"Simulations",cssClass:"current-menu-item")">
+                                        <a href="/simulasyonlar">@Localize("menu.header.simulations")</a>
+
+                                    </li>
+                                    <li id="menu-item-465" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-465 @Html.IsSelected(controller:"Agenda",cssClass:"current-menu-item")">
+                                        <a href="/Actuals">@Localize("menu.header.actual")</a>
+
+
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-1088" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1088"><a href="/Actuals" class="menu-link">@Localize("menu.header.news")</a></li>
+                                            <li id="menu-item-1093" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1093">
+                                                <a href="/from-socials" class="menu-link">@Localize("menu.header.fromsocialmedia")</a>
+                                            </li>
+                                            <li id="menu-item-12661" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12661"><a href="/videos" class="menu-link">@Localize("menu.header.videolibrary")</a></li>
+                                            <li id="menu-item-9139" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9139"><a href="/Chronology" class="menu-link">@Localize("menu.header.chronology")</a></li>
+
+                                            <li id="menu-item-12229" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12229"><a href="#" class="menu-link">@Localize("menu.header.politicslibrary")</a></li>
+                                            @* <li id="menu-item-5197" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5197"><a href="/regulations" class="menu-link">@Localize("menu.header.legislation")</a></li> *@
+                                            <li id="menu-item-12319" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12319"><a href="/politics" class="menu-link">@Localize("menu.header.politicstable")</a></li>
+                                        </ul>
+
+                                    </li>
+
+                                    <li id="menu-item-41" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-41 @Html.IsSelected(controller:"Home",action:"About", cssClass:"current-menu-item")">
+                                        <a href="/hakkimizda">@Localize("menu.header.aboutus")</a>
+
+
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-16314" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16314"><a href="/iletisim"><span class="text-wrap">@Localize("menu.header.contact")</span></a></li>
+                                            <li id="menu-item-16315" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16315">
+                                                <a href="/hakkimizda" class="menu-link"><span class="text-wrap">@Localize("menu.header.aboutpolitics")</span></a>
+                                            </li>
+
+                                            <li id="menu-item-16319" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16319">
+                                                <a href="#" class="menu-link"><span class="text-wrap">@Localize("menu.header.specialforparty")</span></a>
+                                            </li>
+                                            <li id="menu-item-16316" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16316">
+                                                <a href="/sss" class="menu-link"><span class="text-wrap">@Localize("menu.header.faq")</span></a>
+                                            </li>
+                                        </ul>
+
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <div class="search-form-nav">
+                                <form method="get" id="searchform-633c74452c5bd" action="">
+                                    <fieldset>
+                                        <input placeholder="@Localize("text.search")" type="text" name="s" autocomplete="off" value="" class="advanced_search" />
+                                        <button type="submit" class="submit-search"></button>
+                                    </fieldset>
+                                </form>
+                            </div>
+
+
+
+                            <form asp-action="ChangeLanguage" asp-controller="Home" method="post">
+                                <input type="hidden" id="returnUrl2" name="returnUrl" value="@returnUrl" />
+                                <input type="hidden" id="culture2" name="culture" value="@cultureItem.Name" />
+                                <button type="submit" class="button large donate">@(requestCulture.RequestCulture.Culture.Name=="tr-TR"?"ENGLISH":"TÜRKÇE")</button>
+                            </form>
+
+
+                        </nav><!--/ .navigation-->
+
+
+                    </div>
+
+                </div><!--/ .row-->
+
+            </div><!--/ .header-bottom-->
+
+        </header><!--/ #header-->
+        <!-- - - - - - - - - - - - end Header - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - Main - - - - - - - - - - - - - - - - -->
+
+        @RenderSection("header", false)
+
+
+
+
+
+        <main id="content" class="row sbr">
+
+            @RenderBody()
+
+
+
+            <div id="accountDialog" class="dialog">
+                <div class="dialog-overlay"></div>
+                <div class="dialog-content">
+                    <div class="morph-shape">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 560 280" preserveAspectRatio="none">
+                            <rect x="3" y="3" fill="none" width="556" height="276" />
+                        </svg>
+                    </div>
+                    <div class="dialog-inner">
+
+                        <fieldset class="login">
+                            <p><input type="email" name="user_name" id="newuserEmail" placeholder="@Localize("popup.forgotpassword.email")" required="" autocomplete="off" /></p>
+                            <p><input type="password" name="user_email" id="newuserPass" placeholder="@Localize("login.popup.password.placeholder")" required="" autocomplete="off" /></p>
+                            <p><input type="password" name="user_email" id="newuserPass2" placeholder="@Localize("login.popup.password.placeholder")" required="" autocomplete="off" /></p>
+                            <p>
+                                <button id="btnRegister" class="button middle" type="submit">@Localize("menu.header.signin")</button> &nbsp;
+                                <a href="#" class="button middle dialog-login-button">@Localize("login.popup.loginbutton")</a>
+                            </p>
+                        </fieldset>
+
+                        <i id="accountClose" class="action-close" data-dialog-close>@Localize("text.close")</i>
+                    </div>
+                    <div class="dialog-error" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="loginDialog" class="dialog">
+                <div class="dialog-overlay"></div>
+                <div class="dialog-content">
+                    <div class="morph-shape">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 560 280" preserveAspectRatio="none">
+                            <rect x="3" y="3" fill="none" width="556" height="276" />
+                        </svg>
+                    </div>
+                    <div class="dialog-inner">
+                        <div class="account">
+                            <fieldset>
+                                <p><input type="text" name="log" id="user_login" placeholder="@Localize("login.popup.username.placeholder")" required="" autocomplete="off" /></p>
+                                <p><input type="password" name="pwd" id="user_pass" placeholder="@Localize("login.popup.password.placeholder")" required="" autocomplete="off" /></p>
+                                <p>
+                                    <input type="checkbox" id="rememberme" class="tmm-checkbox" name="rememberme" value="forever">
+                                    <label for="rememberme">@Localize("login.popup.rememberme")</label>
+
+                                    <button id="btnLogin" class="button middle right" type="button">@Localize("login.popup.loginbutton")</button>
+
+                                    <a href="#" class="reset-pass">@Localize("login_popup_forgotpassword")</a>
+                                </p>
+                            </fieldset>
+                        </div>
+
+                        <i class="action-close" data-dialog-close>@Localize("text_close")</i>
+                    </div>
+                    <div class="dialog-error" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="resetDialog" class="dialog">
+                <div class="dialog-overlay"></div>
+                <div class="dialog-content">
+                    <div class="morph-shape">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 560 280" preserveAspectRatio="none">
+                            <rect x="3" y="3" fill="none" width="556" height="276" />
+                        </svg>
+                    </div>
+                    <div class="dialog-inner">
+                        <p class="message">
+                            @Localize("popup_forgotpassword_message1")
+
+                        </p>
+                        <form action="" method="post" class="resetPass">
+                            <fieldset>
+                                <p><label for="user_mail">@Localize("popup.forgotpassword.email")</label></p>
+                                <p>
+                                    <input type="text" name="log" id="user_mail" required="" autocomplete="off" />
+                                </p>
+                                <p>
+                                    <button type="submit" name="submit" class="button middle right">@Localize("login.popup.forgotpassword")</button>
+                                    <a href="#" class="button middle dialog-login-button">@Localize("login.popup.loginbutton")</a>
+                                </p>
+                            </fieldset>
+                        </form>
+
+                        <i class="action-close" data-dialog-close>@Localize("text_close")</i>
+                    </div>
+                    <div class="dialog-error" style="display: none;"></div>
+                </div>
+            </div>
+
+
+            <div id="subscribeDialog" class="dialog">
+                <div class="dialog-overlay"></div>
+                <div class="dialog-content">
+                    <div class="morph-shape">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 560 280" preserveAspectRatio="none">
+                            <rect x="3" y="3" fill="none" width="556" height="276" />
+                        </svg>
+                    </div>
+                    <div class="dialog-inner">
+                        <p class="message"></p>
+                        <i class="action-close" data-dialog-close>@Localize("text_close")</i>
+                    </div>
+                    <div class="dialog-error" style="display: none;"></div>
+                </div>
+            </div>
+
+        </main><!--/ #content -->
+        <!-- - - - - - - - - - - - - end Main - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - Footer - - - - - - - - - - - - - - - - -->
+
+        <footer id="footer">
+
+
+
+
+
+            <div class="footer-bottom">
+
+                <div class="row">
+
+                    <div class="large-6 columns">
+                        <div class="copyright">
+                            Copyright &copy; @DateTime.Now.Year. Siyasett. @Localize("text_allrightreserved")
+                        </div><!--/ .copyright-->
+                    </div>
+
+                    <div class="large-3 large-offset-3 columns">
+                        <div class="developed">
+                            Developed by <a target="_blank" href="#">tmTech</a>
+                        </div>
+                    </div>
+
+                </div><!--/ .row-->
+
+            </div><!--/ .footer-bottom-->
+
+        </footer><!--/ #footer-->
+        <!-- - - - - - - - - - - - - end Footer - - - - - - - - - - - - - -->
+
+    </div><!--/ #wrapper-->
+
+
+
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/lib/frontend/js/vendor.js" asp-append-version="true"></script>
+    <script src="~/lib/frontend/js/front.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-cookie/jquery.cookie.min.js"></script>
+    @RenderSection("scripts", false)
+
+</body>
+
+</html>
+

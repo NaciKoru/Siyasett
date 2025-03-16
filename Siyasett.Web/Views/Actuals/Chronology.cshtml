@@ -1,0 +1,167 @@
+﻿@model List<ChronoModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ChronoSearchModel searchModel = ViewBag.SearchModel;
+    string qq = ViewBag.Query;
+    ViewData["Title"] = Localize("page_chrono_meta_title");
+    int time = ViewBag.time;
+    ViewData["Title"] = Localize("chronology_title");
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+
+
+
+}
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section" style="margin-bottom:70px;">
+    <div class="container">
+        <form id="frmMain" method="get">
+            <div class="row">
+
+
+                <div class="col-md-12 col-lg-6">
+
+                    <select id="ddlChronology" class="form-select" name="time" onchange="$('#frmMain').submit()">
+                        <option selected="@(time==0)" value="0">@Localize("chronology_all")</option>
+                        <option selected="@(time==1)" value="1">@Localize("chronology_1week")</option>
+                        <option selected="@(time==2)" value="2">@Localize("chronology_1month")</option>
+                        <option selected="@(time==3)" value="3">@Localize("chronology_1year")</option>
+                    </select>
+                </div>
+
+                @*
+                <div class="col-md-12 col-lg-6">
+
+                    <select id="ddlChronology" class="form-select" name="time" onchange="$('#frmMain').submit()">
+
+                        <option selected="@(searchModel.PartyId==0)" value="0">@Localize("page_people_party_organisation")</option>
+                        @foreach (var item in parties)
+                        {
+                            <option selected="@(searchModel.PartyId==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.PartyName : item.NameEn)</option>
+                        }
+
+                    </select>
+                </div>
+
+        --------------------
+
+        <div class="col">
+            <select class="form-select form-select-sm" name="partyId" id="ddlParty">
+            <option selected="@(searchModel.PartyId==0)" value="0">@Localize("page_people_party_organisation")</option>
+            @foreach (var item in parties)
+            {
+            <option selected="@(searchModel.PartyId==item.Id)" value="@item.Id">@(cultureName == "tr-TR" ? item.PartyName : item.NameEn)</option>
+            }
+            </select>
+        </div>
+                *@
+
+
+                <div class="col-md-12 col-lg-6">
+                    <div class="input-group">
+                        <input placeholder="@Localize("text.search")" type="text" name="query" autocomplete="off" value="@qq" class="form-control" />
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> @Localize("text.search")</button>
+                    </div>
+                </div>
+            </div>
+</form>
+        <div class="table-responsive mt-3">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@Localize("chronology_date")</th>                       
+                        <th>@Localize("chronology_parties")</th>
+                        <th>@Localize("chronology_subject")</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.EventDate</td>
+                            <td style="width: 200px;">@string.Join(", ", item.PartyNames)</td>
+                            @*<td>@Html.Raw(item.DescriptionTr)</td>*@
+                            <td>@Html.Raw(cultureName == "tr-TR" ? item.DescriptionTr : item.DescriptionEn)</td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        @await Html.PartialAsync("_front_pager", pager)
+
+    </div>
+</section>
+@section scripts{
+
+    <script>var $sortable = $('.sortable');
+
+        $sortable.on('click', function () {
+
+            var $this = $(this);
+            var asc = $this.hasClass('asc');
+            var desc = $this.hasClass('desc');
+            $sortable.removeClass('asc').removeClass('desc');
+            if (desc || (!asc && !desc)) {
+                $this.addClass('asc');
+                $('#txtSortDesc').val(0);
+            } else {
+                $this.addClass('desc');
+                $('#txtSortDesc').val(1);
+            }
+
+            $('#txtSort').val($this.attr("data-sort-index"));
+            $('#frmFilters').submit();
+        });
+
+        $("#txtFirstName,#txtLastName,#ddlinstitution,#ddlParty,#ddlPosition,#ddlGender,#ddlEducation,#txtgorevi").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $('#frmFilters').submit();
+            }
+        });
+
+        $('#ddlinstitution,#ddlParty,#ddlPosition,#ddlGender,#ddlEducation').on('change', function () {
+            $('#frmFilters').submit();
+        });
+
+        function changeActivePol(el) {
+            if ($(el).is(':checked')) {
+                $('#isActivePolId').val(1);
+                $('#frmFilters').submit();
+
+            }
+            else {
+                $('#isActivePolId').val(2);
+                $('#frmFilters').submit();
+
+            }
+        }</script>
+}

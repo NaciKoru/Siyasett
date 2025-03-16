@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Doğrulama E-Postası";
+    string mail = ViewBag.Mail;
+}
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section" style="margin-bottom:70px;">
+    <div class="container">
+
+        <p><strong>Sayın Ziyaretçimiz,</strong></p>
+
+        <p>e-Posta adresinize doğrulama kodu gönderilmiştir.</p>
+
+        <p>Posta kutunuzu kontrol ederek mesaj metnindeki doğrulama linkini tıklayarak üyelik hesabınızı aktif duruma getirebilirsiniz.</p>
+
+        <p>Üyelik başvurusunda bulunduğunuz için teşekkür ederiz.</p>
+
+        <p><strong>Siyasett Teknik Ekibi</strong></p>
+
+        @* <p>Doğrulama işlemini yapmış iseniz üyelik türü seçimi için <a class="mt-3" href="/MembershipType?email=@mail">tıklayınız.</a></p>*@
+    </div>
+</section>

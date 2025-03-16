@@ -1,0 +1,33 @@
+----migration oluþturma.
+add-migration Initial_Migration -context ApplicationDbContext -outputdir Data/Migrations
+
+
+--- database güncelleme  tablolar oluþuyor
+update-database -context ApplicationDbContext
+
+
+Scaffold-DbContext -Context AppDbContext -Connection "Server=siyasett-pgsql.postgres.database.azure.com;Port=5432;Database=postgres;User Id=systadmin;Password=ST*23.!?pg;Enlist=false" -OutputDir Data -Provider Npgsql.EntityFrameworkCore.PostgreSQL -Force
+
+
+
+CREATE MATERIALIZED VIEW election.mahalle_sonuclar
+AS
+select si.secim_detay_id as secim_detay_id, sil.id as il_id, si.id as secim_iller_id, silce.id as secim_ilceler_id, silce2.id as secim_ilce_listesi_id, 
+sm.id as secim_muhtarliklar_id, sss.parti_id, Sum(sss.oy_sayisi) as oy_sayisi ,si.ysk_secim_cevresi_id 
+from election.secim_il_listesi sil, election.secim_iller si, election.secim_ilceler silce, election.secim_ilce_listesi silce2, 
+election.secim_muhtarliklar sm, election.secim_sandik_sonuc sss  
+where si.secim_detay_id=sss.secim_detay_id and sil.id = si.il_id and silce.il_id = si.id and silce.ilce_id = silce2.id 
+and silce.id = sm.ilce_id and sss.muhtarlik_id = sm.id 
+group by si.secim_detay_id, sil.id, si.id, silce.id, silce2.id, sm.id, sss.parti_id
+WITH DATA;
+
+
+CREATE MATERIALIZED VIEW election.sonuclar
+AS
+ select sss.id as secim_sandik_sonu_id, si.secim_detay_id as secim_detay_id, sil.id as il_id, si.id as secim_iller_id, silce.id as secim_ilceler_id, silce2.id as secim_ilce_listesi_id, 
+sm.id as secim_muhtarliklar_id, sm.min_sandik_no, sm.max_sandik_no, sss.sandik_no, sss.parti_id, sss.oy_sayisi  
+from election.secim_il_listesi sil, election.secim_iller si, election.secim_ilceler silce, election.secim_ilce_listesi silce2, 
+election.secim_muhtarliklar sm, election.secim_sandik_sonuc sss  
+where si.secim_detay_id=sss.secim_detay_id and sil.id = si.il_id and silce.il_id = si.id and silce.ilce_id = silce2.id 
+and silce.id = sm.ilce_id and sss.muhtarlik_id = sm.id 
+WITH DATA;

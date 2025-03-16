@@ -1,0 +1,74 @@
+﻿@model UserEditModel
+@{
+    ViewBag.Title = "Kullanıcı Düzenle";
+
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </div>
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+    </div>
+</div>
+<form method="post">
+    <div class="card">
+        <div class="card-header">
+            <h4>@Model.Email</h4>
+        </div>
+        <div class="card-body">
+            <input asp-for="Id" type="hidden" />
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="row mb-2">
+                        <label class="col-md-4">E-posta</label>
+                        <div class="col-md-8"><input type="email" asp-for="Email" class="form-control" /></div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-md-4">Adı</label>
+                        <div class="col-md-8"><input type="text" asp-for="FirstName" class="form-control" /></div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-md-4">Soyadı</label>
+                        <div class="col-md-8"><input type="text" asp-for="LastName" class="form-control" /></div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-md-4">Telefon</label>
+                        <div class="col-md-8"><input type="text" asp-for="PhoneNumber" class="form-control" /></div>
+                    </div>
+                    <div class="form-check offset-4 mb-2">
+                        <input type="checkbox" class="form-check-input" asp-for="EmailConfirmed" />
+                        <label class="form-check-label" for="EmailConfirmed">E-posta onaylı</label>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-md-4">Oluşturulma</label>
+                        <div class="col-md-8"><input type="text" asp-for="CreateDate" readonly class="form-control" /></div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <h5>Kullanıcı Rolleri</h5>
+                    @for (int i = 0; i < Model.Roles.Count; i++)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="chkRole_@i" asp-for="Roles[i].Selected" />
+                            <label class="form-check-label" for="chkRole_@i">@Model.Roles[i].Name</label>
+                        </div>
+                        <input type="hidden" asp-for="Roles[i].Id" />
+                        <input type="hidden" asp-for="Roles[i].Name" />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Kaydet</button>
+            <a href="@Url.Action("Index")"><i class="fa fa-arrow-left"></i> Listeye Dön</a>
+        </div>
+    </div>
+</form>

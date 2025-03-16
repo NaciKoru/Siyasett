@@ -1,0 +1,97 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewBag.Title = "Yeni hesap oluştur";
+
+}
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section" style="margin-bottom:70px;">
+    <div class="container">
+
+        <form method="post">
+            <div class="row">
+                @Html.AntiForgeryToken()
+                <div class="col-md-6">
+                    <h4>@Localize("register0")</h4>
+                    <p>@Localize("register1")</p>
+                    <div class="">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="txtFirstName" asp-for="FirstName" placeholder="adınız">
+                        <label for="txtFirstName">@Localize("register2")</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="txtLastName" asp-for="LastName" placeholder="soyadınız">
+                        <label for="txtLastName">@Localize("register3")</label>
+                    </div>
+                    @*<div class="form-floating mb-3">
+                     <input type="text" class="form-control" id="txtUlke" asp-for="Email" placeholder="ulke">
+                     <label for="txtEmail">@Localize("register4")</label>
+                     </div>*@
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="txtEmail" asp-for="Email" placeholder="e-posta adresi">
+                        <label for="txtEmail">@Localize("register5")</label>
+
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="txtPhone" asp-for="PhoneNumber" placeholder="telefon numaranız">
+                        <label for="txtPhone">@Localize("register6")</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="txtSifre" asp-for="Password" placeholder="Şifre">
+                        <label for="password">@Localize("register7")</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="txtSifre2" asp-for="PasswordConfirm" placeholder="Şifre tekrar">
+                        <label for="password">@Localize("register8")</label>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary"><i class="bi-send"></i>@Localize("register9")</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-center mb-3">
+                        <img class="w-25 img-thumbnail" src="~/images/member.png" />
+                    </div>
+                    <p>
+                        @Localize("register13") 
+                    </p>
+
+                    <p>@Localize("register10")</p>
+
+                    <p>@Localize("register11")</p>
+
+                    <p>@Localize("register12")</p>
+
+
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</section>

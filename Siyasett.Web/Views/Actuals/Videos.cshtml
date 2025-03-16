@@ -1,0 +1,180 @@
+﻿@using Siyasett.Core.VideoLibrary;
+@model List<VideoLibraryModel>
+@{
+    //PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "Video Kütüphanesi";
+    string qq = ViewBag.Query;
+    PagerInfo pager = ViewBag.Pager;
+    List<VideoSession> ses = ViewBag.Session;
+    List<GeneralLanguage> lang = ViewBag.Language;
+    int qSess = ViewBag.Sess;
+    int qLang = ViewBag.Lang;
+    int sekme = ViewBag.Sekme;
+
+    ViewData["Title"] = Localize("video_title");
+
+    }
+
+    <!-- BREAD-CRUMB -->
+
+    <!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+    <section class="page-title" style="padding: 0 0 0">
+        <div class="container">
+            <div class="inner-container clearfix">
+                <!--
+                    <div class="title-box">
+                      <h1>@ViewData["Title"]</h1>
+                    </div>
+                -->
+                <div class="bread-crumb">
+
+                    <ul>
+                        <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                        <li>@ViewData["Title"]</li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="app-section" style="margin-bottom:70px">
+        <div class="container">
+
+
+            <div class="row  mb-3" style="text-align:right;">
+
+                <div class="col-md-12 col-lg-4">
+                    <form id="frmMain" method="get">
+                        <div class="input-group">
+                            <input placeholder="@Localize("text.search")" type="text" name="query" autocomplete="off" value="@qq" class="form-control" id="sorguinput" />
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> @Localize("text.search")</button>
+                        </div>
+                        <input name="session" value="@qSess" id="sessioninput" style="display:none" />
+                        <input name="lang" value="@qLang" id="languageinput" style="display:none" />
+                        <input name="sekme" value="@sekme" id="sekmeinput" style="display:none" />
+
+
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select " name="editSelectSession" id="editSelectSession" style="width:100%">
+                        <option selected="@(qSess==0)" value="0">@Localize("video_period")</option>
+                        @foreach (var item in ses)
+                        {
+                            <option selected="@(qSess==item.Id)" value="@item.Id">@item.Nametr</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select " name="languageEditSelect" id="languageEditSelect" style="width:100%">
+                        <option selected="@(qLang==0)" value="0">@Localize("video_languages")</option>
+                        @foreach (var item in lang)
+                        {
+                            <option selected="@(qLang==item.Id)" value="@item.Id">@item.Nametr</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-12 col-lg-2">
+
+                    <button style="margin-right:20px" onclick="listeTabloGorunumAc(1)"><i class="far fa-list-alt fa-2x"></i></button>
+                    <button onclick="listeTabloGorunumAc(2)"> <i class="fad fa-table fa-2x"></i></button>
+                </div>
+            </div>
+
+
+            <div id="listeGorunumu" style="display:none">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:15%;">Kapsadığı Dönem</th>
+                            <th style="width:75%;">Başlık</th>
+                            <th style="width:10%;">Dili</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><a href="@item.VideoLink" target="_blank" style="color:black">@ses.FirstOrDefault(a => a.Id == item.Session).Nametr </a></td>
+                                <td><a href="@item.VideoLink" target="_blank" style="color:black">@item.Header</a></td>
+                                <td><a href="@item.VideoLink" target="_blank" style="color:black">@lang.FirstOrDefault(a => a.Id == item.Language).Nametr </a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="tabloGorunumu" style="display:flex;flex-wrap:wrap;margin:-15px">
+
+                @foreach (var item in Model)
+                {
+                    var link = item.VideoLink.Replace("watch?v=", "embed/");
+                    <div style="width:calc(25% - 30px);margin:5px">
+                        <iframe width="300" height="205"
+                                src=@link style="margin-left:10px;margin-right:10px" name="@item.Header" title="@item.Header" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                        </iframe>
+                        <p style="color:black;text-align:center">@item.Header</p>
+                    </div>
+                }
+            </div>
+
+            @await Html.PartialAsync("_front_pager", pager)
+        </div>
+    </section>
+
+
+    @section scripts{
+
+        <script>
+
+        function listeTabloGorunumAc(el) {
+            if (el == 1) {
+                if ($('#listeGorunumu').is(':visible')) {
+                    return;
+                } else {
+                    $('#listeGorunumu').show();
+                    $('#tabloGorunumu').hide();
+                    $('#sekmeinput').val(1)
+                }
+
+            } else {
+                if ($('#tabloGorunumu').is(':visible')) {
+                    return;
+                } else {
+                    $('#listeGorunumu').hide();
+                    $('#tabloGorunumu').show();
+                    $('#sekmeinput').val(2)
+                }
+
+            }
+        }
+
+        $(function () {
+
+            listeTabloGorunumAc(@sekme);
+
+
+        });
+
+
+
+        $("#sorguinput").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $('#frmMain').submit();
+            }
+        });
+
+        $('#editSelectSession,#languageEditSelect').on('change', function () {
+
+            $('#sessioninput').val($('#editSelectSession').val());
+            $('#languageinput').val($('#languageEditSelect').val());
+
+            $('#frmMain').submit();
+        });
+
+
+        </script>
+    }
