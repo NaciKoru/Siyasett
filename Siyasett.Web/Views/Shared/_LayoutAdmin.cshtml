@@ -1,0 +1,517 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+
+@{ 
+    var usr =await UserManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
+
+
+<html lang="tr" >
+
+<head>
+    <meta charset="utf-8" />
+    <title>Siyasett - @ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Siyasett admin panel" name="description" />
+    <meta content="tmTech" name="author" />
+
+    <!-- App favicon -->
+    <link rel="icon" href="~/images/logo_1_sm.png" type="image/png" />
+    <link href="~/lib/backend/css/icons.min.css" rel="stylesheet" />
+
+    <link href="~/lib/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/lib/backend/css/app-modern.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <script src="~/lib/backend/hyper-config.js"></script>
+
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+
+        <!-- ========== Topbar Start ========== -->
+        <div class="navbar-custom topnav-navbar">
+            <div class="container-fluid detached-nav">
+
+                <!-- Topbar Logo -->
+                <div class="logo-topbar">
+                    <!-- Logo light -->
+                    <a href="/Admin" class="logo-light">
+                        <span class="logo-lg">
+                            <img src="~/images/logo_1.png" alt="logo" height="22">
+                        </span>
+                        <span class="logo-sm">
+                            <img src="~/images/logo_1_sm.png" alt="small logo" height="22">
+                        </span>
+                    </a>
+
+                    <!-- Logo Dark -->
+                    <a href="/Admin" class="logo-dark">
+                        <span class="logo-lg">
+                            <img src="~/images/logo_1_dark.png" alt="small logo" height="22">
+                        </span>
+                        <span class="logo-sm">
+                            <img src="~/images/logo_1_dark_sm.png" alt="small logo" height="22">
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Sidebar Menu Toggle Button -->
+                <button class="button-toggle-menu">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+
+                <!-- Horizontal Menu Toggle Button -->
+                <button class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                    <div class="lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+
+                <ul class="list-unstyled topbar-menu float-end mb-0">
+                    <li class="dropdown notification-list d-lg-none">
+                        <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <i class="ri-search-line noti-icon"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
+                            <form class="p-3">
+                                <input type="search" class="form-control" placeholder="Ara ..." aria-label="Siyasett te ara">
+                            </form>
+                        </div>
+                    </li>
+
+                    <li class="notification-list topbar-dropdown">
+                        <a class="nav-link  arrow-none" href="/" role="button" aria-haspopup="false" aria-expanded="false">
+
+                            <span class="align-middle d-none d-lg-inline-block">Ana Sayfa</span>
+                        </a>
+
+                    </li>
+                    <li class="notification-list topbar-dropdown">
+                        <a class="nav-link  arrow-none" href="/Admin/PeopleManagement" role="button" aria-haspopup="false" aria-expanded="false">
+
+                            <span class="align-middle d-none d-lg-inline-block">Kişiler</span>
+                        </a>
+
+                    </li>
+                    <li class="notification-list topbar-dropdown">
+                        <a class="nav-link  arrow-none" href="/Admin/PartyManagement" role="button" aria-haspopup="false" aria-expanded="false">
+
+                            <span class="align-middle d-none d-lg-inline-block">Partiler</span>
+                        </a>
+
+                    </li>
+
+                    <li class="notification-list d-none d-sm-inline-block">
+                        <a class="nav-link" href="javascript:void(0)" id="light-dark-mode">
+                            <i class="ri-moon-line noti-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="notification-list d-none d-md-inline-block">
+                        <a class="nav-link" href="#" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line noti-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                           aria-expanded="false">
+                            <span class="account-user-avatar">
+                                <img src="@Helpers.GetUserPhoto("")" alt="user-image" class="rounded-circle">
+                            </span>
+                            <span>
+                                <span class="account-user-name">@usr.FirstName @usr.LastName</span>
+                                <span class="account-position">Yönetici</span>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+                            <!-- item-->
+                            <div class=" dropdown-header noti-title">
+                                <h6 class="text-overflow m-0">Hoş geldin !</h6>
+                            </div>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i class="mdi mdi-account-circle me-1"></i>
+                                <span>Hesabım</span>
+                            </a>
+
+
+
+                            <!-- item-->
+                            <a asp-action="Logout" asp-controller="Home" class="dropdown-item notify-item">
+                                <i class="mdi mdi-logout me-1"></i>
+                                <span>Çıkış</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Topbar Search Form -->
+                <div class="app-search dropdown">
+                    <form>
+                        <div class="input-group">
+                            <input type="search" class="form-control dropdown-toggle" placeholder="Siyasett'te ara..." id="top-search">
+                            <span class="mdi mdi-magnify search-icon"></span>
+                            <button class="input-group-text btn btn-primary" type="submit">Ara</button>
+                        </div>
+                    </form>
+
+                    <div class="dropdown-menu dropdown-menu-animated dropdown-lg" id="search-dropdown">
+                        <!-- item-->
+                        <div class="dropdown-header noti-title">
+                            <h5 class="text-overflow mb-2">Found <span class="text-danger">17</span> results</h5>
+                        </div>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="uil-notes font-16 me-1"></i>
+                            <span>Analytics Report</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="uil-life-ring font-16 me-1"></i>
+                            <span>How can I help you?</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="uil-cog font-16 me-1"></i>
+                            <span>User profile settings</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ========== Topbar End ========== -->
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="leftside-menu">
+
+            <!-- Logo Light -->
+            <a href="/admin" class="logo logo-light">
+                <span class="logo-lg">
+                    <img src="~/images/logo_1.png" alt="logo" height="22">
+                </span>
+                <span class="logo-sm">
+                    <img src="~/images/logo_1_sm.png" alt="small logo" height="22">
+                </span>
+            </a>
+
+            <!-- Logo Dark -->
+            <a href="/admin" class="logo logo-dark">
+                <span class="logo-lg">
+                    <img src="~/images/logo_1_dark.png" alt="dark logo" height="22">
+                </span>
+                <span class="logo-sm">
+                    <img src="~/images/logo_1_dark_sm.png" alt="small logo" height="22">
+                </span>
+            </a>
+
+            <!-- Sidebar Hover Menu Toggle Button -->
+            <button type="button" class="bg-transparent button-sm-hover p-0" data-bs-toggle="tooltip" data-bs-placement="right" title="Show Full Sidebar">
+                <i class="ri-checkbox-blank-circle-line align-middle"></i>
+            </button>
+
+            <!-- Sidebar -left -->
+            <div  class="h-100" id="leftside-menu-container" data-simplebar>
+                <!-- Leftbar User -->
+                <div class="leftbar-user">
+                    <a href="pages-profile.html">
+                        <img src="@Helpers.GetUserPhoto("")" alt="user-image" height="42"
+                             class="rounded-circle shadow-sm">
+                        <span class="leftbar-user-name">@usr.FirstName @usr.LastName</span>
+                    </a>
+                </div>
+
+                <!--- Sidemenu -->
+                <ul class="side-nav">
+
+                    <li class="side-nav-title side-nav-item">MENÜ</li>
+                    <li class="side-nav-item @Html.IsSelected("Home","Index","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="Home" class="side-nav-link">
+                            <i class="uil-home"></i>
+                            <span> Yönetim Paneli </span>
+                        </a>
+                    </li>
+
+
+
+
+
+                    <li class="side-nav-title side-nav-item">VERİ GİRİŞLERİ</li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "PeopleManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="PeopleManagement" class="side-nav-link">
+                            <i class="uil-users-alt"></i>
+                            <span> Kişiler </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "PartyManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="PartyManagement" class="side-nav-link">
+                            <i class="uil-folder"></i>
+                            <span> Partiler </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "ChronologyManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="ChronologyManagement" class="side-nav-link">
+                            <i class="uil-calender"></i>
+                            <span> Kronoloji </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "Polls","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="Polls" class="side-nav-link">
+                            <i class="uil-chart-bar-alt"></i>
+                            <span> Anketler </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "CompanyManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="CompanyManagement" class="side-nav-link">
+                            <i class="uil-building"></i>
+                            <span> Şirketler </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "PartyIdeologyManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="PartyIdeologyManagement" class="side-nav-link">
+                            <i class="uil-comment-alt-heart"></i>
+                            <span> Parti İdeolojileri </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "VideoLibraryManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="VideoLibraryManagement" class="side-nav-link">
+                            <i class="uil-video"></i>
+                            <span> Video Kütüphanesi </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "PoliticalLibraryManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="PoliticalLibraryManagement" class="side-nav-link">
+                            <i class="uil-book"></i>
+                            <span> Siyasett Kitaplığı </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "ColumsManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="ColumsManagement" class="side-nav-link">
+                            <i class="uil-newspaper"></i>
+                            <span> Siyaset Yazıları </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "Users","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="Users" class="side-nav-link">
+                            <i class="uil-user-circle"></i>
+                            <span> Kullanıcı Hesapları </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item @Html.IsSelected(controller: "FeedbackManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="FeedbackManagement" class="side-nav-link">
+                            <i class="uil-feedback"></i>
+                            <span>Geri Bildirim</span>
+                        </a>
+                    </li>
+@*                    <li class="side-nav-item @Html.IsSelected(controller: "FeedbackManagement","menuitem-active")">
+                        <a asp-action="Contact" asp-area="Admin" asp-controller="FeedbackManagement" class="side-nav-link">
+                            <i class="uil-comment-alt"></i>
+                            <span>İletişim</span>
+                        </a>
+                    </li>*@
+                    <li class="side-nav-item @Html.IsSelected(controller: "FaqManagement","menuitem-active")">
+                        <a asp-action="Index" asp-area="Admin" asp-controller="FaqManagement" class="side-nav-link">
+                            <i class="uil-question-circle"></i>
+                            <span>S.S.S</span>
+                        </a>
+                    </li>
+
+                    <li class="side-nav-title side-nav-item">LİSTELER</li>
+
+
+                    <li class="side-nav-item @Html.IsSelected(controller: "ComboManagement","menuitem-active")">
+                        <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm"
+                           class="side-nav-link">
+                            <i class="uil uil-list-ul"></i>
+                            <span> Tablo Listeleri </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse @Html.IsSelected(controller: "ComboManagement","show")" id="sidebarCrm">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="AddresTypes">
+                                        Adres Tipleri
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Categories">
+                                        Yazı/Kitap Kategorileri
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Regions">
+                                        Bölgeler
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Educations">
+
+                                        Eğitim Durumları
+                                    </a>
+                                </li>
+                                <li>
+
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Positions">
+
+                                        Görevler
+                                    </a>
+                                </li>
+                                <li>
+
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Institutions">
+
+                                        Kurumlar
+                                    </a>
+                                </li>
+                                <li>
+
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Jobs">
+
+                                        Meslekler
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Sectors">
+
+                                        Sektörler
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Socials">
+
+                                        Sosyal Linkler
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="PhoneTypes">
+
+                                        Telefon Türleri
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="PollTypes">
+
+                                        Anket Türleri
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="PollKinds">
+
+                                        Anket Tipleri
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Ideologies">
+
+                                        İdeolojiler
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="Admin" asp-controller="ComboManagement" asp-action="Language">
+
+                                        Dil Yönetimi
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+
+
+
+                </ul>
+                <!--- End Sidemenu -->
+
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    @RenderBody()
+
+
+
+
+
+                </div>
+
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <script>document.write(new Date().getFullYear())</script> © Siyasett
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-md-block">
+                                <a href="javascript: void(0);">Hakkımızda</a>
+
+                                <a href="javascript: void(0);">İletişim</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+    <script src="~/lib/backend/vendor.min.js"></script>
+    <script src="~/lib/backend/app.min.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+    <script src="~/lib/jquery.blockUI/jquery.blockUI.min.js"></script>
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+
+
+    @if (TempData.ContainsKey("Toastr"))
+    {
+        Toastr toastr = Newtonsoft.Json.JsonConvert.DeserializeObject<Toastr>(TempData["Toastr"].ToString());
+        //   @ToastrBuilder.ShowToastMessages(toastr);
+
+        if (toastr != null)
+        {
+            <script type="text/javascript">
+                $(function() {
+
+                @foreach (ToastMessage message in toastr.ToastMessages)
+                {
+                    @:Swal.fire({ position: 'top', icon: '@message.ToastType', title: '@Html.Raw( message.Title)', showConfirmButton: false, timer: 3500, text: '@Html.Raw( message.Message)' });
+                }
+                                });
+            </script>
+
+        }
+        TempData.Remove("Toastr");
+
+    }
+    <script src="~/js/admin.scripts.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("scripts", false)
+
+
+</body>
+
+
+</html>

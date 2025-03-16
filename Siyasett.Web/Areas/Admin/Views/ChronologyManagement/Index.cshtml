@@ -1,0 +1,84 @@
+﻿@using Siyasett.Core.Chronology
+@model List<ChronologyListModel>
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "Kronoloji Yönetimi";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                @*<ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a></li>
+                        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="ChronologyManagement" asp-action="Index">Kronoloji</a></li>
+
+                        <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                    </ol>*@
+
+                <a class="btn btn-success" asp-action="New"><i class="fa fa-plus-circle"></i> Yeni Kayıt</a>
+
+            </div>
+            <h4 class="page-title">@ViewData["Title"]</h4>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card">
+   
+    <div class="card-body">
+
+        <div class="mb-3">
+            <label>Kronoloji arama</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="query" id="txtQuery" />
+                <button class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+            </div>
+        </div>
+
+    </div>
+   
+</div>
+
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tarihi</th>
+                        <th>İlgili Partiler</th>
+                        <th>Tanimlama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><a asp-action="Edit" asp-route-id="@item.Id" >@item.EventDate.ToString("dd.MM.yyyy")</a></td>
+                            @{
+                                var partiler = "";
+                                @foreach (var party in item.PartyNames)
+                                {
+                                    partiler += party + ";";
+                                }
+                            }
+                            <td><a asp-action="Edit" asp-route-id="@item.Id">@partiler</a></td>
+                            <td><a asp-action="Edit" asp-route-id="@item.Id" >@Html.Raw( item.DescriptionTr)</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @await Html.PartialAsync("_pager", pager)
+    </div>
+</div>
+
+
+
+

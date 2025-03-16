@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewData["Title"] = Localize("page_polls_main_title");
+    ViewData["Description"] = Localize("page_polls_main_description");
+    List<Company> companies = ViewBag.Companies;
+    List<PollDateModel> dates = ViewBag.Dates;
+    List<PartyListModel> parties = ViewBag.Parties;
+}
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section" style="margin-bottom:70px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-3">
+
+                <div class="border p-3 mb-3">
+
+                    <h5>@Localize("page_polls_graphic_listkind")</h5>
+
+
+                    <div class="form-check">
+                        <input onclick="type_changed(1)" type="radio" class="form-check-input" id="ltDate" name="lt" value="1" checked />
+                        <label class="form-check-label" for="ltDate">@Localize("page_polls_graphic_bydate")</label>
+                    </div>
+                    <div>
+                        <input onclick="type_changed(2)" type="radio" class="form-check-input" id="ltCompany" name="lt" value="2" />
+                        <label class="form-check-label" for="ltCompany">@Localize("page_polls_graphic_bycompany")</label>
+                    </div>
+                    <div>
+                        <input onclick="type_changed(3)" type="radio" class="form-check-input" id="ltParty" name="lt" value="3" />
+                        <label class="form-check-label" for="ltParty">@Localize("page_polls_graphic_byparty")</label>
+                    </div>
+
+                    <div id="selectDate" style="margin-top:15px;">
+                        <h5 class="mb-2">@Localize("text_date")</h5>
+                        <select id="ddlDate" class="form-select">
+                            @for (int i = 0; i < dates.Count; i++)
+                            {
+                                <option value="@(dates[i].Year)-@dates[i].Month">@dates[i].Year @dates[i].MonthName</option>
+                            }
+                        </select>
+                    </div>
+                    <div id="selectCompany" style="margin-top: 15px; display: none">
+                        <h5 class="mb-2">@Localize("page_polls_company")</h5>
+                        <select id="ddlCompany" class="form-select">
+                            @foreach (var item in companies)
+                            {
+                                <option value="@item.Id">@item.ShortName</option>
+                            }
+                        </select>
+                    </div>
+                    <div id="selectParty" style="margin-top: 15px; display: none">
+                        <h5 class="mb-2">@Localize("text_party")</h5>
+                        <select id="ddlParty" class="form-select">
+                            @foreach (var item in parties)
+                            {
+                                <option value="@item.Id">@item.PartyNameShort</option>
+                            }
+                        </select>
+                    </div>
+
+
+
+                </div>
+                <div id="widgetCompany" class="border p-3 mb-3">
+
+                    <h5 class="mb-2">@Localize("page_polls_pollcompany") <span style="float:right;font-size:0.875rem;text-transform:none;cursor:pointer;" onclick="selectAll(2)">@Localize("text_all")</span></h5>
+                    <div style="max-height:280px;overflow:auto;">
+                        @for (int i = 0; i < companies.Count; i++)
+                        {
+                            <div class="form-check">
+                                <input checked type="checkbox" class="form-check-input chart-company" id="chkCompany-@companies[i].Id" name="c" value="@companies[i].Id" />
+                                <label class="form-check-label" for="chkCompany-@companies[i].Id">@companies[i].ShortName</label>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                <div id="widgetDate" class="border p-3 mb-3" style="display:none;">
+
+                    <h5 class="mb-2">@Localize("page_polls_dateselect")<span style="float:right;font-size:0.875rem;text-transform:none;cursor:pointer;" onclick="selectAll(1)">@Localize("text_all")</span></h5>
+                    <div style="max-height:280px;overflow:auto;">
+                        @for (int i = 0; i < dates.Count; i++)
+                        {
+
+
+                            <div class="form-check">
+                                <input checked type="checkbox" class="form-check-input chart-time" id="chkDate-@(dates[i].Year)-@dates[i].Month" name="d" data-year="@dates[i].Year" data-month="@dates[i].Month" value="@(dates[i].Year)-@dates[i].Month" />
+                                <label class="form-check-label" for="chkDate-@(dates[i].Year)-@dates[i].Month">@dates[i].Year @dates[i].MonthName</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div id="widgetParty" class="border p-3 mb-3">
+
+                    <h5 class="mb-2">@Localize("page_polls_parties") <span style="float:right;font-size:0.875rem;text-transform:none;cursor:pointer;" onclick="selectAll(3)">@Localize("text_all")</span></h5>
+                    <div style="max-height:280px;overflow:auto;">
+                        @foreach (var item in parties)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input chart-party" id="chkParty-@(item.Id)" name="p" checked value="@(item.Id)" />
+                                <label class="form-check-label" for="chkParty-@(item.Id)">@item.PartyNameShort</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button onclick="getData()" class="theme-btn btn-style-one" type="button">@Localize("page_polls_prepare")</button>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-9">
+                <div id="chart">
+
+                </div>
+
+                <div id="chart2" style="margin-top:50px;">
+
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</section>
+@section scripts{
+    <link href="~/lib/apexcharts/apexcharts.min.css" rel="stylesheet" />
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <script src="~/js/poll-listing.js" asp-append-version="true"></script>
+
+
+
+}

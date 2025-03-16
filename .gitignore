@@ -1,6 +1,15 @@
 bin/
 obj/
 out/
+Siyasett.Web/obj/
+Siyasett.Web/bin/
+Siyasett.Web/out/
+Siyasett.core/obj/
+Siyasett.core/bin/
+Siyasett.core/out/
+Siyasett.Data/obj/
+Siyasett.Data/bin/
+Siyasett.Data/out/
 
 *.deps.json
 *.dll
@@ -16,12 +25,9 @@ packages/
 npm-debug.log
 yarn.lock
 
-# Log dosyaları
 logs/
 *.log
 !logs/.gitkeep
 
-# Geçici dosyalar
 .DS_Store
 Thumbs.db
-

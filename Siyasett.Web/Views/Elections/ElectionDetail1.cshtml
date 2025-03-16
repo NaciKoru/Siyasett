@@ -1,0 +1,596 @@
+﻿@model ElectionProvinceModel
+@{
+    ViewData["Title"] = Localize("page_selectiondetail1_meta_title");
+    ViewData["Description"] = Localize("page_selectiondetail1_meta_description");
+    List<PartyListModel> parties = ViewBag.Parties;
+
+    ElectionSearchModel searchModel = ViewBag.SearchModel;
+
+
+    SecimDetay secimDetay = ViewBag.SecimDetay;
+    List<SecimMuhtarlikOzet> secimilDetay = ViewBag.SecimilDetay;
+
+    ElectionProvinceModel il = ViewBag.Il;
+
+    List<int> cumhurs = new List<int> { 1, 8 };
+    List<int> millets = new List<int> { 2, 3, 4, 5, 6 };
+    List<int> others = new List<int> { 7, 134 };
+
+
+    List<ElectionProvinceModel> secimIlceler = ViewBag.SecimIlceler;
+    List<ElectionPartyResultModel> secimSonuclar = ViewBag.SecimSonuclar;
+    Secim secim = ViewBag.GecerliSecim;
+    String yuzde = "%";
+
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+}
+
+
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section">
+    <div class="container">
+
+        <div class="sec-title centered mt-4 mb-2">
+            <h3 class="mb-3">@secim.SecimTarihi.Value.ToString("dd.MM.yyyy") @secim.Adi</h3>
+            <div class="separater"></div>
+        </div>
+
+
+        <table class="table">
+            <tr>
+
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+
+                <td style="text-align: center;">@secimDetay.SecmenSayisi!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">
+                    @secimDetay.OyKullanan!.Value.ToString("#,###")<br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay.OyKullanan!.Value) / Convert.ToDouble(secimDetay.SecmenSayisi!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimDetay.GecerliOy!.Value.ToString("#,###")<br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay.GecerliOy!.Value) / Convert.ToDouble(secimDetay.OyKullanan!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimDetay.GecersizOy!.Value.ToString("#,###") <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay.GecersizOy!.Value) / Convert.ToDouble(secimDetay.OyKullanan!.Value)), 2)
+                </td>
+            </tr>
+        </table>
+
+
+
+        <div class="sec-title centered mt-4 mb-2">
+            <h3 class="mb-3">@il.Name @Localize("page_elections_electionresults")</h3>
+            <div class="separater"></div>
+        </div>
+
+        <table class="table">
+            <tr>
+
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+
+                <td style="text-align: center;"> @secimilDetay.Sum(i => i.Secmen).Value.ToString("#,###") </td>
+                <td style="text-align: center;">
+                    @secimilDetay.Sum(i => i.OyKullanan).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilDetay.Sum(i => i.OyKullanan)!.Value) / Convert.ToDouble(secimilDetay.Sum(i => i.Secmen)!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimilDetay.Sum(i => i.Gecerli).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilDetay.Sum(i => i.Gecerli)!.Value) / Convert.ToDouble(secimilDetay.Sum(i => i.OyKullanan)!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimilDetay.Sum(i => i.Gecersiz).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilDetay.Sum(i => i.Gecersiz)!.Value) / Convert.ToDouble(secimilDetay.Sum(i => i.OyKullanan)!.Value)), 2)
+                </td>
+            </tr>
+        </table>
+
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <div class="sec-title centered mt-4 mb-2">
+                    <h3 class="mb-3">@Localize("page_elections_electiondetail1_distbyparty")</h3>
+                    <div class="separater"></div>
+
+
+                </div>
+                <div id="chartparties"></div>
+            </div>
+            <div class="col-md-12 col-lg-6">
+                <div class="sec-title centered mt-4 mb-2">
+                    <h3 class="mb-3"> @Localize("page_elections_electiondetail1_distbyalliance")</h3>
+                    <div class="separater"></div>
+
+
+                </div>
+                <div id="chartunions"></div>
+            </div>
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="sec-title centered mt-4 mb-2">
+                        <h3 class="mb-3">@Localize("page_elections_electiondetail1_posofPoli")</h3>
+                        <div class="separater"></div>
+
+
+                    </div>
+                    <div id="chartposition"></div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="sec-title centered mt-4 mb-2">
+                        <h3 class="mb-3"> @Localize("page_elections_electiondetail1_ideostruct")</h3>
+                        <div class="separater"></div>
+
+
+                    </div>
+                    <div id="chartideoloji"></div>
+                </div>
+            </div>
+        }
+        <div class="sec-title centered mt-4 mb-2">
+            <h3 class="mb-3"> @Localize("page_elections_electiondetail1_distres")</h3>
+            <div class="separater"></div>
+
+
+        </div>
+
+
+
+        <div class="table-responsive mb-4">
+
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@Localize("page_elections_electiondetail1_district")</th>
+
+                        @foreach (var item in parties)
+                        {
+                            if (@item.PartyNameShort.Contains("Bağımsız"))
+                            {
+                                <th style="text-align:right">@(cultureName == "tr-TR" ? item.PartyNameShort : "Independents")</th>
+
+                            }
+                            else
+                            {
+                                <th style="text-align:right">@item.PartyNameShort</th>
+
+                            }
+                        }
+                    </tr>
+                </thead>
+                <tbody id="tblBody">
+                    @foreach (var item in secimIlceler)
+                    {
+                        <tr>
+                            <td><a asp-route="secim-ilce-detay" asp-route-cevreid="@item.RegionId" asp-route-secim="@secim.Id" asp-route-id="@item.Id" asp-route-ilId="@il.Id">@item.Name</a></td>
+
+                            @foreach (var party in parties)
+                            {
+                                <td style="text-align:right">
+                                    @{
+                                        var sonuc = secimSonuclar.Where(i => i.PartyId == party.Id && i.IlceId == item.Id && i.YskSecimCevresiId == item.RegionId).FirstOrDefault();
+                                    }
+                                    @if (sonuc != null)
+                                    {
+                                        @sonuc.Vote.Value.ToString("#,##0")
+                                        <br />
+
+                                        @yuzde
+                                        @Math.Round((100 * Convert.ToDouble(sonuc.Vote.Value) / Convert.ToDouble(secimSonuclar.Where(i => i.IlceId == item.Id && i.YskSecimCevresiId == item.RegionId).Select(i => i.Vote).Sum())), 2)
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                </td>
+
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</section>
+@section scripts{
+    <link href="~/lib/apexcharts/apexcharts.min.css" rel="stylesheet" />
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <script src="~/js/election-listing.js" asp-append-version="true"></script>
+
+    <script>
+
+        $(function () {
+
+            createIlChart();
+            createPosition();
+            createIdeology();
+
+            makePieChart([@parties.Where(i=>cumhurs.Contains((int)i.Id)).Sum(i=>i.RatioAvg), @parties.Where(i=>millets.Contains((int)i.Id)).Sum(i=>i.RatioAvg), @parties.Where(i=>others.Contains((int)i.Id)).Sum(i=>i.RatioAvg)], ['Cumhur', 'Millet','@cultureName' === "tr-TR" ? 'Diğer' : 'Other'], "#chartunions");
+
+            $('#tblBody').find('tr').each((i, el) => {
+                var max = 0;
+                var maxEl;
+                $(el).find('td').each((v, vel) => {
+                    if (v > 0) {
+                        var f = parseFloat($(vel).html().replace(',', '').replace('.', ''));
+                        if (!isNaN(f) && f > max) {
+                            max = f;
+                            maxEl = vel;
+                        }
+                    }
+
+                });
+                if (maxEl) {
+                    $(maxEl).css("font-weight", "bold");
+                }
+            });
+        });
+
+
+        var barHeight = 40;
+        function makeChart(datas, categories, xtitle, ytitle, divname) {
+
+            var options = {
+                series: [{
+                    data: datas,
+                    name: " ",
+                }],
+                chart: {
+                    type: 'bar',
+
+                    height: 60 + datas.length * barHeight
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                        distributed: true,
+                        dataLabels: {
+                            position: 'top',
+                        },
+                    }
+                },
+                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                    '#f48024', '#69d2e7'
+                ],
+                dataLabels: {
+                    enabled: true,
+                    textAnchor: 'start',
+                    style: {
+                        fontSize: '11px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 'bold',
+                        colors: '#000000'
+                    },
+                },
+                xaxis: {
+                    categories: categories,
+                    title: {
+                        text: xtitle,
+                    },
+                },
+                yaxis: {
+                    title: {
+                        text: ytitle,
+                    },
+                },
+                labels: categories
+            };
+
+            var chart = new ApexCharts(document.querySelector(divname), options);
+            chart.render();
+        };
+
+
+        function makePieChart(datas, categories, divname) {
+
+            var options = {
+                series: datas,
+                chart: {
+                    height: 350,
+                    type: 'pie',
+                },
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    floating: false,
+                    verticalAlign: 'bottom',
+                    align: 'center'
+                },
+                labels: categories
+            };
+
+            var chart = new ApexCharts(document.querySelector(divname), options);
+            chart.render();
+        };
+
+        function createIlChart() {
+
+            var secimdetayid = @secimDetay.Id;
+            var secimilid = @il.Id;
+            var secimilceid = 0;
+
+            $.get('/elections/GetSecimIlChartData?secimdetay=' + secimdetayid + '&secimil=' + secimilid)
+                .done(function (response) {
+                    var data = response.data;
+                    var options = {
+                        series: [{
+                            data: [],
+                            name: "Oy ",
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 30 + data.length * barHeight
+                        },
+                        plotOptions: {
+                            bar: {
+                                borderRadius: 3,
+                                horizontal: true,
+                                distributed: true,
+                                dataLabels: {
+                                    position: 'top',
+                                },
+                            }
+                        },
+                        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                            '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'
+                        ],
+                        dataLabels: {
+                            enabled: true,
+                            textAnchor: 'start',
+                            style: {
+                                fontSize: '11px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 'bold',
+                                colors: '#000000'
+                            },
+                            formatter: function (val, opts) {
+                                console.log(opts);
+                                var total = 0;
+                                for (var i = 0; i < opts.w.globals.series[opts.seriesIndex].length; i++) {
+                                    total += opts.w.globals.series[opts.seriesIndex][i];
+                                }
+                                console.log(total);
+                                let percent = (100 * val) / total;
+                                var vstr = new Intl.NumberFormat('tr-TR').format(val);
+                                return vstr + ' (' + percent.toFixed(1) + '%)'
+
+                            }
+                        },
+                        xaxis: {
+                            categories: [],
+                            title: {
+                                text: '@cultureName'==="tr-TR" ? "Oy Sayısı" : "Total Votes",
+                            },
+
+                        },
+                        yaxis: {
+                            title: {
+                                text: '@cultureName' === "tr-TR" ? "Partiler" : "Parties",
+                            },
+                        },
+                    };
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (i < 7) {
+                            options.series[0].data.push(data[i].ratioAvg);
+                            //options.colors.push(getColor(i));
+                            options.xaxis.categories.push(data[i].partyNameShort);
+                        }
+
+                    }
+                    var chart = new ApexCharts(document.querySelector("#chartparties"), options);
+                    chart.render();
+                });
+        }
+
+        function createPosition() {
+
+            var secimdetayid = @secimDetay.Id;
+            var secimilid = @il.Id;
+
+            $.get('/elections/GetSecimIlPositionsChartData?secimdetay=' + secimdetayid + '&secimil=' + secimilid)
+                .done(function (response) {
+                    var data = response.data;
+                    var options = {
+                        series: [{
+                            data: [],
+                            name: "Oy ",
+                        }],
+                        chart: {
+                            height: 350,
+                            type: 'bar',
+                            events: {
+                                click: function (chart, w, e) {
+                                    // console.log(chart, w, e)
+                                }
+                            }
+                        },
+                        plotOptions: {
+                            bar: {
+                                columnWidth: '45%',
+                                distributed: true,
+                            }
+                        },
+                        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                            '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'
+                        ],
+                        dataLabels: {
+                            enabled: false,
+                            textAnchor: 'start',
+                            style: {
+                                fontSize: '11px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 'bold',
+                                colors: '#000000'
+                            },
+                        },
+                        labels: {
+                            style: {
+                                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                                    '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'],
+                                fontSize: '12px'
+                            }
+                        },
+                        legend: {
+                            show: false
+                        },
+                        xaxis: {
+                            categories: [],
+                            title: {
+                                text: '',
+                            },
+
+                        },
+                        yaxis: {
+                            title: {
+                                text: '@cultureName'==="tr-TR" ? 'Oy Sayısı' : 'Total Votes',
+                            },
+                        },
+                    };
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (i < 7) {
+                            options.series[0].data.push(data[i].ratioAvg);
+                            //options.colors.push(getColor(i));
+                            options.xaxis.categories.push(data[i].partyNameShort);
+                        }
+
+                    }
+                    var chart = new ApexCharts(document.querySelector("#chartposition"), options);
+                    chart.render();
+                });
+        }
+
+        function createIdeology() {
+
+            var secimdetayid = @secimDetay.Id;
+            var secimilid = @il.Id;
+            $.get('/elections/GetSecimIlIdeologyChartData?secimdetay=' + secimdetayid + '&secimil=' + secimilid)
+                .done(function (response) {
+                    var data = response.data;
+                    var options = {
+                        series: [{
+                            data: [],
+                            name: "Oy ",
+                        }],
+                        chart: {
+                            height: 400,
+                            type: 'bar',
+                            events: {
+                                click: function (chart, w, e) {
+                                    // console.log(chart, w, e)
+                                }
+                            }
+                        },
+                        plotOptions: {
+                            bar: {
+                                columnWidth: '45%',
+                                distributed: true,
+                            }
+                        },
+                        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                            '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'
+                        ],
+                        dataLabels: {
+                            enabled: false,
+                            textAnchor: 'start',
+                            style: {
+                                fontSize: '11px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 'bold',
+                                colors: '#000000'
+                            },
+                        },
+                        labels: {
+                            style: {
+                                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                                    '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'],
+                                fontSize: '12px'
+                            }
+                        },
+                        legend: {
+                            show: false
+                        },
+                        xaxis: {
+                            categories: [],
+                            title: {
+                                text: '',
+                            },
+
+                        },
+                        yaxis: {
+                            title: {
+                                text: '@cultureName' === "tr-TR" ? 'Oy Sayısı' : 'Total Votes',
+                            },
+                        },
+                    };
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (i < 7) {
+                            options.series[0].data.push(data[i].ratioAvg);
+                            //options.colors.push(getColor(i));
+                            options.xaxis.categories.push(data[i].partyNameShort);
+                        }
+
+                    }
+                    var chart = new ApexCharts(document.querySelector("#chartideoloji"), options);
+                    chart.render();
+                });
+        }
+
+        function getColor(id) {
+
+            var colors = ['#9ec54b', '#dce9be', '#555152', '#2e2633', '#99173c', '#e97f02', '#424242', '#ff9900', '#ed303c', '#00a8c6', '#d5ded9', '#bf4d28', '#f27435', '#60b99a', '#f6f7bd',
+                '#fecea8', '#d68189', '#ff3d7f', '#554236', '#3299bb', '#f9f2e7', '#e8ddcb', '#e97f02', '#f0f2eb', '#c02942', '#d1e751', '#3fb8af', '#4ecdc4', '#ff3d7f', '#e8caaf', '#fc9d9a',
+                '#ccc68d', '#ffffff', '#7a6a53', '#f4ebc3', '#fffedf', '#c8c8a9', '#6a4a3c', '#493736', '#dad8a7'];
+            return colors[id];
+        }
+    </script>
+
+
+
+}

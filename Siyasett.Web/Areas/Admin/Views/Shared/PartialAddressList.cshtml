@@ -1,0 +1,36 @@
+﻿@model List<AddressModel>
+
+
+<table class="table table-striped mt-3">
+    <tr>
+        <th>Adı</th>
+        <th>Türü</th>
+        <th>Adres</th>
+        <th>İlçe/İl</th>
+        <th>Ülke</th>
+        <th>Posta Kodu</th>
+        <th>...</th>
+    </tr>
+    <tbody id="tbAddresses">
+        @foreach (var item in Model)
+        {
+            <tr id="tr_address_@item.Id">
+                <td>@item.NameTr </td>
+                <td>@item.AddressTypeNameTr</td>
+                <td>@item.Address1<br />@item.Address2</td>
+                <td>@item.District<div>@item.Province</div></td>
+                <td>@item.CountryNameTr</td>
+                <td>@item.PostalCode</td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <button onclick="editAddress_click(@item.Id)" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i> Değiştir</button>
+                        <button onclick="deleteAddress_click(@item.Id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i> Sil</button>
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

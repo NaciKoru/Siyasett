@@ -1,0 +1,35 @@
+﻿@using Siyasett.Core.Phones
+@model List<PhoneModel>
+
+
+<table class="table table-striped mt-3">
+    <tr>
+        <th>Kayıt Türü</th>
+        <th>İletişim Türü</th>
+        <th>Ülke Kodu</th>
+        <th>Ön Kodu</th>
+        <th>Telefon</th>
+        <th>...</th>
+    </tr>
+    <tbody id="tbPhones">
+        @foreach (var item in Model)
+        {
+            <tr id="tr_phones_@item.Id">
+                <td>@item.PhoneTypeNameTr </td>
+                <td>@item.CommunicationTypeNameTr</td>
+                <td>@item.CountryCode</td>
+                <td>@item.PrefixCode</td>
+                <td>@item.PhoneNumber</td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <button onclick="editPhone_click(@item.Id)" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i> Değiştir</button>
+                        <button onclick="deletePhone_click(@item.Id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i> Sil</button>
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

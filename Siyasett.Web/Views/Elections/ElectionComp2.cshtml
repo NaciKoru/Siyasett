@@ -1,0 +1,730 @@
+﻿@model ElectionProvinceModel
+@{
+    ViewData["Title"] = Localize("page_selectiondetail2_meta_title");
+    ViewData["Description"] = Localize("page_selectiondetail2_meta_description");
+    List<PartyListModel> parties = ViewBag.Parties;
+
+    ElectionSearchModel searchModel = ViewBag.SearchModel;
+
+
+    SecimDetay secimDetay = ViewBag.SecimDetay;
+    List<SecimMuhtarlikOzet> secimilceDetay = ViewBag.SecimIlceDetay;
+
+
+    ElectionProvinceModel il = ViewBag.Il;
+    ElectionProvinceModel ilce = ViewBag.Ilce;
+
+    List<int> cumhurs = new List<int> { 1, 8 };
+    List<int> millets = new List<int> { 2, 3, 4, 5, 6 };
+    List<int> others = new List<int> { 7, 134 };
+
+    List<ElectionProvinceModel> secimMahalleler = ViewBag.SecimMahalleler;
+    List<ElectionPartyResultModel> secimSonuclar = ViewBag.SecimSonuclar;
+    Secim secim = ViewBag.GecerliSecim;
+    String yuzde = "%";
+
+    var culture = Thread.CurrentThread.CurrentCulture;
+    var cultureName = culture.Name;
+
+    List<PartyListModel> parties2 = ViewBag.Parties2;
+    SecimDetay secimDetay2 = ViewBag.SecimDetay2;
+    List<SecimMuhtarlikOzet> secimilceDetay2 = ViewBag.SecimIlceDetay2;
+    ElectionProvinceModel il2 = ViewBag.Il2;
+    ElectionProvinceModel ilce2 = ViewBag.Ilce2;
+    List<ElectionProvinceModel> secimMahalleler2 = ViewBag.SecimMahalleler2;
+    List<ElectionPartyResultModel> secimSonuclar2 = ViewBag.SecimSonuclar2;
+    Secim secim2 = ViewBag.GecerliSecim2;
+
+
+}
+
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section">
+    <div class="container" style="max-width:85%">
+
+        <div class="sec-title centered mt-4 mb-2">
+            <h3 class="mb-3">@secim.SecimTarihi.Value.ToString("dd.MM.yyyy") @secim.Adi</h3>
+            <div class="separater"></div>
+        </div>
+
+
+        <table class="table table-striped">
+            <tr>
+
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+
+                <td style="text-align: center;">@secimDetay.SecmenSayisi!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">
+                    @secimDetay.OyKullanan!.Value.ToString("#,###")<br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay.OyKullanan!.Value) / Convert.ToDouble(secimDetay.SecmenSayisi!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimDetay.GecerliOy!.Value.ToString("#,###")<br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay.GecerliOy!.Value) / Convert.ToDouble(secimDetay.OyKullanan!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimDetay.GecersizOy!.Value.ToString("#,###") <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay.GecersizOy!.Value) / Convert.ToDouble(secimDetay.OyKullanan!.Value)), 2)
+                </td>
+            </tr>
+        </table>
+        <div class="sec-title centered mt-4 mb-2">
+            <h3 class="mb-3">@secim2.SecimTarihi.Value.ToString("dd.MM.yyyy") @secim2.Adi</h3>
+            <div class="separater"></div>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+
+                <td style="text-align: center;">@secimDetay2.SecmenSayisi!.Value.ToString("#,###")</td>
+                <td style="text-align: center;">
+                    @secimDetay2.OyKullanan!.Value.ToString("#,###")<br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay2.OyKullanan!.Value) / Convert.ToDouble(secimDetay2.SecmenSayisi!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimDetay2.GecerliOy!.Value.ToString("#,###")<br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay2.GecerliOy!.Value) / Convert.ToDouble(secimDetay2.OyKullanan!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimDetay2.GecersizOy!.Value.ToString("#,###") <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimDetay2.GecersizOy!.Value) / Convert.ToDouble(secimDetay2.OyKullanan!.Value)), 2)
+                </td>
+            </tr>
+        </table>
+
+        <div class="sec-title centered mt-4 mb-2">
+            <h3 class="mb-3">@il.Name @ilce.Name @Localize("page_elections_electionresults")</h3>
+            <div class="separater"></div>
+        </div>
+
+
+        <table class="table table-striped">
+            <tr>
+
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+
+                <td style="text-align: center;"> @secimilceDetay.Sum(i => i.Secmen).Value.ToString("#,###") </td>
+                <td style="text-align: center;">
+                    @secimilceDetay.Sum(i => i.OyKullanan).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilceDetay.Sum(i => i.OyKullanan)!.Value) / Convert.ToDouble(secimilceDetay.Sum(i => i.Secmen)!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimilceDetay.Sum(i => i.Gecerli).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilceDetay.Sum(i => i.Gecerli)!.Value) / Convert.ToDouble(secimilceDetay.Sum(i => i.OyKullanan)!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimilceDetay.Sum(i => i.Gecersiz).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilceDetay.Sum(i => i.Gecersiz)!.Value) / Convert.ToDouble(secimilceDetay.Sum(i => i.OyKullanan)!.Value)), 2)
+                </td>
+            </tr>
+        </table>
+
+        <table class="table table-striped">
+            <tr>
+
+                <th style="text-align: center;">@Localize("page_elections_numberofvoters")</th>
+                <th style="text-align: center;">@Localize("page_elections_usedvotes")</th>
+                <th style="text-align: center;">@Localize("page_elections_validvote")</th>
+                <th style="text-align: center;">@Localize("page_elections_unvalidvote")</th>
+            </tr>
+            <tr>
+
+                <td style="text-align: center;"> @secimilceDetay2.Sum(i => i.Secmen).Value.ToString("#,###") </td>
+                <td style="text-align: center;">
+                    @secimilceDetay2.Sum(i => i.OyKullanan).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilceDetay2.Sum(i => i.OyKullanan)!.Value) / Convert.ToDouble(secimilceDetay2.Sum(i => i.Secmen)!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimilceDetay2.Sum(i => i.Gecerli).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilceDetay2.Sum(i => i.Gecerli)!.Value) / Convert.ToDouble(secimilceDetay2.Sum(i => i.OyKullanan)!.Value)), 2)
+                </td>
+                <td style="text-align: center;">
+                    @secimilceDetay2.Sum(i => i.Gecersiz).Value.ToString("#,###")
+                    <br />@yuzde
+                    @Math.Round((100 * Convert.ToDouble(secimilceDetay2.Sum(i => i.Gecersiz)!.Value) / Convert.ToDouble(secimilceDetay2.Sum(i => i.OyKullanan)!.Value)), 2)
+                </td>
+            </tr>
+        </table>
+
+
+
+
+        <div class="card">
+            <div class="card-header">
+                <div class="sec-title centered mt-4 mb-2">
+                    <h3 class="mb-3">@Localize("page_elections_electiondetail1_mayorselect")</h3>
+                    <div class="separater"></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+
+
+                    <table class="table table-striped">
+                        <thead style="position:sticky;top: 75px">
+                            <tr>
+                                <th>@Localize("page_elections_electiondetail1_mayor")</th>
+                                @{
+                                    var count = 0;
+                                }
+                                @foreach (var item in parties)
+                                {
+                                    if (count < 13)
+                                    {
+                                        var sira = count + 1;
+                                        if (@item.PartyNameShort.Contains("Bağımsız"))
+                                        {
+                                            <th style="text-align:right" id="partiThid+@sira" onclick="sirala(@sira,1)">
+                                                @(
+                                                    cultureName == "tr-TR" ? item.PartyNameShort : "Independents"
+                                                    )
+                                            </th>
+
+                                        }
+                                        else
+                                        {
+                                            <th style="text-align:right" id="partiThid+@sira" onclick="sirala(@sira,1)">@item.PartyNameShort</th>
+
+                                        }
+                                        count++;
+                                    }
+                                }
+                            </tr>
+                        </thead>
+                        <tbody id="tblBody">
+                            @foreach (var item in secimMahalleler)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    @{
+                                        count = 0;
+                                    }
+                                    @foreach (var party in parties)
+                                    {
+                                        if (count < 13)
+                                        {
+                                            <td style="text-align:right">
+                                                @{
+                                                    var sonuc = secimSonuclar.Where(i => i.PartyId == party.Id && i.MuhtarlikId == item.Id).FirstOrDefault();
+                                                    var sonuc2 = new ElectionPartyResultModel();
+                                                    if (secimMahalleler2.FirstOrDefault(a => a.Name == item.Name) != null && sonuc2 != null)
+                                                    {
+                                                        if (secimSonuclar2.Where(i => secimMahalleler2.FirstOrDefault(a => a.Id == i.MuhtarlikId).Name == item.Name) != null)
+                                                        {
+                                                            sonuc2 = secimSonuclar2.Where(i => i.PartyId == party.Id && secimMahalleler2.FirstOrDefault(a => a.Id == i.MuhtarlikId).Name == item.Name && i.MuhtarlikId == secimMahalleler2.FirstOrDefault(a => a.Name == item.Name).Id).FirstOrDefault();
+
+                                                        }
+                                                    }
+                                                }
+                                                @if (sonuc != null)
+                                                {
+                                                    var toplamOy = secimSonuclar.Where(i => i.MuhtarlikId == item.Id && i.Vote.HasValue).Sum(i => i.Vote.Value);
+                                                    var toplamOy2 = secimSonuclar2.Where(i => secimMahalleler2.FirstOrDefault(a => a.Id == i.MuhtarlikId).Name == item.Name && i.Vote.HasValue).Sum(i => i.Vote.Value);
+
+
+                                                    <span>@sonuc.Vote.Value.ToString("#,##0") @Html.Raw(" ")</span>
+                                                    if (sonuc2 != null && sonuc2.Vote != null)
+                                                    {
+                                                        <span>@sonuc2.Vote.Value.ToString("#,##0")</span>
+                                                    }
+                                                    <br />
+                                                    var oran1 = @Math.Round((100 * Convert.ToDouble(sonuc.Vote.Value) / Convert.ToDouble(toplamOy)), 2);
+                                                    <span>@yuzde@oran1 @Html.Raw(" ")</span>
+                                                    if (sonuc2 != null)
+                                                    {
+                                                        if (sonuc2 != null && sonuc2.Vote != null)
+                                                        {
+                                                            var oran2 = @Math.Round((100 * Convert.ToDouble(sonuc2.Vote.Value) / Convert.ToDouble(secimSonuclar2.Where(i => secimMahalleler2.FirstOrDefault(a => a.Id == i.MuhtarlikId).Name == item.Name && i.MuhtarlikId == secimMahalleler2.FirstOrDefault(a => a.Name == item.Name).Id).Select(i => i.Vote).Sum())), 2);
+                                                            <span>@yuzde@oran2</span>
+
+                                                        }
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span>-</span>
+                                                }
+                                            </td>
+                                            count++;
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="chart">
+        </div>
+
+        <div id="chart2" style="margin-top:50px;">
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+</section>
+@section scripts{
+    <link href="~/lib/apexcharts/apexcharts.min.css" rel="stylesheet" />
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <script src="~/js/election-listing.js" asp-append-version="true"></script>
+
+    <script>
+
+        $(function () {
+
+            //createIlceChart();
+
+            //makePieChart([@parties.Where(i=>cumhurs.Contains((int)i.Id)).Sum(i=>i.RatioAvg), @parties.Where(i=>millets.Contains((int)i.Id)).Sum(i=>i.RatioAvg), @parties.Where(i=>others.Contains((int)i.Id)).Sum(i=>i.RatioAvg)], ['Cumhur', 'Millet', '@cultureName' === "tr-TR" ? 'Diğer' : 'Other'], "#chartunions");
+
+            //createPosition();
+            //createIdeology();
+
+
+            $('#tblBody').find('tr').each((i, el) => {
+                var max = 0;
+                var maxEl;
+                $(el).find('td').each((v, vel) => {
+                    if (v > 0) {
+                        var f = parseFloat($(vel).html().replace(',', '').replace('.', ''));
+                        if (!isNaN(f) && f > max) {
+                            max = f;
+                            maxEl = vel;
+                        }
+                    }
+
+                });
+                if (maxEl) {
+                    $(maxEl).css("font-weight", "bold");
+                }
+                $(el).find('td').each((v, vel) => {
+                    if (v > 0) {
+
+                        var f1 = parseFloat($(vel).children().eq(0).text().replace(',', '').replace('.', ''));
+                        var f2 = parseFloat($(vel).children().eq(1).text().replace(',', '').replace('.', ''));
+                        if (!isNaN(f2)) {
+                            var f4 = parseFloat($(vel).children().eq(4).text().replace('%', '').replace(',', '.')).toFixed(2);
+                            var f3 = parseFloat($(vel).children().eq(3).text().replace('%', '').replace(',', '.')).toFixed(2);
+
+
+                            var newtext = f1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") + ' <span >' + f2.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") + '</span>';
+                            if ((f4 - f3) > 0) {
+                                newtext += '</br> % ' + f3.toString().replace('.', ',') + ' <span style="color:#8bd14a">% ' + f4.toString().replace('.', ',') + '</span><span style="display:none" id="asd' + v + 'asd">' + (f4 - f3) + '</span>';
+                            }
+                            else {
+                                newtext += '</br> % ' + f3.toString().replace('.', ',') + ' <span style="color:#d92e10">% ' + f4.toString().replace('.', ',') + '</span><span style="display:none" id="asd' + v + 'asd">' + (f4 - f3) + '</span>';
+                            }
+                            $(vel).html(newtext);
+
+                        } else {
+                            var td = '<span style="display:none" id="asd' + v + 'asd">' + 0 + '</span>'
+                            $(vel).append(td);
+                        }
+
+
+
+                    }
+                });
+            });
+        });
+
+
+        var barHeight = 50;
+        function makeChart(datas, categories, xtitle, ytitle, divname) {
+
+            var options = {
+                series: [{
+                    data: datas,
+                    name: " ",
+                }],
+                chart: {
+                    type: 'bar',
+
+                    height: 60 + datas.length * barHeight
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                        distributed: true,
+                        dataLabels: {
+                            position: 'top',
+                        },
+                    }
+                },
+                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                    '#f48024', '#69d2e7'
+                ],
+                dataLabels: {
+                    enabled: true,
+                    textAnchor: 'start',
+                    style: {
+                        fontSize: '11px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 'bold',
+                        colors: '#000000'
+                    },
+                },
+                xaxis: {
+                    categories: categories,
+                    title: {
+                        text: xtitle,
+                    },
+                },
+                yaxis: {
+                    title: {
+                        text: ytitle,
+                    },
+                },
+                labels: categories
+            };
+
+            var chart = new ApexCharts(document.querySelector(divname), options);
+            chart.render();
+        };
+
+
+        function makePieChart(datas, categories, divname) {
+
+            var options = {
+                series: datas,
+                chart: {
+                    height: 350,
+                    type: 'pie',
+                },
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    floating: false,
+                    verticalAlign: 'bottom',
+                    align: 'center'
+                },
+                labels: categories
+            };
+
+            var chart = new ApexCharts(document.querySelector(divname), options);
+            chart.render();
+        };
+
+        function createIlceChart() {
+
+            var secimdetayid = @secimDetay.Id;
+            var secimilid = @il.Id;
+            var secimilceid = @ilce.Id;
+
+            $.get('/elections/GetSecimIlceChartData?secimdetay=' + secimdetayid + '&secimil=' + secimilid + '&secimilce=' + secimilceid)
+                .done(function (response) {
+                    var data = response.data;
+                    var options = {
+                        series: [{
+                            data: [],
+                            name: "Oy ",
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 30 + data.length * barHeight
+                        },
+                        plotOptions: {
+                            bar: {
+                                borderRadius: 3,
+                                horizontal: true,
+                                distributed: true,
+                                dataLabels: {
+                                    position: 'top',
+                                },
+                            }
+                        },
+                        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                            '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'
+                        ],
+                        dataLabels: {
+                            enabled: true,
+                            textAnchor: 'start',
+                            style: {
+                                fontSize: '11px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 'bold',
+                                colors: '#000000'
+                            },
+                            formatter: function (val, opts) {
+                                console.log(opts);
+                                var total = 0;
+                                for (var i = 0; i < opts.w.globals.series[opts.seriesIndex].length; i++) {
+                                    total += opts.w.globals.series[opts.seriesIndex][i];
+                                }
+                                console.log(total);
+                                let percent = (100 * val) / total;
+                                var vstr = new Intl.NumberFormat('tr-TR').format(val);
+                                return vstr + ' (' + percent.toFixed(1) + '%)'
+
+                            }
+                        },
+                        xaxis: {
+                            categories: [],
+                            title: {
+                                text: '@cultureName' === "tr-TR" ? "Oy Sayısı" : "Total Votes",
+                            },
+
+                        },
+                        yaxis: {
+                            title: {
+                                text: '@cultureName' === "tr-TR" ? "Partiler" : "Parties",
+                            },
+                        },
+                    };
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (i < 7) {
+                            options.series[0].data.push(data[i].ratioAvg);
+                            //options.colors.push(getColor(i));
+                            options.xaxis.categories.push(data[i].partyNameShort);
+                        }
+
+                    }
+                    var chart = new ApexCharts(document.querySelector("#chartparties"), options);
+                    chart.render();
+                });
+        }
+
+        function createPosition() {
+
+            var secimdetayid = @secimDetay.Id;
+            var secimilid = @il.Id;
+            var secimilceid = @ilce.Id;
+
+            $.get('/elections/GetSecimIlcePositionsChartData?secimdetay=' + secimdetayid + '&secimil=' + secimilid + '&secimilce=' + secimilceid)
+                .done(function (response) {
+                    var data = response.data;
+                    var options = {
+                        series: [{
+                            data: [],
+                            name: "Oy ",
+                        }],
+                        chart: {
+                            height: 350,
+                            type: 'bar',
+                            events: {
+                                click: function (chart, w, e) {
+                                    // console.log(chart, w, e)
+                                }
+                            }
+                        },
+                        plotOptions: {
+                            bar: {
+                                columnWidth: '45%',
+                                distributed: true,
+                            }
+                        },
+                        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                            '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'
+                        ],
+                        dataLabels: {
+                            enabled: false,
+                            textAnchor: 'start',
+                            style: {
+                                fontSize: '11px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 'bold',
+                                colors: '#000000'
+                            },
+                        },
+                        labels: {
+                            style: {
+                                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                                    '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'],
+                                fontSize: '12px'
+                            }
+                        },
+                        legend: {
+                            show: false
+                        },
+                        xaxis: {
+                            categories: [],
+                            title: {
+                                text: '',
+                            },
+
+                        },
+                        yaxis: {
+                            title: {
+                                text: '@cultureName' === "tr-TR" ? 'Oy Sayısı' : 'Total Votes',
+                            },
+                        },
+                    };
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (i < 7) {
+                            options.series[0].data.push(data[i].ratioAvg);
+                            //options.colors.push(getColor(i));
+                            options.xaxis.categories.push(data[i].partyNameShort);
+                        }
+
+                    }
+                    var chart = new ApexCharts(document.querySelector("#chartposition"), options);
+                    chart.render();
+                });
+        }
+
+        function createIdeology() {
+
+            var secimdetayid = @secimDetay.Id;
+            var secimilid = @il.Id;
+            var secimilceid = @ilce.Id;
+
+            $.get('/elections/GetSecimIlceIdeologyChartData?secimdetay=' + secimdetayid + '&secimil=' + secimilid + '&secimilce=' + secimilceid)
+                .done(function (response) {
+                    var data = response.data;
+                    var options = {
+                        series: [{
+                            data: [],
+                            name: "Oy ",
+                        }],
+                        chart: {
+                            height: 400,
+                            type: 'bar',
+                            events: {
+                                click: function (chart, w, e) {
+                                    // console.log(chart, w, e)
+                                }
+                            }
+                        },
+                        plotOptions: {
+                            bar: {
+                                columnWidth: '45%',
+                                distributed: true,
+                            }
+                        },
+                        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                            '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'
+                        ],
+                        dataLabels: {
+                            enabled: false,
+                            textAnchor: 'start',
+                            style: {
+                                fontSize: '11px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                fontWeight: 'bold',
+                                colors: '#000000'
+                            },
+                        },
+                        labels: {
+                            style: {
+                                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                                    '#f48024', '#69d2e7', '#9ec54b', '#ff3d7f', '#e8caaf', '#fc9d9a'],
+                                fontSize: '12px'
+                            }
+                        },
+                        legend: {
+                            show: false
+                        },
+                        xaxis: {
+                            categories: [],
+                            title: {
+                                text: '',
+                            },
+
+                        },
+                        yaxis: {
+                            title: {
+                                text: '@cultureName' === "tr-TR" ? 'Oy Sayısı' : 'Total Votes',
+                            },
+                        },
+                    };
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (i < 7) {
+                            options.series[0].data.push(data[i].ratioAvg);
+                            //options.colors.push(getColor(i));
+                            options.xaxis.categories.push(data[i].partyNameShort);
+                        }
+
+                    }
+                    var chart = new ApexCharts(document.querySelector("#chartideoloji"), options);
+                    chart.render();
+                });
+        }
+
+
+
+        function sirala(el, sort) {
+            if (sort == 1) {
+                var id = 'td.' + el;
+                var rows = $('#tblBody').children('tr').get(); // creates a JS array of DOM elements
+                rows.sort(function (a, b) {
+                    // use a custom sort function
+                    var anum = parseFloat($(a).find('#asd' + el + 'asd').text(), 10);
+                    var bnum = parseFloat($(b).find('#asd' + el + 'asd').text(), 10);
+                    return anum - bnum;
+                });
+                for (var i = 0; i < rows.length; i++) {  // .append() will move them for you
+                    $('#tblBody').append(rows[i]);
+                }
+                $('th[id="partiThid+' + el + '"]').attr("onclick", 'sirala(' + el + ',' + 2 + ')');
+            } else {
+                var id = 'td.' + el;
+                var rows = $('#tblBody').children('tr').get(); // creates a JS array of DOM elements
+                rows.sort(function (a, b) {
+                    // use a custom sort function
+                    var anum = parseFloat($(a).find('#asd' + el + 'asd').text(), 10);
+                    var bnum = parseFloat($(b).find('#asd' + el + 'asd').text(), 10);
+                    return bnum - anum;
+                });
+                for (var i = 0; i < rows.length; i++) {  // .append() will move them for you
+                    $('#tblBody').append(rows[i]);
+                }
+                $('th[id="partiThid+' + el + '"]').attr("onclick", 'sirala(' + el + ',' + 1 + ')');
+            }
+
+        }
+
+    </script>
+}

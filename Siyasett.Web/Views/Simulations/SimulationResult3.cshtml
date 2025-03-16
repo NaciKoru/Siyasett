@@ -1,0 +1,539 @@
+﻿@using static Siyasett.Web.Controllers.SimulationsController;
+@{
+    PagerInfo pager = ViewBag.Pager;
+    ViewData["Title"] = "Simülasyon Sonuçları";
+    List<IttifakParti2> ittfak = ViewBag.myDeserializedClassittifak;
+    List<Result2> data = ViewBag.DeserializedClass;
+    List<Party> partiler = ViewBag.Partiler;
+    String yuzde = "%";
+    List<string> colors = new List<string> { "#9ec54b", "#dce9be", "#A5978B", "#809596", "#c25252" };
+    List<string> partiyazilmasirasi = new List<string>();
+}
+
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section" style="margin-bottom:70px;">
+    <div class="container" id="simContainer1">
+        <div class="card">
+            <div class="card-header">
+
+                <h3>@Localize("simulations_results4")</h3>
+
+
+                
+                <p>@Localize("simulations_results5")</p>
+            </div>
+            <div class="card-body">
+                <div>
+                    <table class="table table-striped mb-3" id="sonucTable">
+                        <thead style="position: sticky;top: 75px">
+                            <tr id="ittifaklarTr">
+                                <th rowspan="3" style="background-color:white">İller</th>
+                                @{
+
+                                    List<string> ittifaklar = new List<string>();
+                                    for (int i = 0; i < ittfak.Count; i++)
+                                    {
+                                        if (ittifaklar.IndexOf(ittfak[i].ittifakAdi) == -1)
+                                        {
+                                            ittifaklar.Add(ittfak[i].ittifakAdi);
+                                        }
+                                    }
+                                    @for (int i = 0; i < ittifaklar.Count; i++)
+                                    {
+                                        var tdcolor = "#FFFFFF";
+                                        if (ittifaklar[i].Length != 1)
+                                        {
+                                            tdcolor = colors[i];
+                                        }
+                                        var colsp = ittfak.Where(a => a.ittifakAdi == ittifaklar[i] && a.ittifakAdi != "0").Count() * 2;
+                                        var name = ittfak.FirstOrDefault(a => a.ittifakAdi == ittifaklar[i]).ittifakName == null ? "" : ittfak.FirstOrDefault(a => a.ittifakAdi == ittifaklar[i]).ittifakName;
+                                        <th colspan="@colsp" style="background-color:@tdcolor;text-align:center" data-id="itt_@ittifaklar[i]">@name</th>
+
+                                    }
+
+
+
+                                }
+
+                            </tr>
+                            <tr>
+                                @{
+
+                                    @for (int i = 0; i < ittifaklar.Count; i++)
+                                    {
+                                        var ittpartiCount = ittfak.Where(a => a.ittifakAdi == ittifaklar[i]).ToList();
+                                        for (int j = 0; j < ittpartiCount.Count(); j++)
+                                        {
+                                            <th colspan="2" style="text-align:center;background-color:white" data-id="partiitt+@ittpartiCount[j].ittifakAdi+@ittpartiCount[j].partiId">@partiler.FirstOrDefault(a => a.Id == Convert.ToInt32(ittpartiCount[j].partiId)).ShortName <br /><span id="milVelTopTh+@ittpartiCount[j].partiId" class="badge rounded-pill text-bg-warning fs-6"></span></th>
+                                            partiyazilmasirasi.Add(ittpartiCount[j].partiId);
+                                        }
+
+
+                                    }
+
+                                    @foreach (var item in data[0].partiOran)
+                                    {
+                                        if (ittfak.FirstOrDefault(a => a.partiId == item.partiId) == null)
+                                        {
+                                            <th colspan="2" style="text-align:center;background-color:white" data-id="partiitt+0+@item.partiId">@partiler.FirstOrDefault(a => a.Id == Convert.ToInt32(item.partiId)).ShortName <br /><span id="milVelTopTh+@item.partiId" class="badge rounded-pill text-bg-warning fs-6"></span></th>
+                                            partiyazilmasirasi.Add(item.partiId);
+                                        }
+
+                                    }
+
+                                    <th rowspan="2" style="background-color:white">İl Mv. Sayisi</th>
+
+
+                                }
+                            </tr>
+                            <tr>
+                                @for (int i = 0; i < data[0].partiOran.Count; i++)
+                                {
+                                    <th style="text-align:center;background-color:white">Oy</th>
+                                    <th style="text-align:center;background-color:white">Mv</th>
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody id="tblBodySonuc">
+
+                            @for (int i = 0; i < data.Count; i++)
+                            {
+                                <tr data-id="il_@i">
+                                    <td>
+                                        @data[i].iladi.ilAdi
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <button type="button" onclick="getChartModal(this)"><i class="far fa-chart-pie"></i></button>
+                                        }
+                                    </td>
+
+
+                                    @for (int j = 0; j < partiyazilmasirasi.Count(); j++)
+                                    {
+                                        var item = data[i].partiOran.FirstOrDefault(a => a.partiId == partiyazilmasirasi[j]);
+
+                                        <td id="oran_@item.partiId" style="text-align:center">@item.oran</td>
+                                        <td id="milvel_@item.partiId" style="text-align:center">@data[i].partiOran.FirstOrDefault(a => a.partiId == item.partiId).milvelSayisi</td>
+                                    }
+                                    <td><strong>@data[i].toplamMilSayisi</strong></td>
+                                    <td style="display:none">@data[i].gecerliOy.ilTopGecOy</td>
+                                </tr>
+                                <tr id="orjinalil_@i" style="display:none">
+
+                                    @if (data[i].oncekiOranlar.Count() > 0)
+                                    {
+                                        for (int j = 0; j < data[i].oncekiOranlar.Count(); j++)
+                                        {
+                                            <td>@data[i].oncekiOranlar[j].partiAdi;@data[i].oncekiOranlar[j].oran</td>
+                                        }
+                                    }
+
+
+
+
+                                </tr>
+
+                            }
+
+                            <tr id="PartiToplamMilVel">
+                                <td></td>
+                                @for (int j = 0; j < partiyazilmasirasi.Count(); j++)
+                                {
+
+                                    <td></td>
+                                    <td id="partiToplamMil_@partiyazilmasirasi[j]" style="text-align:center"><strong></strong></td>
+
+
+                                }
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-lg" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" onclick="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div id="chart_1" class="col-md-6">
+                        </div>
+                        <div id="chart_2" class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="chart_3" class="col-md-6">
+                        </div>
+                        <div id="chart_4" class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+@section scripts{
+    <link href="~/lib/apexcharts/apexcharts.min.css" rel="stylesheet" />
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+
+
+
+    <script>let chart = null, chart2 = null; chartorj = null; chart1 = null
+
+        $(function () {
+            $('td[id^="partiToplamMil_"]').each(function (i, el) {
+                var partiId = $(el).attr('id').split('_')[1];
+                var toplam = 0;
+                $('td[id="milvel_' + partiId + '"]').each(function (j, al) {
+                    toplam = parseFloat(toplam) + parseFloat($(al).text());
+                })
+                $('span[id="milVelTopTh+' + partiId + '"]').html(toplam);
+            })
+        });
+
+
+
+
+        function getChartModal(el) {
+            if (chart) {
+                chart.destroy();
+                chart = null;
+            }
+            if (chartorj) {
+                chartorj.destroy();
+                chartorj = null;
+            }
+            if (chart1) {
+                chart1.destroy();
+                chart1 = null;
+            }
+            if (chart2) {
+                chart2.destroy();
+                chart2 = null;
+            }
+
+            var parties = [];
+            var oranlar = [];
+            var partioranlarlabirlikte = [];
+            var ittifaks = [];
+            var milSay = [];
+            var temelDegerler = [];
+            var ilAdi = $(el).closest('td').text();
+            $('.modal-title').text(ilAdi + " simülasyonu sonuç grafikleri");
+
+            $('th[data-id^="partiitt"]').each(function (i, ol) {
+                var obj = {
+                    partiId: $(ol).attr('data-id').split("+")[2],
+                    ittifakid: $(ol).attr('data-id').split("+")[1],
+                    name: $(ol).text(),
+                    oran: $(el).parent().parent().find('td[id="oran_' + $(ol).attr('data-id').split("+")[2] + '"]').text().split(' ')[0],
+                    milvel: $(el).parent().parent().find('td[id="milvel_' + $(ol).attr('data-id').split("+")[2] + '"]').text(),
+                }
+                partioranlarlabirlikte.push(obj);
+                temelDegerler.push(obj);
+            })
+            partioranlarlabirlikte.sort((a, b) => b.oran - a.oran);
+
+            for (var l = 0; l < partioranlarlabirlikte.length; l++) {
+                parties.push(partioranlarlabirlikte[l].name);
+                oranlar.push(partioranlarlabirlikte[l].oran);
+            }
+            for (var o = 1; o < 6; o++) {
+                var toplamoy = 0;
+                var toplamMil = 0;
+                for (var l = 0; l < temelDegerler.length; l++) {
+                    if (temelDegerler[l].ittifakid == ('ittifak_' + o)) {
+                        toplamoy = parseFloat(toplamoy) + parseFloat(temelDegerler[l].oran);
+                        toplamMil = parseFloat(toplamMil) + parseFloat(temelDegerler[l].milvel);
+                    }
+                }
+                ittifaks.push(toplamoy);
+                milSay.push(toplamMil);
+            }
+
+            var kacinciTr = $(el).parent().parent().attr('data-id').split('_')[1];
+            var orjPartiOranlarliste = [];
+
+            $('#orjinalil_' + kacinciTr + ' td').each(function (s, al) {
+                var obj = {
+                    partiAdi: $(al).text().split(';')[0],
+                    oran: $(al).text().split(';')[1],
+                }
+                orjPartiOranlarliste.push(obj);
+            });
+
+            orjPartiOranlarliste.sort((a, b) => b.oran - a.oran);
+            var orjPartiler = [];
+            var orjOranlar = [];
+            for (var l = 0; l < orjPartiOranlarliste.length; l++) {
+                orjPartiler.push(orjPartiOranlarliste[l].partiAdi);
+                orjOranlar.push(orjPartiOranlarliste[l].oran);
+            }
+
+            var barHeight = 40;
+
+            var optionsorj = {
+                series: [{
+                    data: orjOranlar,
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 60 + orjOranlar.length * barHeight
+                },
+                plotOptions: {
+                    bar: {
+                        barHeight: '100%',
+                        distributed: true,
+                        horizontal: true,
+                        dataLabels: {
+                            position: 'bottom'
+                        },
+                    }
+                },
+                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                    '#f48024', '#69d2e7'
+                ],
+                dataLabels: {
+                    enabled: true,
+                    textAnchor: 'start',
+                    style: {
+                        colors: ['#000000']
+                    },
+                    formatter: function (val, opt) {
+                        return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+                    },
+                    offsetX: 0,
+                    dropShadow: {
+                        enabled: false
+                    }
+                },
+                stroke: {
+                    width: 1,
+                    colors: ['#fff']
+                },
+                xaxis: {
+                    categories: orjPartiler,
+                },
+                yaxis: {
+                    labels: {
+                        show: false
+                    }
+                },
+                title: {
+                    text: 'Son Seçimdeki Oy Dağılımı',
+                    align: 'center',
+                    floating: true
+                },
+                tooltip: {
+                    theme: 'dark',
+                    x: {
+                        show: false
+                    },
+                    y: {
+                        title: {
+                            formatter: function () {
+                                return ''
+                            }
+                        }
+                    }
+                }
+            };
+
+            div = '#chart_1';
+            chartorj = new ApexCharts(document.querySelector(div), optionsorj);
+            chartorj.render();
+
+
+
+            var options = {
+                series: [{
+                    data: oranlar,
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 60 + oranlar.length * barHeight
+                },
+                plotOptions: {
+                    bar: {
+                        barHeight: '100%',
+                        distributed: true,
+                        horizontal: true,
+                        dataLabels: {
+                            position: 'bottom'
+                        },
+                    }
+                },
+                colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
+                    '#f48024', '#69d2e7'
+                ],
+                dataLabels: {
+                    enabled: true,
+                    textAnchor: 'start',
+                    style: {
+                        colors: ['#000000']
+                    },
+                    formatter: function (val, opt) {
+                        return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+                    },
+                    offsetX: 0,
+                    dropShadow: {
+                        enabled: false
+                    }
+                },
+                stroke: {
+                    width: 1,
+                    colors: ['#fff']
+                },
+                xaxis: {
+                    categories: parties,
+                },
+                yaxis: {
+                    labels: {
+                        show: false
+                    }
+                },
+                title: {
+                    text: 'Oy Dağılımı',
+                    align: 'center',
+                    floating: true
+                },
+                tooltip: {
+                    theme: 'dark',
+                    x: {
+                        show: false
+                    },
+                    y: {
+                        title: {
+                            formatter: function () {
+                                return ''
+                            }
+                        }
+                    }
+                }
+            };
+
+            var div = '#chart_2';
+            chart = new ApexCharts(document.querySelector(div), options);
+            chart.render();
+            var ittifaklarName = [];
+            $('#ittifaklarTr th').each(function (i, jl) {
+                if (i != 0) {
+                    ittifaklarName.push($(jl).text());
+                }
+            })
+
+
+            if (ittifaks[0] != 0 || ittifaks[1] != 0 || ittifaks[2] != 0 || ittifaks[3] != 0 || ittifaks[4] != 0) {
+                var options1 = {
+                    series: ittifaks,
+                    chart: {
+                        height: 350,
+                        type: 'pie',
+                    },
+                    title: {
+                        text: 'İttifak Oy Dağılımı',
+                        align: 'center',
+                        floating: true
+                    },
+                    legend: {
+                        show: true,
+                        position: 'bottom',
+                        floating: false,
+                        verticalAlign: 'bottom',
+                        align: 'center'
+                    },
+                    labels: ittifaklarName,
+                };
+                div = '#chart_3';
+                chart1 = new ApexCharts(document.querySelector(div), options1);
+                chart1.render();
+
+                var options2 = {
+                    series: milSay,
+                    chart: {
+                        height: 350,
+                        type: 'pie',
+                    },
+                    title: {
+                        text: 'İttifak Mil. Dağılımı',
+                        align: 'center',
+                        floating: true,
+                    },
+                    legend: {
+                        show: true,
+                        position: 'bottom',
+                        floating: false,
+                        verticalAlign: 'bottom',
+                        align: 'center'
+                    },
+                    labels: ittifaklarName,
+                };
+                div = '#chart_4';
+                chart2 = new ApexCharts(document.querySelector(div), options2);
+                chart2.render();
+            } else {
+                $('#chart_3').empty();
+                $('#chart_4').empty();
+            }
+
+            $('.modal').show();
+        }
+
+
+        function closeModal() {
+            $('.modal').hide();
+            for (var l = 1; l < 5; l++) {
+                $('#chart_' + l).empty();
+            }
+        }
+
+
+
+
+        function getColor(id) {
+
+            var colors = ['#9ec54b', '#dce9be', '#555152', '#2e2633', '#99173c', '#e97f02', '#424242', '#ff9900', '#ed303c', '#00a8c6', '#d5ded9', '#bf4d28', '#f27435', '#60b99a', '#f6f7bd',
+                '#fecea8', '#d68189', '#ff3d7f', '#554236', '#3299bb', '#f9f2e7', '#e8ddcb', '#e97f02', '#f0f2eb', '#c02942', '#d1e751', '#3fb8af', '#4ecdc4', '#ff3d7f', '#e8caaf', '#fc9d9a',
+                '#ccc68d', '#ffffff', '#7a6a53', '#f4ebc3', '#fffedf', '#c8c8a9', '#6a4a3c', '#493736', '#dad8a7'];
+            return colors[id];
+        }</script>
+}

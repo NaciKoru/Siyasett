@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Ödeme Sayfası";
+    var payment = ViewBag.Payment;
+}
+<!-- BREAD-CRUMB -->
+<!-- style="background-image:url(/images/background/page-banner.jpg);" -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <!--
+                <div class="title-box">
+                  <h1>@ViewData["Title"]</h1>
+                </div>
+            -->
+            <div class="bread-crumb">
+
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+
+                    <li>@ViewData["Title"]</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="app-section" style="margin-bottom:70px;">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card my-5">
+                    <div class="card-header">
+                        Ödeme Bilgileri
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="https://<host_address>/GenericVer3RequestHashHandler">
+                            @{
+                                String orgClientId = "100200127";
+                                String orgAmount = "91.96";
+                                String orgOkUrl = "https://<host_address>/GenericVer3ResponseHandler";
+                                String orgFailUrl = "https://<host_address>/GenericVer3ResponseHandler";
+                                String orgTransactionType = "Auth";
+                                String orgInstallment = "";
+                                String orgRnd = DateTime.Now.ToString();
+                                String orgCallbackUrl = "https://<host_address>/callback.php";
+                                String orgCurrency = "949";
+                            }
+                            <div class="mb-3">
+                                <label for="cardName" class="form-label">Kart Üzerindeki İsim</label>
+                                <input type="text" class="form-control" id="cardName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label">Kart Numarası</label>
+                                <input type="text" class="form-control" id="cardNumber" name="pan" maxlength="16" required>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="cardExpiry" class="form-label">Son Kullanma Tarihi Ay</label>
+                                    <input type="text" class="form-control" id="cardExpiry" name="Ecom_Payment_Card_ExpDate_Month" placeholder="AA" required>
+                                </div>
+                                <div class="col">
+                                    <label for="cardExpiry" class="form-label">Son Kullanma Tarihi Yıl</label>
+                                    <input type="text" class="form-control" id="cardExpiry" name="Ecom_Payment_Card_ExpDate_Year" placeholder="YY" required>
+                                </div>
+                                <div class="col">
+                                    <label for="cardCVC" class="form-label">CVC</label>
+                                    <input type="text" class="form-control" id="cardCVC" name="cv2" maxlength="3" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="amount" class="form-label">Tutar</label>
+                                    <input type="number" class="form-control" id="amount" value="@payment" disabled required>
+                                </div>
+                                <div class="col" style="margin-top:6%">
+                                    <select name="cardType">
+                                        <option value="1">Visa</option>
+                                        <option value="2">MasterCard</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary">Ödeme Yap</button>
+                            <input type="hidden" name="clientid" value="@orgClientId" />
+                            <input type="hidden" name="amount" value="@orgAmount" />
+                            <input type="hidden" name="okurl" value="@orgOkUrl" />
+                            <input type="hidden" name="failUrl" value="@orgFailUrl" />
+                            <input type="hidden" name="TranType" value="@orgTransactionType" />
+                            <input type="hidden" name="Instalment" value="@orgInstallment" />
+                            <input type="hidden" name="callbackUrl" value="@orgCallbackUrl" />
+                            <input type="hidden" name="currency" value="@orgCurrency" />
+                            <input type="hidden" name="rnd" value="@orgRnd" />
+                            <input type="hidden" name="storetype" value="3D_PAY" />
+                            <input type="hidden" name="lang" value="tr" />
+                            <input type="hidden" name="hashAlgorithm" value="ver3" />
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,29 @@
+﻿@model List<SocialMediaModel>
+
+
+<table class="table table-striped mt-3">
+    <tr>
+        <th>Türü</th>
+        <th>Adresi</th>
+        <th>...</th>
+    </tr>
+    <tbody id="tbSocialAdress">
+        @foreach (var item in Model)
+        {
+            <tr id="tr_socialadress_@item.Id">
+                <td>@item.SocialTypeNameTr </td>
+                <td>
+                    <a target="_blank" href="@Helpers.GetSocialMediaLink(item.SocialTypeId,item.SocialAddress)"> @item.SocialAddress</a></td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <button onclick="editSocialMedia_click(@item.Id)" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i> Değiştir</button>
+                        <button onclick="deleteSocialMedia_click(@item.Id)" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i> Sil</button>
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
