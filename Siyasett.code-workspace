@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "Siyasett.Web"
+		},
+		{
+			"path": "Siyasett.Data"
+		},
+		{
+			"path": "Siyasett.Core"
 		}
 	],
 	"settings": {}
