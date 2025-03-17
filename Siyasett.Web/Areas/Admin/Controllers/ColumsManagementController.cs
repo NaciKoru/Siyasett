@@ -168,9 +168,11 @@ namespace Siyasett.Web.Areas.Admin.Controllers
                 koseYazilari.Url = model.OrjLink;
                 koseYazilari.OkunmaSayisi = model.ReadCount;
                 koseYazilari.Metin = model.Context;
+                koseYazilari.MetinOzet = model.MetinOzet;
                 koseYazilari.Keywords = model.Keywords;
                 koseYazilari.BaslikEn = model.HeaderEn;
                 koseYazilari.MetinEn = model.ContextEn;
+                koseYazilari.MetinOzetEn = model.MetinOzetEn;
 
                 context.YynKoseYazilaris.Add(koseYazilari);
                 await context.SaveChangesAsync();
@@ -241,8 +243,10 @@ namespace Siyasett.Web.Areas.Admin.Controllers
                                             OrjLink = a.Url,
                                             ReadCount = a.OkunmaSayisi,
                                             Context = a.Metin,
+                                            MetinOzet = a.MetinOzet,
                                             Keywords = a.Keywords,
                                             ContextEn=a.MetinEn,
+                                            MetinOzetEn=a.MetinOzetEn,
                                             HeaderEn=a.BaslikEn,
                                         }
                                        ).FirstOrDefaultAsync();
@@ -312,9 +316,11 @@ namespace Siyasett.Web.Areas.Admin.Controllers
                     KoseYazisi.Url = model.OrjLink;
                     KoseYazisi.OkunmaSayisi = model.ReadCount;
                     KoseYazisi.Metin = model.Context;
+                    KoseYazisi.MetinOzet = model.MetinOzet;
                     KoseYazisi.Keywords = model.Keywords;
                     KoseYazisi.BaslikEn = model.HeaderEn;
                     KoseYazisi.MetinEn = model.ContextEn;
+                    KoseYazisi.MetinOzetEn = model.MetinOzetEn;
 
 
                     context.YynKoseYazilaris.Update(KoseYazisi);
@@ -426,5 +432,46 @@ namespace Siyasett.Web.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Summarize(int id)
+        {
+            // Fetch the column from the database
+            var column = await context.YynKoseYazilaris.FindAsync(id);
+            if (column == null)
+            {
+                return NotFound();
+            }
+
+            // Perform summarization and translation (replace with actual AI logic)
+            column.MetinOzet = await SummarizeTextAsync(column.Metin);
+            column.MetinOzetEn = await TranslateTextAsync(column.Metin, "en");
+
+            // Update the database
+            context.Update(column);
+            await context.SaveChangesAsync();
+
+            return Ok(); // Return success response
+        }
+
+        private async Task<string> SummarizeTextAsync(string text)
+        {
+            // Replace with actual AI summarization logic
+            // Temporary test text for summarization
+            string testSummary = "This is a temporary summary for testing purposes.";
+            return testSummary;
+
+            // Later, replace this with a call to the AI Foundry service
+            // Example: return await CallAIFoundrySummarizationServiceAsync(text);
+        }
+
+        private async Task<string> TranslateTextAsync(string text, string targetLanguage)
+        {
+            // Temporary test text for translation
+            string testTranslation = "This is a temporary translation for testing purposes.";
+            return testTranslation;
+
+            // Later, replace this with a call to the AI Foundry translation service
+            // Example: return await CallAIFoundryTranslationServiceAsync(text, targetLanguage);
+        }
     }
 }

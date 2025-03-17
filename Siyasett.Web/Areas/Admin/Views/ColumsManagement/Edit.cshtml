@@ -207,23 +207,35 @@
                                         Tam Metni EN
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#vertical-icon-tab-3" data-bs-toggle="tab" role="tab" aria-selected="false">
+                                        Özet TR
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#vertical-icon-tab-4" data-bs-toggle="tab" role="tab" aria-selected="false">
+                                        Özet EN
+                                    </a>
+                                </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="vertical-icon-tab-1" role="tabpanel">
                                     <p class="mt-2">TR Tam Metin</p>
-
-                                    <textarea asp-for="Context" class="form-control" value="@Model.Context"  rows="10"></textarea>
-
+                                    <textarea asp-for="Context" class="form-control" value="@Model.Context" rows="10"></textarea>
                                 </div>
                                 <div class="tab-pane" id="vertical-icon-tab-2" role="tabpanel">
                                     <p class="mt-2">EN Tam Metin</p>
-
                                     <textarea asp-for="ContextEn" class="form-control" value="@Model.ContextEn" rows="10"></textarea>
-
+                                </div>
+                                <div class="tab-pane" id="vertical-icon-tab-3" role="tabpanel">
+                                    <p class="mt-2">TR Özet</p>
+                                    <textarea asp-for="MetinOzet" class="form-control" value="@Model.MetinOzet" rows="5"></textarea>
+                                </div>
+                                <div class="tab-pane" id="vertical-icon-tab-4" role="tabpanel">
+                                    <p class="mt-2">EN Özet</p>
+                                    <textarea asp-for="MetinOzetEn" class="form-control" value="@Model.MetinOzetEn" rows="5"></textarea>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -234,7 +246,9 @@
                    <button onclick="kaydetkitap(3)" type="button" class="btn btn-primary"><i class="fa fa-save"></i> KAYDET</button>
                     @*<button onclick="kaydetkitap(1)" type="button" class="btn btn-primary"><i class="fa fa-save"></i> KAYDET ve Düzenle</button>*@
                     <button onclick="kaydetkitap(2)" type="button" class="btn btn-outline-primary"><i class="fa fa-save"></i> KAYDET ve Listeye Dön</button>
-
+                    <button id="aiSummarizeButton" type="button" class="btn btn-info">
+                        <i class="fa fa-magic"></i> AI ile Özetle
+                    </button>
                     <input type="hidden" name="durum" id="hdnDurum" value="1" />
                     <a href="#" onclick="backAlert()"><i class="fa fa-arrow-left"></i> Listeye Dön</a>
                 </div>
@@ -438,6 +452,24 @@
 
         }
 
+        document.getElementById('aiSummarizeButton').addEventListener('click', function () {
+            var id = document.getElementById('modelIdDiv').getAttribute('data-val');
+            fetch(`/Admin/ColumsManagement/Summarize/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Refresh the page to show updated data
+                } else {
+                    alert('Özetleme işlemi başarısız oldu.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
     </script>
 }
 

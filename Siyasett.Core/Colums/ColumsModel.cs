@@ -21,6 +21,8 @@ namespace Siyasett.Core.Colums
         public string? HeaderEn { get; set; }
         public string? Context { get; set; }
         public string? ContextEn { get; set; }
+        public string? MetinOzet { get; set; }
+        public string? MetinOzetEn { get; set; }
         public string? Keywords { get; set; }
         public string? YazarAdSoyad { get; set; }
         public string? TurAdi { get; set; }

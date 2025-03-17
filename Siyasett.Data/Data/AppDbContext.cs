@@ -3320,6 +3320,8 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("keywords");
             entity.Property(e => e.Metin).HasColumnName("metin");
             entity.Property(e => e.MetinEn).HasColumnName("metin_en");
+            entity.Property(e => e.MetinOzet).HasColumnName("metin_ozet");
+            entity.Property(e => e.MetinOzetEn).HasColumnName("metin_ozet_en");
             entity.Property(e => e.OkunmaSayisi).HasColumnName("okunma_sayisi");
             entity.Property(e => e.SirketId).HasColumnName("sirket_id");
             entity.Property(e => e.Tarih)
