@@ -24,3 +24,36 @@ th.sortable {
     th.sortable:hover::after {
         color: #333;
     }
+    .nav-item a {
+        padding: 8px 12px;
+        color: #fff;
+        background-color: #1D3D55;
+        border-radius: 6px;
+        margin-left: 10px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+    
+    .nav-item a:hover {
+        background-color: #9B4944;
+        color: #fff;
+    }
+    
+    .lang-btn {
+        background-color: transparent;
+        color: #1D3D55;
+        border: 1px solid #1D3D55;
+        border-radius: 5px;
+        padding: 6px 12px;
+        font-weight: bold;
+        margin-left: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    
+    .lang-btn:hover {
+        background-color: #1D3D55;
+        color: #fff;
+    }
+    
