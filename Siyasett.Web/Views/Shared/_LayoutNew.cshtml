@@ -179,6 +179,36 @@
 .user-menu li a:hover {
     background: #f0f0f0;
 }
+@media (max-width: 768px) {
+    ul.d-flex {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+    }
+}
+/* Masaüstünde görünsün */
+.btn-text {
+    display: inline;
+}
+
+/* Mobilde gizle */
+@media (max-width: 768px) {
+    .btn-text {
+        display: none;
+    }
+
+    .header-button,
+    .lang-select {
+        padding: 8px 10px;
+        font-size: 16px;
+        justify-content: center;
+    }
+
+    .lang-select .lang-arrow {
+        display: none;
+    }
+}
+
 </style>
 
 </head>
@@ -279,54 +309,62 @@
                                         <div class="search-box-outer">
 
                                             @* <div class="icon-box"><span class="fa fa-user"></span></div>*@
-                                        <ul>
-@if (User.Identity.IsAuthenticated)
-{
-    <li class="user-dropdown">
-        <button class="user-btn" onclick="toggleUserDropdown()">
-            <i class="fas fa-user-circle user-icon"></i> @User.Identity?.Name <span class="arrow">▼</span>
-        </button>
+                                        <ul class="d-flex align-items-center gap-2">
 
-        <ul class="user-menu" id="userMenu">
-            <li>
-                <a href="/Account/Profile">
-                    <i class="fas fa-user"></i> @Localize("menu.header.profile")
-                </a>
-            </li>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- Kullanıcı Dropdown -->
+        <li class="user-dropdown">
+            <button class="user-btn" onclick="toggleUserDropdown()">
+                <i class="fas fa-user-circle user-icon"></i> @User.Identity?.Name <span class="arrow">▼</span>
+            </button>
 
-            @if (User.IsInRole("Admin"))
-            {
+            <ul class="user-menu" id="userMenu">
                 <li>
-                    <a href="/Admin">
-                        <i class="fas fa-tools"></i> @Localize("menu.header.administration")
+                    <a href="/Account/Profile">
+                        <i class="fas fa-user"></i> @Localize("menu.header.profile")
                     </a>
                 </li>
-            }
 
-            <li>
-                <a href="/Logout">
-                    <i class="fas fa-sign-out-alt"></i> @Localize("menu.header.logout")
-                </a>
-            </li>
-        </ul>
-    </li>
-}
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a href="/Admin">
+                            <i class="fas fa-tools"></i> @Localize("menu.header.administration")
+                        </a>
+                    </li>
+                }
 
-
+                <li>
+                    <a href="/Logout">
+                        <i class="fas fa-sign-out-alt"></i> @Localize("menu.header.logout")
+                    </a>
+                </li>
+            </ul>
+        </li>
+    }
     else
     {
-        <a href="/Login" class="header-button">
-  <i class="fa fa-sign-in-alt"></i> GİRİŞ
-</a>
+        <!-- Giriş Butonu -->
+        <!-- Giriş Butonu -->
+<li>
+    <a href="/Login" class="header-button">
+        <i class="fa fa-sign-in-alt"></i>
+        <span class="btn-text">GİRİŞ</span>
+    </a>
+</li>
 
-
-      <li class="lang-dropdown">
+<!-- Dil Butonu -->
+<li class="lang-dropdown">
     <form asp-action="ChangeLanguage" asp-controller="Home" method="post" id="languageForm">
         <input type="hidden" name="returnUrl" value="@returnUrl" />
         <input type="hidden" name="culture" id="cultureInput" value="@cultureItem.Name" />
-        
+
         <button type="button" class="lang-select">
-            @(requestCulture.RequestCulture.Culture.Name == "tr-TR" ? "🇹🇷 TÜRKÇE" : "🇺🇸 ENGLISH")
+            <i class="fa fa-globe"></i>
+            <span class="btn-text">
+                @(requestCulture.RequestCulture.Culture.Name == "tr-TR" ? "TÜRKÇE" : "ENGLISH")
+            </span>
             <span class="lang-arrow">▼</span>
         </button>
 
@@ -343,9 +381,10 @@
     </form>
 </li>
 
-
     }
+
 </ul>
+
 
                                         </div>
                                     </div>
@@ -583,20 +622,28 @@
 @if (limitReached && !isOnExcludedPage && !User.Identity.IsAuthenticated)
 {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        setTimeout(() => {
-            Swal.fire({
-                title: 'Siyasett.com',
-                text: 'Gezintiye devam etmek için lütfen üye olunuz.',
-                icon: 'info',
-                confirmButtonText: 'Üye Ol',
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then(() => {
+   <script>
+    setTimeout(() => {
+        Swal.fire({
+           title: 'Siyasett’e Hoş Geldiniz!',
+text: 'Devam edebilmek için lütfen giriş yapın veya ücretsiz üye olun.',
+
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Üye Ol',
+            cancelButtonText: 'Giriş Yap',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
+            if (result.isConfirmed) {
                 window.location.href = '/Register';
-            });
-        }, 500);
-    </script>
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                window.location.href = '/Login';
+            }
+        });
+    }, 500);
+</script>
+
 }
 <script>
     function toggleUserDropdown() {

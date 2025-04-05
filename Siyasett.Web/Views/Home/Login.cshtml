@@ -2,80 +2,80 @@
 @{
     ViewData["Title"] = Localize("login.popup.loginbutton");
 }
+
+<!-- 👇 STYLE -->
 <style>
-.login-box {
-    background: #fff;
-    border: 1px solid #ddd;
-}
+    .login-box {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
 
-.input-icon {
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    color: #888;
-    font-size: 16px;
-}
+    .input-icon {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        color: #888;
+        font-size: 16px;
+    }
 
-.form-control {
-    height: 44px;
-    font-size: 15px;
-    border-radius: 10px;
-    padding-left: 45px !important;
-}
+    .form-control {
+        height: 44px;
+        font-size: 15px;
+        border-radius: 10px;
+        padding-left: 45px !important;
+    }
 
-.btn-primary {
-    background-color: #1D3D55;
-    border-color: #1D3D55;
-    border-radius: 10px;
-    font-weight: 600;
-}
+    .btn-primary {
+        background-color: #1D3D55;
+        border-color: #1D3D55;
+        border-radius: 10px;
+        font-weight: 600;
+    }
 
-.btn-outline-primary {
-    border-color: #1D3D55;
-    color: #1D3D55;
-    border-radius: 10px;
-    font-weight: 600;
-}
+    .btn-outline-primary {
+        border-color: #1D3D55;
+        color: #1D3D55;
+        border-radius: 10px;
+        font-weight: 600;
+    }
 
-.product-feature h3 {
-    font-size: 20px;
-    font-weight: 600;
-}
+    .info-card {
+        background-color: #fff;
+        border: 1px solid #eee;
+        transition: all 0.2s ease;
+        padding: 24px;
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
 
-.product-feature p {
-    font-size: 15px;
-}
-</style>
-<style>
-.info-card {
-    background-color: #fff;
-    border: 1px solid #eee;
-    transition: all 0.2s ease;
-}
+    .info-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+    }
 
-.info-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-}
+    .info-card h5 {
+        font-size: 18px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-.info-card h5 {
-    font-size: 18px;
-}
+    .info-card p {
+        font-size: 14px;
+        color: #444;
+        margin-bottom: 12px;
+    }
 
-.info-card p {
-    font-size: 14px;
-    color: #444;
-}
-
-.btn-sm {
-    padding: 6px 14px;
-    font-size: 14px;
-    border-radius: 8px;
-    font-weight: 500;
-}
+    .btn-sm {
+        padding: 8px 16px;
+        font-size: 14px;
+        border-radius: 8px;
+        font-weight: 500;
+    }
 </style>
 
-<!-- BREADCRUMB / MAVİ ALAN -->
+<!-- 👇 BREADCRUMB -->
 <section class="page-title" style="padding: 0 0 0">
     <div class="container">
         <div class="inner-container clearfix">
@@ -89,10 +89,18 @@
     </div>
 </section>
 
-<!-- LOGIN ALANI -->
+<!-- 👇 LOGIN ALANI -->
 <section class="login-page-section" style="padding: 60px 0;">
     <div class="container">
         <div class="row justify-content-center">
+<div class="col-md-12 d-flex flex-column gap-3">
+    <div class="mb-3">
+        <h4 class="fw-semibold">Siyasett.com’a Hoş Geldiniz 👋</h4>
+        <p class="text-muted">Üye olarak daha fazla içeriğe ulaşabilir, anketlere katılabilir, profilinizle etkileşimde bulunabilirsiniz.</p>
+    </div>
+
+    <!-- Kartlar buraya gelecek -->
+</div>
 
             <!-- Sol: Login Form -->
             <div class="col-md-12 col-lg-7">
@@ -121,25 +129,28 @@
                 </div>
             </div>
 
-            <!-- Sağ: Bilgilendirme (eski sağ kutular) -->
-           <!-- Sağ taraf -->
-<div class="col-md-12 col-lg-5 mt-4 mt-lg-0 d-flex flex-column gap-3">
+            <!-- Sağ: Bilgilendirme Kartları -->
+            <div class="col-md-12 col-lg-5 mt-4 mt-lg-0 d-flex flex-column gap-3">
 
-    <!-- Üye Ol Kartı -->
-    <div class="info-card p-4 shadow-sm rounded-4">
-        <h5 class="text-warning fw-bold mb-2">@Localize("login1")</h5>
-        <p class="mb-2">@Localize("login2")</p>
-        <a href="/register" class="btn btn-outline-warning btn-sm">@Localize("login3")</a>
-    </div>
+                <!-- Üye Ol Kartı -->
+                <div class="info-card">
+                    <h5 class="text-warning fw-bold">
+                        <i class="fas fa-user-plus"></i> @Localize("login1")
+                    </h5>
+                    <p>@Localize("login2")</p>
+                    <a href="/register" class="btn btn-outline-warning btn-sm">@Localize("login3")</a>
+                </div>
 
-    <!-- Şifre Kartı -->
-    <div class="info-card p-4 shadow-sm rounded-4">
-        <h5 class="text-danger fw-bold mb-2">@Localize("login4")</h5>
-        <p class="mb-2">@Localize("login5")</p>
-        <a href="/forgotpassword" class="btn btn-outline-danger btn-sm">@Localize("login6")</a>
-    </div>
+                <!-- Şifre Kartı -->
+                <div class="info-card">
+                    <h5 class="text-danger fw-bold">
+                        <i class="fas fa-key"></i> @Localize("login4")
+                    </h5>
+                    <p>@Localize("login5")</p>
+                    <a href="/forgotpassword" class="btn btn-outline-danger btn-sm">@Localize("login6")</a>
+                </div>
 
-</div>
+            </div>
 
         </div>
     </div>

@@ -6488,3 +6488,171 @@ a.twitter-follow-me:hover,
     background-color: #9B4944;
     color: #fff;
 }
+.header-button {
+    background: transparent;
+    border: 2px solid #1D3D55;
+    color: #1D3D55;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.header-button:hover {
+    background-color: #1D3D55;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Dil dropdown */
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-dropdown .lang-select {
+    background: transparent;
+    border: 2px solid #1D3D55;
+    color: #1D3D55;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lang-dropdown .lang-select:hover {
+    background-color: #1D3D55;
+    color: #fff;
+}
+
+.lang-dropdown .lang-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 6px;
+    display: none;
+    list-style: none;
+    padding: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    min-width: 140px;
+    z-index: 999;
+}
+
+.lang-dropdown.open .lang-options {
+    display: block;
+}
+
+.lang-options li {
+    padding: 10px 14px;
+    cursor: pointer;
+    color: #1D3D55;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.lang-options li:hover {
+    background: #f0f0f0;
+}
+</style>
+<style>
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-btn {
+    background: #1D3D55;
+    color: #fff;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.user-btn .arrow {
+    font-size: 12px;
+}
+
+.user-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    list-style: none;
+    padding: 0;
+    margin-top: 6px;
+    min-width: 140px;
+    z-index: 999;
+}
+
+.user-menu li {
+    border-bottom: 1px solid #eee;
+}
+
+.user-menu li:last-child {
+    border-bottom: none;
+}
+
+.user-menu li a {
+    display: block;
+    padding: 10px 14px;
+    color: #1D3D55;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.user-menu li a:hover {
+    background: #f0f0f0;
+}
+@media (max-width: 768px) {
+    ul.d-flex {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+    }
+}
+/* Masaüstünde görünsün */
+.btn-text {
+    display: inline;
+}
+
+/* Mobilde gizle */
+@media (max-width: 768px) {
+    .btn-text {
+        display: none;
+    }
+
+    .header-button,
+    .lang-select {
+        padding: 8px 10px;
+        font-size: 16px;
+        justify-content: center;
+    }
+
+    .lang-select .lang-arrow {
+        display: none;
+    }
+}
+
