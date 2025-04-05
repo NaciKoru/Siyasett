@@ -6471,3 +6471,20 @@ a.twitter-follow-me:hover,
 .entry_content ul.fa-ul { list-style-type: none; }
 
 .fa-li { top: 0 !important; }
+
+.btn-login {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #1D3D55;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-login:hover {
+    background-color: #9B4944;
+    color: #fff;
+}

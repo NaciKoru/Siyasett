@@ -1,80 +1,99 @@
 ﻿@model LoginViewModel
-
 @{
-
     ViewData["Title"] = Localize("login.popup.loginbutton");
 }
+<style>
+.login-box {
+    background: #fff;
+    border: 1px solid #ddd;
+}
 
-<section class="page-title" style="padding: 0 0 0">
+.input-icon {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    color: #888;
+    font-size: 16px;
+}
+
+.form-control {
+    height: 44px;
+    font-size: 15px;
+    border-radius: 10px;
+    padding-left: 45px !important;
+}
+
+.btn-primary {
+    background-color: #1D3D55;
+    border-color: #1D3D55;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #163144;
+    border-color: #163144;
+}
+
+.btn-outline-primary {
+    border-color: #1D3D55;
+    color: #1D3D55;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+    background-color: #1D3D55;
+    color: white;
+}
+
+.info-box h4 {
+    font-weight: bold;
+    color: var(--pc);
+}
+
+.info-box p {
+    font-size: 15px;
+}
+</style>
+
+<section class="login-page-section" style="padding: 60px 0;">
     <div class="container">
-        <div class="inner-container clearfix">
+        <div class="row justify-content-center">
 
-            <div class="bread-crumb">
+            <!-- Login Box -->
+            <div class="col-md-6 col-lg-5">
+                <div class="login-box shadow p-4 rounded-4">
+                    <h3 class="text-center mb-4">@Localize("login0")</h3>
 
-                <ul>
-                    <li><a href="/"><i class="fa fa-home"></i></a></li>
-
-                    <li>@ViewData["Title"]</li>
-
-                </ul>
-
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="app-section" style="margin-bottom:70px;">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-md-12 col-lg-7">
-                <div id="contact-form-container">
-
-                    <h2><span>@Localize("login0")</span></h2>
-
-                    <div id="contact-form-result">
-                        <p>@Html.ValidationSummary("", new { @class = "text-danger" })</p>
-                    </div>
-                    <form class="nobottommargin" id="template-contactform" name="template-contactform" method="post" novalidate="novalidate">
-
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" asp-for="Eposta" placeholder="@Localize("login7")">
-                            <label for="Eposta">@Localize("login7")</label>
+                    <form method="post">
+                        <div class="form-group mb-3 position-relative">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" class="form-control ps-5" asp-for="Eposta" placeholder="@Localize("login7")" required />
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" asp-for="Sifre" placeholder="@Localize("login8")">
-                            <label for="Sifre">@Localize("login8")</label>
+                        <div class="form-group mb-3 position-relative">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-control ps-5" asp-for="Sifre" placeholder="@Localize("login8")" required />
                         </div>
 
-                        <p class="text-center">
-                            <button class="theme-btn btn-style-one" type="submit">@Localize("login.popup.loginbutton")</button>
-                        </p>
+                        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+                            @Localize("login.popup.loginbutton")
+                        </button>
                     </form>
-                </div>
 
-            </div>
-            <div class="col-md-12 col-lg-5">
-                <div class="col_one_third entry_content col_last nobottommargin">
-                    <div class="topmargin">
-                        <div class="product-feature">
-
-                            <h3 style="color: var(--pc);">@Localize("login1")</h3>
-
-                            <p>
-                                @Localize("login2")<br />
-                                <a href="/register">@Localize("login3")</a>
-                            </p>
-                            <br />
-                        </div>
-                        <div class="product-feature">
-                            <h3 style="color: var(--pc);">@Localize("login4")</h3>
-                            <p>
-                                @Localize("login5")<br />
-                                <a href="/forgotpassword">@Localize("login6")</a>
-                            </p>
-                        </div>
+                    <div class="text-center mt-3">
+                        <a href="/forgotpassword">@Localize("login6")</a>
                     </div>
+                </div>
+            </div>
+
+            <!-- Register Side -->
+            <div class="col-md-6 col-lg-5 mt-4 mt-lg-0 d-flex align-items-center">
+                <div class="info-box ps-lg-5">
+                    <h4>@Localize("login1")</h4>
+                    <p>@Localize("login2")</p>
+                    <a href="/register" class="btn btn-outline-primary mt-2">@Localize("login3")</a>
                 </div>
             </div>
 

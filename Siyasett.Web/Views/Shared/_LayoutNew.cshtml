@@ -39,6 +39,148 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<style>
+/* Ortak stil */
+.header-button {
+    background: transparent;
+    border: 2px solid #1D3D55;
+    color: #1D3D55;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.header-button:hover {
+    background-color: #1D3D55;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Dil dropdown */
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-dropdown .lang-select {
+    background: transparent;
+    border: 2px solid #1D3D55;
+    color: #1D3D55;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lang-dropdown .lang-select:hover {
+    background-color: #1D3D55;
+    color: #fff;
+}
+
+.lang-dropdown .lang-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 6px;
+    display: none;
+    list-style: none;
+    padding: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    min-width: 140px;
+    z-index: 999;
+}
+
+.lang-dropdown.open .lang-options {
+    display: block;
+}
+
+.lang-options li {
+    padding: 10px 14px;
+    cursor: pointer;
+    color: #1D3D55;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.lang-options li:hover {
+    background: #f0f0f0;
+}
+</style>
+<style>
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-btn {
+    background: #1D3D55;
+    color: #fff;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.user-btn .arrow {
+    font-size: 12px;
+}
+
+.user-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    list-style: none;
+    padding: 0;
+    margin-top: 6px;
+    min-width: 140px;
+    z-index: 999;
+}
+
+.user-menu li {
+    border-bottom: 1px solid #eee;
+}
+
+.user-menu li:last-child {
+    border-bottom: none;
+}
+
+.user-menu li a {
+    display: block;
+    padding: 10px 14px;
+    color: #1D3D55;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.user-menu li a:hover {
+    background: #f0f0f0;
+}
+</style>
+
 </head>
 
 <body>
@@ -67,7 +209,9 @@
                 <div class="inner-container">
                     <div class="container clearfix">
                         <div class="nav-inner">
-                           
+                           <div class="logo pull-left">
+                            <a href="/" class="img-responsive"><img src="/images/siyasett.png" alt="" title=""></a>
+                        </div>
                             <div class="nav-outer clearfix">
                                 <!-- Main Menu -->
                                 <nav class="main-menu navbar-expand-md navbar-light">
@@ -135,40 +279,74 @@
                                         <div class="search-box-outer">
 
                                             @* <div class="icon-box"><span class="fa fa-user"></span></div>*@
-                                            <ul>
+                                        <ul>
+@if (User.Identity.IsAuthenticated)
+{
+    <li class="user-dropdown">
+        <button class="user-btn" onclick="toggleUserDropdown()">
+            <i class="fas fa-user-circle user-icon"></i> @User.Identity?.Name <span class="arrow">▼</span>
+        </button>
 
-                                                @if (User.Identity.IsAuthenticated)
-                                                {
+        <ul class="user-menu" id="userMenu">
+            <li>
+                <a href="/Account/Profile">
+                    <i class="fas fa-user"></i> @Localize("menu.header.profile")
+                </a>
+            </li>
 
-                                                    <li><a href="#">@Localize("menu.header.profile")</a></li>
-                                                    @if (User.IsInRole("Admin"))
-                                                    {
-                                                        <li><a href="/Admin">@Localize("menu.header.administration")</a></li>
-                                                    }
-                                                    else
-                                                    {
-                                                        <li><a href="/Logout">@Localize("menu.header.logout")</a></li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li>
+                    <a href="/Admin">
+                        <i class="fas fa-tools"></i> @Localize("menu.header.administration")
+                    </a>
+                </li>
+            }
 
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <li><a href="/Login">@Localize("menu.header.login")</a></li>
-                                                    <!-- <li><a href="/Register">@Localize("menu.header.signin")</a></li>-->
-                                                }
+            <li>
+                <a href="/Logout">
+                    <i class="fas fa-sign-out-alt"></i> @Localize("menu.header.logout")
+                </a>
+            </li>
+        </ul>
+    </li>
+}
 
 
-                                                <form asp-action="ChangeLanguage" asp-controller="Home" method="post">
-                                                    <input type="hidden" id="returnUrl" name="returnUrl" value="@returnUrl" />
-                                                    <input type="hidden" id="culture" name="culture" value="@cultureItem.Name" />
-                                                <li>
-                                                    <a href="javascript:void(0)" onclick="$(this).closest('form').submit()">
-                                                        @(requestCulture.RequestCulture.Culture.Name == "tr-TR" ? "ENGLISH" : "TÜRKÇE")
-                                                    </a>
-                                                </li>
-                                                </form>
+    else
+    {
+        <a href="/Login" class="header-button">
+  <i class="fa fa-sign-in-alt"></i> GİRİŞ
+</a>
 
-                                            </ul>
+
+      <li class="lang-dropdown">
+    <form asp-action="ChangeLanguage" asp-controller="Home" method="post" id="languageForm">
+        <input type="hidden" name="returnUrl" value="@returnUrl" />
+        <input type="hidden" name="culture" id="cultureInput" value="@cultureItem.Name" />
+        
+        <button type="button" class="lang-select">
+            @(requestCulture.RequestCulture.Culture.Name == "tr-TR" ? "🇹🇷 TÜRKÇE" : "🇺🇸 ENGLISH")
+            <span class="lang-arrow">▼</span>
+        </button>
+
+        <ul class="lang-options">
+            @if (requestCulture.RequestCulture.Culture.Name == "tr-TR")
+            {
+                <li onclick="changeCulture('en-US')">🇺🇸 ENGLISH</li>
+            }
+            else
+            {
+                <li onclick="changeCulture('tr-TR')">🇹🇷 TÜRKÇE</li>
+            }
+        </ul>
+    </form>
+</li>
+
+
+    }
+</ul>
+
                                         </div>
                                     </div>
                                 </div>
@@ -344,6 +522,7 @@
         </footer>
     </div>
 
+
     <!-- End Main Footer -->
     <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fas fa-angle-double-up"></span></div>
 
@@ -370,6 +549,70 @@
         gtag('js', new Date());
 
         gtag('config', 'G-34K7LHGZJ5');</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.querySelector(".lang-dropdown");
+        const toggleBtn = dropdown.querySelector(".lang-select");
+
+        toggleBtn.addEventListener("click", () => {
+            dropdown.classList.toggle("open");
+        });
+
+        window.addEventListener("click", function (e) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove("open");
+            }
+        });
+    });
+
+    function changeCulture(cultureCode) {
+        document.getElementById('cultureInput').value = cultureCode;
+        document.getElementById('languageForm').submit();
+    }
+</script>
+@{
+   var limitReached = Context.Items["VisitorLimitReached"] as bool? ?? false;
+    var path = Context.Request.Path.ToString().ToLower();
+    var isOnExcludedPage = path.Contains("/register") 
+                        || path.Contains("/login") 
+                        || path.Contains("/sendconfirmemail")
+                        || path.Contains("/forbiden")
+                        || path.Contains("/account");
+}
+
+@if (limitReached && !isOnExcludedPage && !User.Identity.IsAuthenticated)
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        setTimeout(() => {
+            Swal.fire({
+                title: 'Siyasett.com',
+                text: 'Gezintiye devam etmek için lütfen üye olunuz.',
+                icon: 'info',
+                confirmButtonText: 'Üye Ol',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then(() => {
+                window.location.href = '/Register';
+            });
+        }, 500);
+    </script>
+}
+<script>
+    function toggleUserDropdown() {
+        const menu = document.getElementById("userMenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    window.addEventListener("click", function (e) {
+        const userMenu = document.getElementById("userMenu");
+        const button = document.querySelector(".user-btn");
+
+        if (!button.contains(e.target) && !userMenu.contains(e.target)) {
+            userMenu.style.display = "none";
+        }
+    });
+</script>
 
     @RenderSection("scripts", false)
 </body>

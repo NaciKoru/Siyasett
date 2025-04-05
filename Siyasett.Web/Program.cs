@@ -150,6 +150,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseMiddleware<TrackingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
