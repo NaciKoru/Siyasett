@@ -30,11 +30,6 @@
     font-weight: 600;
 }
 
-.btn-primary:hover {
-    background-color: #163144;
-    border-color: #163144;
-}
-
 .btn-outline-primary {
     border-color: #1D3D55;
     color: #1D3D55;
@@ -42,27 +37,65 @@
     font-weight: 600;
 }
 
-.btn-outline-primary:hover {
-    background-color: #1D3D55;
-    color: white;
+.product-feature h3 {
+    font-size: 20px;
+    font-weight: 600;
 }
 
-.info-box h4 {
-    font-weight: bold;
-    color: var(--pc);
-}
-
-.info-box p {
+.product-feature p {
     font-size: 15px;
 }
 </style>
+<style>
+.info-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+}
 
+.info-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.info-card h5 {
+    font-size: 18px;
+}
+
+.info-card p {
+    font-size: 14px;
+    color: #444;
+}
+
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+</style>
+
+<!-- BREADCRUMB / MAVİ ALAN -->
+<section class="page-title" style="padding: 0 0 0">
+    <div class="container">
+        <div class="inner-container clearfix">
+            <div class="bread-crumb">
+                <ul>
+                    <li><a href="/"><i class="fa fa-home"></i></a></li>
+                    <li>@ViewData["Title"]</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOGIN ALANI -->
 <section class="login-page-section" style="padding: 60px 0;">
     <div class="container">
         <div class="row justify-content-center">
 
-            <!-- Login Box -->
-            <div class="col-md-6 col-lg-5">
+            <!-- Sol: Login Form -->
+            <div class="col-md-12 col-lg-7">
                 <div class="login-box shadow p-4 rounded-4">
                     <h3 class="text-center mb-4">@Localize("login0")</h3>
 
@@ -88,14 +121,25 @@
                 </div>
             </div>
 
-            <!-- Register Side -->
-            <div class="col-md-6 col-lg-5 mt-4 mt-lg-0 d-flex align-items-center">
-                <div class="info-box ps-lg-5">
-                    <h4>@Localize("login1")</h4>
-                    <p>@Localize("login2")</p>
-                    <a href="/register" class="btn btn-outline-primary mt-2">@Localize("login3")</a>
-                </div>
-            </div>
+            <!-- Sağ: Bilgilendirme (eski sağ kutular) -->
+           <!-- Sağ taraf -->
+<div class="col-md-12 col-lg-5 mt-4 mt-lg-0 d-flex flex-column gap-3">
+
+    <!-- Üye Ol Kartı -->
+    <div class="info-card p-4 shadow-sm rounded-4">
+        <h5 class="text-warning fw-bold mb-2">@Localize("login1")</h5>
+        <p class="mb-2">@Localize("login2")</p>
+        <a href="/register" class="btn btn-outline-warning btn-sm">@Localize("login3")</a>
+    </div>
+
+    <!-- Şifre Kartı -->
+    <div class="info-card p-4 shadow-sm rounded-4">
+        <h5 class="text-danger fw-bold mb-2">@Localize("login4")</h5>
+        <p class="mb-2">@Localize("login5")</p>
+        <a href="/forgotpassword" class="btn btn-outline-danger btn-sm">@Localize("login6")</a>
+    </div>
+
+</div>
 
         </div>
     </div>
